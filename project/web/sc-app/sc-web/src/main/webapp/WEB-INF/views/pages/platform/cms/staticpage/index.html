@@ -1,0 +1,109 @@
+<!--#
+layout("/layouts/platform.html"){
+#-->
+<div class="content-wrap">
+    <div class="wrapper" style="min-height:500px;">
+        <section class="panel panel-form">
+            <form id="addForm" role="form" class="form-horizontal parsley-form"
+                  action="${base}/platform/cms/staticpage/geIndex" method="post">
+                <div class="row mb10 mt10">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="siteId"
+                                   class="col-sm-2 control-label">${msg['cms.staticpage.index.choose']}</label>
+                            <div class="col-sm-8">
+                                <select name="siteId" id="siteId" class="form-control">
+                                    <!--#
+                                    var disabled="";
+                                     for ( site in siteList){
+                                    #-->
+                                    <option value="${site.id}">${site.site_sname}</option>
+                                    <!--#
+                                     }elsefor{
+                                        disabled="disabled";
+                                    #-->
+                                    <option value="">${msg['cms.staticpage.index.nosite']}</option>
+                                    <!--#
+                                     }
+                                    #-->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <div class="form-group text-center">
+                        <label></label>
+
+                        <div class="handle">
+                            <button ${disabled} id="ge" type="button" class="btn btn-primary">
+                                ${msg['cms.staticpage.index.ge']}
+                            </button>
+                            <button ${disabled} id="del" type="button" class="btn btn-warning">
+                                ${msg['cms.staticpage.index.del']}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+<script language="JavaScript">
+    $(function () {
+
+        $("#ge").click(function () {
+            var siteId = $("#siteId").val();
+            var loadIndex = loadIndex = layer.load(1, {
+                shade: [0.1, '#333'] //0.1透明度的黑色背景
+            });
+            $.ajax({
+                url: "${base}/platform/cms/staticpage/geIndex",
+                data: {siteId: siteId},
+                dataType: 'json',
+                beforeSubmit: function (arr, form, options) {
+                    $("#ge").button("正在生成...");
+
+                    $(".handle").find("button").attr("disabled", true);
+                },
+                success: function (data) {
+                    if (data.code == 0) {
+                        Toast.success(data.msg);
+                    } else {
+                        Toast.error(data.msg);
+                    }
+                    layer.close(loadIndex);
+                    $(".handle").find("button").attr("disabled", false);
+                }
+            })
+        });
+
+        $("#del").click(function () {
+            var siteId = $("#siteId").val();
+            var loadIndex = loadIndex = layer.load(1, {
+                shade: [0.1, '#333'] //0.1透明度的黑色背景
+            });
+            $.ajax({
+                url: "${base}/platform/cms/staticpage/delIndex",
+                data: {siteId: siteId},
+                dataType: 'json',
+                beforeSubmit: function (arr, form, options) {
+                    $("#del").button("正在删除...");
+                    $(".handle").find("button").attr("disabled", true);
+                },
+                success: function (data) {
+                    if (data.code == 0) {
+                        Toast.success(data.msg);
+                    } else {
+                        Toast.error(data.msg);
+                    }
+                    layer.close(loadIndex);
+                    $(".handle").find("button").attr("disabled", false);
+                }
+            })
+        });
+    })
+</script>
+<!--#}#-->

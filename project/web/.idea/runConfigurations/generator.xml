@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="generator" type="Application" factoryName="Application">
+    <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+    <option name="MAIN_CLASS_NAME" value="com.aebiz.commons.code.Generator" />
+    <option name="VM_PARAMETERS" />
+    <option name="PROGRAM_PARAMETERS" value="-i Tour_linkman -u /platform/tourist -b sc-app/sc-web -p com.aebiz.app.tourist -f -v index_add_detail_edit_ -mod com.aebiz.app.tourist.modules.models -ctr com.aebiz.app.web.modules.controllers.platform.tourist -sev com.aebiz.app.tourist.modules.services service view" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/sc-app/sc-web" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <option name="ENABLE_SWING_INSPECTOR" value="false" />
+    <option name="ENV_VARIABLES" />
+    <option name="PASS_PARENT_ENVS" value="true" />
+    <module name="sc-app" />
+    <envs />
+    <method />
+  </configuration>
+</component>

@@ -1,0 +1,20 @@
+.icon-normal{
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.icon-sa-1{
+  @extend .icon-normal;
+  @include sprite($icon_sa_1);
+}
+
+.icon-sa-2{
+  @extend .icon-normal;
+  @include sprite($icon_sa_2);
+}
+
+.icon-sa-3{
+  @extend .icon-normal;
+  vertical-align: bottom;
+  @include sprite($icon_sa_3);
+}

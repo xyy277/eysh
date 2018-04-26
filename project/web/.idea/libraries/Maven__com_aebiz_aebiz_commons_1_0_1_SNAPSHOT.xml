@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.aebiz:aebiz-commons:1.0.1-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/aebiz/aebiz-commons/1.0.1-SNAPSHOT/aebiz-commons-1.0.1-20170902.030703-11.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/aebiz/aebiz-commons/1.0.1-SNAPSHOT/aebiz-commons-1.0.1-20170902.030703-11-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/aebiz/aebiz-commons/1.0.1-SNAPSHOT/aebiz-commons-1.0.1-20170902.030703-11-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

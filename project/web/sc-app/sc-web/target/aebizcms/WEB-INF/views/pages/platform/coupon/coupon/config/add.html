@@ -1,0 +1,240 @@
+<!--#
+layout("/layouts/platform.html"){
+#-->
+<header class="header navbar bg-white shadow">
+    <div class="btn-group tool-button">
+        <a class="btn btn-primary navbar-btn" href="${base}/platform/coupon/coupon/config" id="goBack" data-pjax><i class="ti-angle-left"></i>${msg['globals.button.back']}</a>
+    </div>
+</header>
+
+<div class="content-wrap">
+    <div class="wrapper" style="min-height:500px;">
+        <section class="panel panel-form">
+            <form id="addForm" role="form" class="form-horizontal parsley-form" data-parsley-validate
+                  action="${base}/platform/coupon/coupon/config/addDo"  method="post"
+            >
+                <div class="row mb10 mt10">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                           <label for="total_money" class="col-sm-2 control-label"><label style="color: red">*</label>资金池总额(单位:万元)</label>
+                            <div class="col-sm-8">
+                                <input type="text"  id="total_money"    data-parsley-price="true"  data-parsley-required="true"  class="form-control" name="total_money"  placeholder="资金池总额">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="stime" class="col-sm-2 control-label"><label style="color: red">*</label>有效期起</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="stime" value="" data-parsley-required="true"  class="form-control js-time" name="stime"  placeholder="有效期起" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="etime" class="col-sm-2 control-label"><label style="color: red">*</label>有效期至</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="etime" value="" data-parsley-required="true" class="form-control js-time" name="etime"  placeholder="有效期至" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pdate" class="col-sm-2 control-label"><label style="color: red">*</label>发布日期</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="pdate" data-parsley-required="true" class="form-control js-time" name="pdate"  placeholder="发布日期" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        </div>
+                        <div class="form-group">
+                            <label for="org_limit" class="col-sm-2 control-label"><label style="color: red">*</label>企业补助上限(单位:万元)</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="org_limit" data-parsley-required="true"   class="form-control" name="org_limit" data-parsley-price="true" placeholder="企业补助上限">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="service_type" class="col-sm-2 control-label"><label style="color: red">*</label>服务类型</label>
+                            <div class="col-sm-8">
+                                <!--#if(!isEmpty(dictList)){ for(o in dictList){
+                                 #-->
+                                <input  type="checkbox" id="service_type" name="service_type"  value="${o.id}" data-parsley-required="true"/>${o.name}
+                                <!--#
+                                } }#-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="server_top_money" class="col-sm-2 control-label"><label style="color: red">*</label>服务机构补助上限(单位:万元)</label>
+                            <input type="hidden"  id="server_level_id" />
+                            <input type="hidden"  id="server_top_money" />
+                            <div class="col-sm-8">
+                            <!--#if(!isEmpty(levelList)){ for(p in levelList){
+                                                             #-->
+                            <input type="radio" class="server_level_id"  value="${p.id}" name="server_level_id"  onchange="getd()"/>${p.name}<input style="width:80px" type="text"  class="server_top_money" name="server_top_money" data-parsley-price="true" />
+                            <!--#
+                            } }#-->
+                                <span style="color: red" id="tmoney"></span>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="contract_limit" class="col-sm-2 control-label"><label style="color: red">*</label>单合同补贴上限(单位:万元)</label>
+                            <div class="col-sm-8">
+                            <input type="text"  id="contract_limit" data-parsley-required="true" class="form-control" name="contract_limit" data-parsley-price="true" placeholder="单合同补贴上限" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contract_rate" class="col-sm-2 control-label"><label style="color: red">*</label>单合同默认补贴比例(单位:%)</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="contract_rate" data-parsley-required="true"   class="form-control" name="contract_rate"   data-parsley-type="integer" placeholder="单合同默认补贴比例" data-parsley-min="0" data-parsley-max="99">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cash_rate" class="col-sm-2 control-label"><label style="color: red">*</label>补贴兑现条件完成(单位:%)</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="cash_rate"  data-parsley-required="true"   class="form-control" name="cash_rate"  placeholder="补贴兑现条件完成" data-parsley-type="integer" data-parsley-min="0" data-parsley-max="99"><span>合同额支付完成80%才能申请兑现</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <div class="form-group text-center">
+                        <label></label>
+
+                        <div>
+                            <!--<button class="btn btn-primary btn-block btn-lg btn-parsley" data-loading-text="${msg['globals.button.submit.tip']}">${msg['globals.button.submit']}</button>-->
+                            <button  class="btn btn-primary "  id="btn_search_confirm" >确定</button>
+                            <!--<button type="button" class="btn btn-default" id="btn_search_reset">清空</button>-->
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+<script language="JavaScript">
+    $(document).ready(function () {
+        $(".server_top_money").attr("readOnly",true);
+       /* $("#btn_search_reset").on('click', function () {
+            $('#addForm')[0].reset();
+        });*/
+
+        /*时间选择控件*/
+        $('.js-time').datetimepicker({
+            language:  'zh-CN',  //日期
+            format: 'yyyy-mm-dd',
+            minView:"month",
+            weekStart: 1,
+            todayBtn: true,
+            autoclose: true,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1
+        });
+        $('#addForm').ajaxForm({
+            dataType: 'json',
+            beforeSubmit: function (arr, form, options) {
+                loaddata();
+                var type=$("#service_type").val();
+                var mo=$("#server_top_money").val();
+                var level=$("#server_level_id").val();
+                if(mo==""){
+                    $("#tmoney").html("请填写对应的补助上限");
+                    return false;
+                }
+                var str = {
+                    name : "serviceType",
+                    required: true
+                }
+                var m={
+                    name : "serverTopMoney",
+                    required: true
+                }
+                var l={
+                    name : "serverLevelId",
+                    required: true
+                }
+                str.value=type;
+                m.value=mo;
+                l.value=level;
+                arr.push(str);
+                arr.push(m);
+                arr.push(l);
+                form.find("button:submit").button("loading");
+            },
+            success: function (data, statusText, xhr, form) {
+                if (data.code == 0) {
+                    Toast.success(data.msg);
+                    window.location.href="${base}/platform/coupon/coupon/config";
+                } else {
+                    Toast.error(data.msg);
+                }
+                form.find("button:submit").button("reset");
+            }
+        });
+    });
+
+    function getd(){
+        $(".server_top_money").attr("readOnly",true);
+        $(".server_top_money").val("");
+        $("input[name='server_level_id']:checked").next("input").removeAttr("readonly");
+    }
+function loaddata(){
+    var level_id=$("input[type='radio']:checked").val();
+    var top_money=$("input[name='server_level_id']:checked").next("input").val();
+    $("#server_level_id").val(level_id);
+    $("#server_top_money").val(top_money);
+    var id_array=new Array();
+    $('input[name="service_type"]:checked').each(function(){
+        id_array.push($(this).val());//向数组中添加元素
+    });
+    var idstr=id_array.join(',');//将数组元素连接起来以构建一个字符串
+    $("#service_type").val(idstr);
+    /*  var level_id_array=new Array();
+     var  money_array=new Array();
+
+    $('.server_level_id:checked').each(function(){
+        level_id_array.push($(this).val());
+    });
+    var levelstr=level_id_array.join(',');//将数组元素连接起来以构建一个字符串
+    $("#server_level_id").val(levelstr);
+
+    $('.server_top_money').each(function(){
+        money_array.push($(this).val());
+    });
+    var monstr=money_array.join(',');
+    $("#server_top_money").val(monstr);*/
+
+}
+/*function postdata(){
+    loaddata();
+    var stime=$("#stime").val();
+    var etime=$("#etime").val();
+    var pdate=$("#pdate").val();
+    var server_top_money=$("#server_top_money").val();
+    var server_level_id=$("#server_level_id").val();
+    var total_money=$("#total_money").val();
+    var service_type=$("#service_type").val();
+    var org_limit=$("#org_limit").val();
+    var contract_limit=$("#contract_limit").val();
+    var contract_rate=$("#contract_rate").val();
+    var cash_rate=$("#cash_rate").val();
+    $.ajax({
+        type: "post",
+        data:{"stime":stime,"etime":etime,"pdate":pdate,"server_top_money":server_top_money,"server_level_id":server_level_id,"total_money":total_money,"service_type":service_type,"org_limit":org_limit,"contract_limit":contract_limit,"contract_rate":contract_rate,"cash_rate":cash_rate},
+        url: "${base}/platform/coupon/coupon/config/addDo",
+        success: function (data, statusText, xhr, form) {
+            if (data) {
+                if (data.code == 0) {
+                    Toast.success(data.msg);
+                    window.location.href="${base}/platform/coupon/coupon/config/";
+                } else {
+                    Toast.error(data.msg);
+                }
+                form.find("button:submit").button("reset");
+            }
+
+        }
+    });
+}*/
+
+</script>
+<!--#}#-->
+
+

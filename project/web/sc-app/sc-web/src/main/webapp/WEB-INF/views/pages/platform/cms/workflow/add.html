@@ -1,0 +1,191 @@
+<!--#
+layout("/layouts/platform.html"){
+#-->
+<header class="header navbar bg-white shadow">
+    <div class="btn-group tool-button">
+        <a class="btn btn-primary navbar-btn" href="${base}/platform/cms/workflow" id="goBack" data-pjax><i class="ti-angle-left"></i>${msg['globals.button.back']}</a>
+    </div>
+</header>
+
+<div class="content-wrap">
+    <div class="wrapper" style="min-height:500px;">
+        <section class="panel panel-form">
+            <form id="addForm" role="form" class="form-horizontal parsley-form" data-parsley-validate
+                  action="${base}/platform/cms/workflow/addDo" method="post">
+                <input type="hidden" name="roles" id="roles" value="">
+                <input type="hidden" name="signs" id="signs" value="">
+                <div class="row mb10 mt10">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">${msg['cms.workflow.column.name']}<span style="color: red">*</span></label>
+                            <div class="col-sm-8">
+                            <input type="text" id="name" class="form-control" data-parsley-maxlength="20" name="name" data-parsley-required="true" placeholder="${msg['cms.workflow.column.name']}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="note" class="col-sm-2 control-label">${msg['cms.workflow.column.note']}<span style="color: red">*</span></label>
+                            <div class="col-sm-8">
+                            <input type="text" id="note" class="form-control" name="note" data-parsley-maxlength="40" data-parsley-required="true" placeholder="${msg['cms.workflow.column.note']}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">${msg['cms.workflow.column steps']}</label>
+                            <div class="col-sm-8">
+                                <table id="nodeTable" border="0">
+                                    <tr>
+                                        <td align="left" colspan="4"><input class="add-step" type="button" onclick="addnodeLine();" value="添加步骤"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" colspan="2">步骤</td>
+                                        <td align="" colspan="2">角色</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <div class="form-group text-center">
+                        <label></label>
+
+                        <div>
+                            <span class="btn btn-primary navbar-btn" type="button" id="save" data-loading-text="${msg['globals.button.submit.tip']}">
+                                ${msg['globals.button.submit']}</span>
+                        </div>
+                    </div>
+                </div>
+                <!--工作流 start-->
+                <textarea id="nodeTr" style="display:none;">
+                <tr id="nodeTr[0]" border="0" >
+                    <td colspan="2">
+                        第<span id="stepSan[0]">0</span>步
+                    </td>
+                    <td colspan="2">
+                        <select name="roleid[0]">
+                            <!--# for(o in rolelist){
+                             #-->
+                                <option value="${o.id}">${o.tname}</option>
+                            <!--#
+                            } #-->
+                        </select>
+                        <input name="countersign[0]" type="radio" value="1" />会签
+                        <input name="countersign[0]" type="radio" value="0" checked="checked"/>普通流转
+                        <a href="javascript:void(0);"  id="delA[0]"  class="pn-opt">删除步骤</a>
+                    </td>
+                </tr>
+                </textarea>
+                <!--工作流 end-->
+            </form>
+        </section>
+    </div>
+</div>
+<script language="JavaScript">
+    var nodeIndex =  1;
+    var upIndex=0;
+    var nodeTpl = $("#nodeTr").val();
+    $(document).ready(function () {
+        $('#addForm').ajaxForm({
+            dataType: 'json',
+            beforeSubmit: function (arr, form, options) {
+                form.find("button:submit").button("loading");
+            },
+            success: function (data, statusText, xhr, form) {
+                if (data.code == 0) {
+                    Toast.success(data.msg);
+                    form.resetForm();
+                } else {
+                    Toast.error(data.msg);
+                }
+                form.find("button:submit").button("reset");
+            }
+        });
+    });
+    function addnodeLine() {
+        var content=$("#nodeTr").val();
+        if($("tr[id^='nodeTr']").length==0){
+            nodeIndex=1;
+        }
+        upIndex=nodeIndex;
+        upIndex--;
+        var reg = new RegExp('\\[(.+?)\\]',"g");
+        content=  content .replace(reg,"["+nodeIndex+"]");
+
+        $('#nodeTable').append(content);
+        $('#stepSan\\['+nodeIndex+'\\]').html(nodeIndex);
+        $("a[id^='delA']").each(function(i){
+            var id=$(this).attr("id").split("delA")[1];
+            id=id.replace(new RegExp("\\[","gm"),"")    ;
+            id=id.replace(new RegExp("\\]","gm"),"")    ;
+            if(id==nodeIndex){
+                $(this).bind('click', function(i) {
+                    delnodeLine(id);
+                });
+            }
+        });
+        nodeIndex++;
+    }
+    function delnodeLine(index) {
+        $("#delA\\["+index+"\\]").parent().parent().remove();
+        $("a[id^='delA']").each(function(i){
+            var id=$(this).attr("id").split("delA")[1];
+            id=id.replace(new RegExp("\\[","gm"),"")    ;
+            id=id.replace(new RegExp("\\]","gm"),"")    ;
+            if(parseInt(id)>index){
+                id--;//id减一错误
+                $(this).unbind( "click" );
+                $(this).bind('click', function() {
+                    delnodeLine(id);
+                });
+                $(this).attr("id","delA["+id+"]");
+                $(this).parent().parent().attr("id","nodeTr["+id+"]");
+                $(this).parent().parent().children("td").eq(1).children("input:radio[name^='countersign']").attr("name","countersign["+id+"]");
+                $(this).parent().parent().children("td").eq(1).children("select[name^='roleid']").attr("name","roleid["+id+"]");
+            }
+        });
+        $("span[id^='stepSan']").each(function(i){
+            var id=$(this).attr("id").split("stepSan")[1];
+            id=id.replace(new RegExp("\\[","gm"),"")    ;
+            id=id.replace(new RegExp("\\]","gm"),"")    ;
+            if(parseInt(id)>index){
+                id--;
+                $(this).html(id);
+                $(this).attr("id","stepSan["+id+"]");
+            }
+        });
+      /*  $("tr[id^='nodeTr']").each(function(i){
+            var id=$(this).attr("id").split("nodeTr")[1];
+            id=id.replace(new RegExp("\\[","gm"),"")    ;
+            id=id.replace(new RegExp("\\]","gm"),"")    ;
+            var reg = new RegExp('\\[(.+?)\\]',"g");
+            if(parseInt(id)>index){
+                id--;
+                var content= $(this).html();
+                content=  content .replace(reg,"["+id+"]");
+
+                $(this).html(content);
+                $(this).attr("id","nodeTr["+id+"]");
+            }
+        });
+*/
+
+
+
+
+        nodeIndex--;
+    }
+    function getIds(){
+        $("span[id^='stepSan']").each(function(i){
+            var id=$(this).attr("id").split("stepSan")[1];
+            $("#roles").val($("#roles").val()+","+$("select[name='roleid"+id+"'] option:selected").val());
+            $("#signs").val($("#signs").val()+","+$("input[name='countersign"+id+"']:checked").val());
+        });
+    }
+    $("#save").on("click",function(){
+        getIds();
+        $('#addForm').submit();
+    });
+</script>
+<!--#}#-->
+
+

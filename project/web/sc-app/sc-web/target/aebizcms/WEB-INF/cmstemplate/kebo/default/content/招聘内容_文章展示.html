@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!--#
+    include("/"+site.site_css +"/include/head.html"){}
+    #-->
+</head>
+<body>
+
+<!--<div class="m-wrap">-->
+<!--#
+       include("/"+site.site_css +"/include/top.html"){}
+       #-->
+<#cmsChannelList channelId="${current.parentId}" orderBy="location" var="chan" isDisplay="true">
+    <div class="i_banner w_1200"><img src="${baseRes!}/images/banner/ibn/03.jpg" alt="${chan.name}" class="img_w"></div>
+    <!--end大图片-->
+
+    <div class="w_1200 i_center clearfix2">
+        <div class="fl w_280">
+            <input value="${current.id}" id="currentId" type="hidden">
+            <h4 class="l_blue_th round_bj round_t">${chan.name}</h4>
+            <#cmsChannelList parentId="${current.parentId}" orderBy="location" var="ch" isDisplay="true">
+                <ul class="l_nav_ul click_li">
+                    <li  <!--#if(current.id == ch.id){#--> class="light"  <!--#}#-->  >
+                    <a href="<!--#if(isEmpty(ch.linkurl)){#--> ${base}${ch.path}/index.html<!--#}else{#-->${ch.linkurl}<!--#}#-->" class="png">${ch.name!}</a>
+                    </li>
+                </ul>
+            </#cmsChannelList>
+            <!--end边框-->
+        </div>
+        <!--end左边-->
+        <div class="fr w_890">
+            <h4 class="site_th png">当前位置：<a href="${base}">首页</a><em class="china">&gt;</em><a href="">${chan.name!}</a><em class="china">&gt;</em>${current.name}</h4>
+
+            <div class="r_pro_about clearfix2">
+                <h5 class="green_text">${content.title!}</h5>
+                <dl class="d clearfix2">
+                    ${content_txt.txt!}
+                </dl>
+            </div>
+
+        </div>
+        <!--end右边-->
+    </div>
+</#cmsChannelList>
+<!--end中间区域-->
+<!--#
+include("/"+site.site_css +"/include/footer.html"){}
+   #-->
+<!--</div>-->
+</body>
+</html>

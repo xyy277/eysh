@@ -1,0 +1,133 @@
+<!--#
+layout("/layouts/platform.html"){
+#-->
+<header class="header navbar bg-white shadow">
+    <div class="btn-group tool-button">
+        <a class="btn btn-primary navbar-btn" href="${base}/platform/wx/sc/news" id="goBack" data-pjax><i class="ti-angle-left"></i>返回</a>
+    </div>
+    <div class="btn-group tool-button" style="float: right">
+        <button class="btn btn-primary navbar-btn" type="button" onclick="submitForm('${obj.id}','1')" data-loading-text="正在提交...">通过</button>
+        <button class="btn btn-primary navbar-btn" type="button" onclick="submitForm('${obj.id}','2')" data-loading-text="正在提交...">驳回</button>
+    </div>
+</header>
+
+<div class="content-wrap">
+    <div class="wrapper" style="min-height:500px;">
+        <section class="panel panel-form">
+            <form id="editForm" role="form" class="form-horizontal parsley-form" data-parsley-validate
+                  action="${base}/platform/wx/sc/news/editDo" method="post">
+                <div class="row mb10">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label   class="col-sm-2 control-label">${msg['wx.mass.column.title']}</label>
+                            <div class="col-sm-8">
+                                <span id="flat_type" class="form-control" >${obj.title}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label   class="col-sm-2 control-label">${msg['wx.mass.column.author']}</label>
+                            <div class="col-sm-8">
+                                <span  class="form-control"  >${obj.author}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label   class="col-sm-2 control-label">${msg['wx.mass.column.originaladdress']}</label>
+                            <div class="col-sm-8">
+                                <span id="dict" class="form-control" >${obj.content_source_url}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label   class="col-sm-2 control-label">${msg['wx.mass.column.thumbnails']}</label>
+                            <div class="col-sm-8" id="img">
+                                <span><img src="${obj.thumb_media}" width="300" alt="图片"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label   class="col-sm-2 control-label">${msg['wx.mass.column.content']}</label>
+                            <div class="col-sm-8">
+                                ${obj.content}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label   class="col-sm-2 control-label">${msg['wx.mass.column.paper']}</label>
+                            <div class="col-sm-8">
+                               ${obj.digest}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label   class="col-sm-2 control-label">${msg['wx.mass.column.showcover']}</label>
+                            <div class="col-sm-8">
+                                ${obj.show_cover_pic==0?msg['wx.mass.column.notshow']:msg['wx.mass.column.show']}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3"></div>
+            </form>
+        </section>
+        <div id="dialogDelete" class="modal fade bs-modal-sm" tabindex="-2" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">审核</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12" id="msg">
+                                审核后无法恢复。<br/>
+                                <br/>确定审核吗？
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
+                        <button id="okDel" type="button" class="btn btn-primary" data-loading-text="正在提交...">确  定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script language="JavaScript">
+    function submitForm(id,status) {
+        $(function () {
+            $("#img").prop("src", "obj.thumb_media_id")
+        })
+        if(status==1){
+            $("#msg").html("确定通过该条新闻吗？");
+        }else{
+            $("#msg").html("确定驳回该条新闻吗？")
+        }
+        var dialog = $("#dialogDelete");
+        dialog.modal("show");
+        dialog.find("#okDel").unbind("click");
+        dialog.find("#okDel").bind("click", function (event) {
+            if (status == 1) {
+                $.post("${base}/platform/wx/sc/news/editDo?id=" + id + "&status=1", {}, function (data) {
+                    if (data.code == 0) {
+                        Toast.success(data.msg);
+                        window.location.href = "${base}/platform/wx/sc/news";
+                    } else {
+                        Toast.error(data.msg);
+                    }
+                }, "json");
+            } else if (status == 2) {
+                $.post("${base}/platform/wx/sc/news/editDo?id=" + id + "&status=2", {}, function (data) {
+                    if (data.code == 0) {
+                        Toast.success(data.msg);
+                        window.location.href = "${base}/platform/wx/sc/news";
+                    } else {
+                        Toast.error(data.msg);
+                    }
+                }, "json");
+            }
+
+        })
+    }
+</script>
+
+<!--#}#-->

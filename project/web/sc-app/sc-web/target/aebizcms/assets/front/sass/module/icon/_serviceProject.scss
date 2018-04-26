@@ -1,0 +1,189 @@
+// SCSS variables are information about icon's compiled state, stored under its original file name
+//
+// .icon-home {
+//   width: $icon-home-width;
+// }
+//
+// The large array-like variables contain all information about a single icon
+// $icon-home: x y offset_x offset_y width height total_width total_height image_path;
+//
+// At the bottom of this section, we provide information about the spritesheet itself
+// $spritesheet: width height image $spritesheet-sprites;
+$down-name: 'down';
+$down-x: 128px;
+$down-y: 34px;
+$down-offset-x: -128px;
+$down-offset-y: -34px;
+$down-width: 7px;
+$down-height: 7px;
+$down-total-width: 154px;
+$down-total-height: 103px;
+$down-image: '../images/sprite/serviceProject.png';
+$down: (128px, 34px, -128px, -34px, 7px, 7px, 154px, 103px, '../images/sprite/serviceProject.png', 'down', );
+$down-act-name: 'down_act';
+$down-act-x: 143px;
+$down-act-y: 34px;
+$down-act-offset-x: -143px;
+$down-act-offset-y: -34px;
+$down-act-width: 7px;
+$down-act-height: 7px;
+$down-act-total-width: 154px;
+$down-act-total-height: 103px;
+$down-act-image: '../images/sprite/serviceProject.png';
+$down-act: (143px, 34px, -143px, -34px, 7px, 7px, 154px, 103px, '../images/sprite/serviceProject.png', 'down_act', );
+$icon-sp-1-name: 'icon_sp_1';
+$icon-sp-1-x: 41px;
+$icon-sp-1-y: 70px;
+$icon-sp-1-offset-x: -41px;
+$icon-sp-1-offset-y: -70px;
+$icon-sp-1-width: 30px;
+$icon-sp-1-height: 30px;
+$icon-sp-1-total-width: 154px;
+$icon-sp-1-total-height: 103px;
+$icon-sp-1-image: '../images/sprite/serviceProject.png';
+$icon-sp-1: (41px, 70px, -41px, -70px, 30px, 30px, 154px, 103px, '../images/sprite/serviceProject.png', 'icon_sp_1', );
+$icon-sp-2-name: 'icon_sp_2';
+$icon-sp-2-x: 0px;
+$icon-sp-2-y: 0px;
+$icon-sp-2-offset-x: 0px;
+$icon-sp-2-offset-y: 0px;
+$icon-sp-2-width: 77px;
+$icon-sp-2-height: 62px;
+$icon-sp-2-total-width: 154px;
+$icon-sp-2-total-height: 103px;
+$icon-sp-2-image: '../images/sprite/serviceProject.png';
+$icon-sp-2: (0px, 0px, 0px, 0px, 77px, 62px, 154px, 103px, '../images/sprite/serviceProject.png', 'icon_sp_2', );
+$icon-sp-close-name: 'icon_sp_close';
+$icon-sp-close-x: 85px;
+$icon-sp-close-y: 0px;
+$icon-sp-close-offset-x: -85px;
+$icon-sp-close-offset-y: 0px;
+$icon-sp-close-width: 35px;
+$icon-sp-close-height: 35px;
+$icon-sp-close-total-width: 154px;
+$icon-sp-close-total-height: 103px;
+$icon-sp-close-image: '../images/sprite/serviceProject.png';
+$icon-sp-close: (85px, 0px, -85px, 0px, 35px, 35px, 154px, 103px, '../images/sprite/serviceProject.png', 'icon_sp_close', );
+$icon-sp-edit-name: 'icon_sp_edit';
+$icon-sp-edit-x: 79px;
+$icon-sp-edit-y: 70px;
+$icon-sp-edit-offset-x: -79px;
+$icon-sp-edit-offset-y: -70px;
+$icon-sp-edit-width: 32px;
+$icon-sp-edit-height: 27px;
+$icon-sp-edit-total-width: 154px;
+$icon-sp-edit-total-height: 103px;
+$icon-sp-edit-image: '../images/sprite/serviceProject.png';
+$icon-sp-edit: (79px, 70px, -79px, -70px, 32px, 27px, 154px, 103px, '../images/sprite/serviceProject.png', 'icon_sp_edit', );
+$icon-sp-server-name: 'icon_sp_server';
+$icon-sp-server-x: 128px;
+$icon-sp-server-y: 0px;
+$icon-sp-server-offset-x: -128px;
+$icon-sp-server-offset-y: 0px;
+$icon-sp-server-width: 26px;
+$icon-sp-server-height: 26px;
+$icon-sp-server-total-width: 154px;
+$icon-sp-server-total-height: 103px;
+$icon-sp-server-image: '../images/sprite/serviceProject.png';
+$icon-sp-server: (128px, 0px, -128px, 0px, 26px, 26px, 154px, 103px, '../images/sprite/serviceProject.png', 'icon_sp_server', );
+$icon-sp-suc-name: 'icon_sp_suc';
+$icon-sp-suc-x: 0px;
+$icon-sp-suc-y: 70px;
+$icon-sp-suc-offset-x: 0px;
+$icon-sp-suc-offset-y: -70px;
+$icon-sp-suc-width: 33px;
+$icon-sp-suc-height: 33px;
+$icon-sp-suc-total-width: 154px;
+$icon-sp-suc-total-height: 103px;
+$icon-sp-suc-image: '../images/sprite/serviceProject.png';
+$icon-sp-suc: (0px, 70px, 0px, -70px, 33px, 33px, 154px, 103px, '../images/sprite/serviceProject.png', 'icon_sp_suc', );
+$up-name: 'up';
+$up-x: 128px;
+$up-y: 49px;
+$up-offset-x: -128px;
+$up-offset-y: -49px;
+$up-width: 7px;
+$up-height: 4px;
+$up-total-width: 154px;
+$up-total-height: 103px;
+$up-image: '../images/sprite/serviceProject.png';
+$up: (128px, 49px, -128px, -49px, 7px, 4px, 154px, 103px, '../images/sprite/serviceProject.png', 'up', );
+$up-act-name: 'up_act';
+$up-act-x: 143px;
+$up-act-y: 49px;
+$up-act-offset-x: -143px;
+$up-act-offset-y: -49px;
+$up-act-width: 7px;
+$up-act-height: 4px;
+$up-act-total-width: 154px;
+$up-act-total-height: 103px;
+$up-act-image: '../images/sprite/serviceProject.png';
+$up-act: (143px, 49px, -143px, -49px, 7px, 4px, 154px, 103px, '../images/sprite/serviceProject.png', 'up_act', );
+$spritesheet-width: 154px;
+$spritesheet-height: 103px;
+$spritesheet-image: '../images/sprite/serviceProject.png';
+$spritesheet-sprites: ($down, $down-act, $icon-sp-1, $icon-sp-2, $icon-sp-close, $icon-sp-edit, $icon-sp-server, $icon-sp-suc, $up, $up-act, );
+$spritesheet: (154px, 103px, '../images/sprite/serviceProject.png', $spritesheet-sprites, );
+
+// The provided mixins are intended to be used with the array-like variables
+//
+// .icon-home {
+//   @include sprite-width($icon-home);
+// }
+//
+// .icon-email {
+//   @include sprite($icon-email);
+// }
+//
+// Example usage in HTML:
+//
+// `display: block` sprite:
+// <div class="icon-home"></div>
+//
+// To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+//
+// // CSS
+// .icon {
+//   display: inline-block;
+// }
+//
+// // HTML
+// <i class="icon icon-home"></i>
+@mixin sprite-width($sprite) {
+  width: nth($sprite, 5);
+}
+
+@mixin sprite-height($sprite) {
+  height: nth($sprite, 6);
+}
+
+@mixin sprite-position($sprite) {
+  $sprite-offset-x: nth($sprite, 3);
+  $sprite-offset-y: nth($sprite, 4);
+  background-position: $sprite-offset-x  $sprite-offset-y;
+}
+
+@mixin sprite-image($sprite) {
+  $sprite-image: nth($sprite, 9);
+  background-image: url(#{$sprite-image});
+}
+
+@mixin sprite($sprite) {
+  @include sprite-image($sprite);
+  @include sprite-position($sprite);
+  @include sprite-width($sprite);
+  @include sprite-height($sprite);
+}
+
+// The `sprites` mixin generates identical output to the CSS template
+//   but can be overridden inside of SCSS
+//
+// @include sprites($spritesheet-sprites);
+@mixin sprites($sprites) {
+  @each $sprite in $sprites {
+    $sprite-name: nth($sprite, 10);
+    .#{$sprite-name} {
+      @include sprite($sprite);
+    }
+  }
+}

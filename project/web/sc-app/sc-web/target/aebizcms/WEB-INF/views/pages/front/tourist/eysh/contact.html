@@ -1,0 +1,120 @@
+<!--#
+include("/pages/front/inc/impTop.html"){}
+#-->
+<!--#
+include("/pages/front/inc/top.html"){}
+#-->
+			<div class="w3-agileits-about-banner">
+				<div class="container">
+					<h2>游记分享</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- //banner -->
+	<!-- contact -->
+	<div class="contact">
+		<div class="container">
+			<div class="agile-contact-form">
+				<div class="col-md-6 contact-form-left">
+					<div class="w3layouts-contact-form-top">
+						<h3>记录你的游记</h3>
+						<p>一个良好的记录习惯，在于每一点每一滴。</p>
+						<p>有关问题可以通过一下方式联系我们。</p>
+					</div>
+					<div class="agileits-contact-address">
+						<ul>
+							<li><i class="fa fa-phone" aria-hidden="true"></i> <span>+18949464266</span></li>
+							<li><i class="fa fa-phone fa-envelope" aria-hidden="true"></i> <span><a href="mailto:aj907507646@qq.com">aj907507646@qq.com</a></span></li>
+							<li><i class="fa fa-map-marker" aria-hidden="true"></i> <span>anhui hefei Wangjiang road 555.</span></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-6 contact-form-right">
+					<div class="contact-form-top">
+						<h3>留下喜欢</h3>
+					</div>
+					<div class="agileinfo-contact-form-grid">
+							<input id="title" type="text" name="title" placeholder="标题" required="">
+							<input id="author" type="text" name="author" placeholder="作者" required="">
+							<textarea id="content" name="content" placeholder="在这里留下留下你的喜欢"></textarea>
+							<button id="submit" class="btn1">提交</button>
+					</div>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+			
+			<div class="w3agile-map">
+				<h3>来这里记录吧</h3>
+				<iframe src=""  allowfullscreen></iframe>
+
+			</div>
+		</div>
+	</div>
+	<!-- //contact -->
+<!--end中间区域-->
+<!--#
+    include("/pages/front/inc/footer.html"){}
+#-->
+<!--end文件底-->
+	<script src="${base!}/assets/front/js/SmoothScroll.min.js"></script>
+	<script type="text/javascript" src="${base!}/assets/front/js/move-top.js"></script>
+	<script type="text/javascript" src="${base!}/assets/front/js/easing.js"></script>
+	<!-- here stars scrolling icon -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#submit').on("click",function () {
+			    var title = $('#title').val();
+                var author = $('#author').val();
+                var content = $('#content').val();
+               if( !checkSubmit()){
+                   return false;
+			   }
+				$.ajax({
+					url:'/saveJourney',
+					type:'post',
+					dataType:'json',
+					data:{
+					    'title':title,
+						'author':author,
+						'content':content,
+					},
+					success:function(data){
+						if(data.code==0){ //成功
+							toastr.success(data.msg);
+							clearForm();
+						}else{
+						    toastr.error(data.msg);
+						}
+					}
+				});
+            })
+			});
+		function checkSubmit() {
+            var title = $('#title').val();
+            var author = $('#author').val();
+            var content = $('#content').val();
+			if(title==null || title==""){
+                toastr.warning("没有标题怎么行");
+                return false;
+            }
+            if(author==null || author==""){
+                toastr.warning("留下你的大名吧");
+                return false;
+            }
+            if(content==null || content==""){
+                toastr.warning("没有精彩内容怎么行");
+                return false;
+            }
+            return true;
+        }
+        function clearForm(){
+			$('#title').val("");
+            $('#author').val("");
+            $('#content').val("");
+		}
+	</script>
+	<!-- //here ends scrolling icon -->
+	<script src="${base!}/assets/front/js/owl.carousel.js"></script>
+</body>	
+</html>

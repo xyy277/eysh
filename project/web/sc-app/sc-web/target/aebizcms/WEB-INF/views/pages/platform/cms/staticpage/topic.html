@@ -1,0 +1,205 @@
+<!--#
+layout("/layouts/platform.html"){
+#-->
+<div class="content-wrap">
+    <div class="wrapper" style="min-height:500px;">
+        <section class="panel panel-form">
+            <form id="addForm" role="form" class="form-horizontal parsley-form"
+                  action="${base}/platform/cms/staticpage/geIndex" method="post">
+                <div class="row mb10 mt10">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="siteId"
+                                   class="col-sm-2 control-label">${msg['cms.staticpage.index.choose']}</label>
+                            <div class="col-sm-8">
+                                <select name="siteId" id="siteId" class="form-control">
+                                    <!--#
+                                    var disabled="";
+                                     for ( site in siteList){
+                                    #-->
+                                    <option value="${site.id}">${site.site_sname}</option>
+                                    <!--#
+                                     }elsefor{
+                                        disabled="disabled";
+                                    #-->
+                                    <option value="">${msg['cms.staticpage.index.nosite']}</option>
+                                    <!--#
+                                     }
+                                    #-->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="siteId"
+                                   class="col-sm-2 control-label">选择专题</label>
+                            <div class="col-sm-8">
+                                <select name="topicId" id="topicId" class="form-control">
+
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <div class="form-group text-center">
+                        <label></label>
+
+                        <div class="handle">
+                            <button ${disabled} id="ge" type="button" class="btn btn-primary ge-topic" data-tag="1">
+                                生成专题页HTML
+                            </button>
+                            <button ${disabled} id="del" type="button" class="btn btn-warning ge-topic" data-tag="0">
+                                删除专题页HTML
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+<script language="JavaScript">
+    $(function () {
+        var siteId = $("#siteId").val();
+        getTopicAsSelect(siteId);
+        $("#siteId").on("change", function () {
+            siteId = $("#siteId").val();
+            $("#topicId").empty();
+            getTopicAsSelect(siteId);
+        });
+
+        $('.form_datetime').datepicker({
+            minView: "month", //选择日期后，不会再跳转去选择时分秒
+            format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+            language: 'zh-CN', //汉化
+            autoclose: true //选择日期后自动关闭
+        });
+        $("#ge").click(function () {
+            var el = $(this);
+            var text = el.text();
+            var start = $("#start").val();
+            var topicId = $("#topicId").val();
+            siteId = $("#siteId").val();
+            var loadIndex = loadIndex = layer.load(1, {
+                shade: [0.1, '#333'] //0.1透明度的黑色背景
+            });
+            $.ajax({
+                url: "${base}/platform/cms/staticpage/geTopic",
+                data: {
+                    siteId: siteId,
+                    topicId: topicId
+                },
+                dataType: 'json',
+                beforeSubmit: function (arr, form, options) {
+                    el.text("正在生成...");
+                    $(".handle").find("button").attr("disabled", true);
+                },
+                success: function (data) {
+                    if (data.code == 0) {
+                        Toast.success(data.msg);
+                    } else {
+                        Toast.error(data.msg);
+                    }
+                    el.text(text);
+                    layer.close(loadIndex);
+                    $(".handle").find("button").attr("disabled", false);
+                }
+            })
+        });
+
+        $("#del").click(function () {
+            var el = $(this);
+            var text = el.text();
+            var topicId = $("#topicId").val();
+
+            $.ajax({
+                url: "${base}/platform/cms/staticpage/delTopic",
+                data: {
+                    siteId: siteId,
+                    topicId: topicId
+                },
+                dataType: 'json',
+                beforeSubmit: function (arr, form, options) {
+                    el.text("正在删除...");
+                    $(".handle").find("button").attr("disabled", true);
+                },
+                success: function (data) {
+                    if (data.code == 0) {
+                        Toast.success(data.msg);
+                    } else {
+                        Toast.error(data.msg);
+                    }
+                    el.text(text);
+                    $(".handle").find("button").attr("disabled", false);
+                }
+            })
+        });
+
+    })
+
+    //得到下拉框的级别html代码方式
+    function getPrefix(level) {
+        var line = "&nbsp;";
+        var node = "&nbsp;├";
+        var restr = "";
+
+        for (var tmp = 0; tmp < (level * 2); tmp++) {
+            restr += line;
+        }
+        return restr += node;
+    }
+    function getTopicAsSelect(siteId, parentId, level) {
+        if (level == undefined) {
+            level = 0
+        }
+        ;
+        var url = "";
+        if (parentId == undefined || trim(parentId) == "") {
+            url = "${base}/platform/cms/topic/tree";
+        } else {
+            url = "${base}/platform/cms/topic/tree" + "/" + parentId;
+        }
+        // 获取栏目列表
+        $.ajax({
+            url: url,
+            data: {site_id: siteId},
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                var topics = data;
+                var selector = $("#topicId");
+
+                for (var i in topics) {
+                    // 第一个项目列表不要
+
+                    var t = topics[i];
+
+                    var str = getPrefix(level) + t.text;
+                    if (trim(t.id) == "" || trim(t.id) == "root") {
+                        str = "所有专题";
+                    }
+                    selector.append("<option  value=\"" + t.id + "\">" + str + "</option>");
+                    if (t.children == true) {
+
+                        getChannelAsSelect(siteId, t.id, level + 1)
+                    }
+                }
+            }
+
+        });
+    }
+    function trim(str) {
+        return str.replace(/^\s+|\s+$/g, '');
+    }
+
+    function getTopicList(siteId) {
+        $.ajax({
+            url: "",
+            data: {siteId: siteId}
+        });
+    }
+</script>
+<!--#}#-->

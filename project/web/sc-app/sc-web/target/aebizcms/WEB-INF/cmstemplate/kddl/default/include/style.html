@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="${baseRes!}/bootstrap/css/bootstrap.min.css">
+<script src="${baseRes!}/js/vendor/jquery/jquery.min.js"></script>
+<script src="${baseRes!}/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript">
+    var _conf = _conf || [];
+    _conf.push(['_siteAccount', '${site.id!}']);
+    _conf.push(['_artId', '${content.id!}']);
+    (function () {
+        var ma = document.createElement('script');
+        ma.type = 'text/javascript';
+        ma.async = true;
+        ma.src = ('/assets/common/analytics/_c.js');
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ma, s);
+
+    })();
+    // 获取该页面的浏览量
+    function getViewsForThisPage() {
+        $.get("/open/record/countArtViews?path=" + document.URL, function (data) {
+            var msg = "";
+            var num = data.data;
+            if (data.msg == "view") {
+                msg = "该页面的浏览量：";
+            }
+            $("#views").html(msg + num);
+        })
+    }
+</script>
+<style>
+    ul {
+        padding: 0;
+    }
+</style>

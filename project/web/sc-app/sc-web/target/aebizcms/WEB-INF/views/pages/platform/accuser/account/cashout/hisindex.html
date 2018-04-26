@@ -1,0 +1,186 @@
+<!--#
+layout("/layouts/platform.html"){
+#-->
+<section class="content-wrap bg-white">
+    <header class="header navbar bg-white shadow">
+        <div class="btn-group tool-button" style="padding-top: 10px;width:100%">
+            <form class="form-inline" id="search_form">
+                <div class="form-group">
+                    <label class="control-label"></label>
+                    申请时间：
+                    <input id="send_at1" type="text" name="send_at1" style="width:150px;"
+                           class="form-control form_datetime" placeholder="" value="" readonly/>
+                    ——
+                    <input id="send_at2" type="text" name="send_at2" style="width:150px;"
+                           class="form-control form_datetime" placeholder="" value="" readonly/>
+                </div>
+                <div class="form-group">
+                    申请人：
+                    <input id="nickname" type="text" name="nickname" style="width:180px;" class="form-control" value=""/>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" id="btn_search_ok">查询</button>
+                    <button type="button" class="btn btn-default" id="btn_search_reset">清空</button>
+                </div>
+            </form>
+        </div>
+    </header>
+    <div class=panel-body style="padding-top: 50px;">
+        <div class="table-responsive no-border">
+            <table class="table table-bordered table-striped mg-t datatable">
+                <thead>
+                    <tr>
+                            <th>提现单号</th>
+                            <th>申请时间</th>
+                            <th>状态</th>
+                            <th>提现类型</th>
+                            <th>申请金额</th>
+                            <th>申请人</th>
+                            <th>联系方式</th>
+                            <th>操作</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</section>
+<div id="dialogDelete" class="modal fade bs-modal-sm" tabindex="-2" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">删除</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        删除后无法恢复。<br/>
+                        <br/>确定删除吗？
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
+                <button id="okDel" type="button" class="btn btn-primary" data-loading-text="正在删除...">确  定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="dialogDetail" class="modal fade bs-modal-sm" tabindex="-3" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<script language="JavaScript">
+    var datatable;
+    function initDatatable() {
+        datatable = $('.datatable').DataTable({
+            "dom": '<"toolbar">frtip',
+            "searching":false,
+            "processing": false,
+            "serverSide": true,
+            "select": true,
+            "ordering": true,
+            "language": {
+                "url": "${base}/assets/platform/vendor/datatables/locale/${lang}.json"
+            },
+            "preDrawCallback": function () {
+                sublime.showLoadingbar($(".main-content"));
+            },
+            "drawCallback": function () {
+                sublime.closeLoadingbar($(".main-content"));
+            },
+            "ajax": {
+                "url": "${base}/platform/accuser/account/cashout/hisdata",
+                "type": "post",
+                "data": function (d) {
+                    var $search = $("#search_form");
+                    d.send_at1 = $("#send_at1").val();
+                    d.send_at2 = $("#send_at2").val();
+                    d.nickname = $("input[name='nickname']", $search).val();
+                }
+            },
+            "order": [[0, "desc"]],
+            "columns": [
+                    {"data": "id", "bSortable": true},
+                    {"data": "apply_at", "bSortable": true},
+                    {"data": "pay_status", "bSortable": false, "render": function (data, type, row) {
+                            if(row.check_status==0 || row.check_status==null){
+                                return '待审核';
+                            }else if(row.check_status == 2){
+                                return '已驳回';
+                            }else if(row.check_status == 1&&row.pay_status == 1){
+                                return '已付款';
+                            }else{
+                                return '待付款';
+                            }
+                         }
+                    },
+                    {
+                        "data": "type", "bSortable": false, "render": function (data, type, row) {
+                            if(row.type==0){
+                                return '服务机构提现';
+                            }else if(row.type == 1){
+                                return '专家提现';
+                            }
+                         }
+                    },
+                    {"data": "money", "bSortable": true},
+                    {"data": "scAccountUser.nickname", "bSortable": true},
+                    {"data": "scAccountUser.mobile", "bSortable": true}
+            ],
+            "columnDefs": [
+                {
+                    "render": function (data, type, row) {
+                        var top=row.money
+                        return (top / 100).toFixed(2);
+                    },
+                    "targets": 4
+                },
+                {
+                    "render": function (data, type, row) {
+                        return '<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
+                                ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">' +
+                                '<li><a href="${base}/platform/accuser/account/cashout/hisdetail/' + row.id + '?status=1" data-pjax>查看</a></li>';
+                                '</ul></div>';
+                    },
+                    "targets": 7
+                }
+            ]
+        });
+        datatable.on('click', 'tr', function () {
+            $(this).toggleClass('selected');
+        });
+        $("#searchBtn").on('click', function () {
+            datatable.ajax.reload();
+        });
+    }
+
+    $(function () {
+        initDatatable();
+        $("#dialogDetail").on("hidden.bs.modal", function () {
+            $(this).removeData("bs.modal");
+        });
+        $("#btn_search_ok").click(function () {
+            datatable.ajax.reload();
+        });
+        $("#btn_search_reset").click(function () {
+            $("#search_form input[type='text'],input[type='hidden'],select").val("");
+        });
+        /*时间选择控件*/
+        $('.form_datetime').datetimepicker({
+            language:  'zh-CN',  //日期
+            format: 'yyyy-mm-dd',
+            minView:"month",
+            weekStart: 1,
+            todayBtn: true,
+            autoclose: true,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1
+        });
+    });
+</script>
+<!--#}#-->

@@ -1,0 +1,56 @@
+<!-- banner -->
+<div class="banner">
+    <div class="agileinfo-dot">
+        <div class="head">
+            <div class="container">
+                <div class="navbar-top">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <div class="navbar-brand logo ">
+                            <h1 class="animated wow pulse" data-wow-delay=".5s">
+                                <a href="${base!}/">EYSH <span>everyone's Home</span></a></h1>
+                        </div>
+
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav link-effect-4">
+                            <!--# if(uri==""||uri=="index"){ #--><li class="active"><!--#}else{#--><li><!--#}#--><a href="${base!}/" data-hover="Home">主页</a> </li>
+                            <!--# if(uri=="about"){ #--><li class="active"><!--#}else{#--><li><!--#}#--><a href="${base!}/about" data-hover="About">关于我们 </a> </li>
+                            <!--# if(uri=="gallery"){ #--><li class="active"><!--#}else{#--><li><!--#}#--><a href="${base!}/gallery"  data-hover="Gallery" id="gallery">搜寻足迹</a></li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle" data-hover="Pages" data-toggle="dropdown">加入我们 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="${base!}/front/login">Login</a></li>
+                                    <li><a href="${base!}/register?returnUrl=${uri!}">注册</a></li>
+                                </ul>
+                            </li>
+                            <!--# if(uri=="contact"){ #--><li class="active"><!--#}else{#--><li><!--#}#--><a href="${base!}/contact" data-hover="${base!}/contact">分享经历</a></li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div>
+
+                <div class="header-left animated wow fadeInLeft animated" data-wow-delay=".5s" >
+                    <ul>
+                        <li>
+                            <input id="search" style="color:black;width: 100px;margin-right: 10px;" type="text"><a class="btn-add" href="javascript:;">搜索</a>
+                        </li>
+                        <!--# if( isNotEmpty(nickname) ){ #-->
+                        <li><i class="fa fa-user"></i><a href="javascript:;">欢迎你，${nickname!}</a>&nbsp;<a style="color: saddlebrown" href="${base!}/front/logout?returnUrl=/${uri!}">登出</a></li>
+                        <!--# } #-->
+                        <!--# else{ #-->
+                        <li><i class="fa fa-user"></i><a href="${base!}/front/login?returnUrl=${uri}">您还没有登录&nbsp;<a style="color: saddlebrown" href="${base!}/register?returnUrl=${uri!}">注册</a></a></li>
+                        <!--# } #-->
+                    </ul>
+                    <br>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>

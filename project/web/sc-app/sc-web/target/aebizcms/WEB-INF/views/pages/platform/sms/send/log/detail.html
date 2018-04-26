@@ -1,0 +1,55 @@
+<!--#
+layout("/layouts/platform.html"){
+#-->
+<header class="header navbar bg-white shadow">
+    <div class="btn-group tool-button">
+        <a class="btn btn-primary navbar-btn" href="${base}/platform/sms/send/log" id="goBack" data-pjax><i class="ti-angle-left"></i>返回</a>
+    </div>
+</header>
+
+<div class="content-wrap">
+    <div class="wrapper" style="min-height:500px;">
+        <section class="panel panel-form">
+            <form id="editForm" role="form" class="form-horizontal parsley-form" data-parsley-validate>
+                <input name="id" type="hidden" value="${obj.id}">
+                <div class="row mb10">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="code" class="col-sm-2 control-label">模板code</label>
+                            <div class="col-sm-8">
+                                <span  id="code" class="form-control" name="code"  >${obj.mould_code}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-2 control-label">发送方</label>
+                            <div class="col-sm-8">
+                                <span  class="form-control" >${obj.send_person}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="type" class="col-sm-2 control-label">接收方</label>
+                            <div class="col-sm-8">
+                                <span  id="type" class="form-control" name="type"  >${obj.receive_person}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="content" class="col-sm-2 control-label">发送内容</label>
+                            <div class="col-sm-8">
+                                <span  id="content" class="form-control" name="content"  >${obj.send_msg}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <div class="form-group text-center">
+                        <label></label>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+    </div>
+</div>
+
+<!--#}#-->

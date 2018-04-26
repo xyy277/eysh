@@ -1,0 +1,231 @@
+<!--#
+layout("/layouts/platform.html"){
+#-->
+<aside class="sidebar-250 canvas-right bg-default ">
+    <input type="hidden" name="channel_id" id="channel_id" value="">
+    <div class="row mb10 mt10">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="margin-top:8px;margin-left:8px;margin-right:-2px;">${msg['cms.channel.column.site']}</label>
+                <div class="col-sm-8">
+                    <select id="site" name="site" onchange="changeSite()" class="form-control">
+                    <!--# for(o in list){
+                    #-->
+                    <option value="${o.id}" <!--#if(o.id==siteId){#-->selected<!--#}#-->>${o.site_sname}</option>
+                    <!--#
+                    } #-->
+                </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    </header>
+    <div class="content-wrap no-p">
+        <div class="wrapper2">
+            <div class="m5">
+                <div id="jsTreeUnit"></div>
+            </div>
+        </div>
+    </div>
+</aside>
+<section class="content-wrap bg-white">
+    <header class="header navbar bg-white shadow">
+        <div class="btn-group tool-button">
+            <a class="btn btn-primary navbar-btn" href="${base}/platform/cms/channel/sort?site_id=${siteId}" data-pjax><i class="ti-share"></i> ${msg['cms.channel.button.sort']}</a>
+        </div>
+        <div class="pull-right offscreen-right">
+            <select name="modelId" id="modelId" class="btn btn-primary navbar-btn" onchange="if(this.options[this.selectedIndex].value!=''){addChannel(this.options[this.selectedIndex].value);}">
+
+            </select>
+        </div>
+    </header>
+    <div class=panel-body style="padding-top: 50px;">
+        <div class="table-responsive no-border" style="min-height: 600px;">
+            <input id="unitid" type="hidden">
+            <table class="table table-bordered table-striped mg-t datatable">
+                <thead>
+                <tr>
+                    <th>${msg['cms.channel.column.name']}</th>
+                    <th>${msg['cms.channel.column.path']}</th>
+                    <th>${msg['cms.channel.column.title']}</th>
+                    <th>${msg['cms.channel.column.tpl_channel']}</th>
+                    <th>${msg['cms.channel.column.location']}</th>
+                    <th>${msg['globals.table.column.operation']}</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</section>
+<!--  删除栏目 -->
+<div id="dialogDelete" class="modal fade bs-modal-sm" tabindex="-2" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">${msg['globals.button.delete']}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        ${msg['globals.button.delete.notice']}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">${msg['globals.button.cancel']}</button>
+                <button id="okDel" type="button" class="btn btn-primary" data-loading-text="${msg['globals.button.delete.tip']}">${msg['globals.button.confirm']}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 删除栏目 -->
+
+<script language="JavaScript">
+    var datatable;
+    function initDatatable() {
+        datatable = $('.datatable').DataTable({
+            "dom": '<"toolbar">frtip',
+            "searching":false,
+            "processing": false,
+            "serverSide": true,
+            "select": true,
+            "ordering": true,
+            "language": {
+                "url": "${base}/assets/platform/vendor/datatables/locale/${lang}.json"
+            },
+            "preDrawCallback": function () {
+                sublime.showLoadingbar($(".main-content"));
+            },
+            "drawCallback": function () {
+                sublime.closeLoadingbar($(".main-content"));
+            },
+            "ajax": {
+                "url": "${base}/platform/cms/channel/data",
+                "type": "post",
+                "data": function (d) {
+                    d.id = $('#channel_id').val();
+                    d.site_id ='${siteId}';
+                }
+            },
+            "order": [[4, "asc"]],
+            "columns": [
+                {"data": "name", "bSortable": true},
+                {"data": "path", "bSortable": true},
+                {"data": "title", "bSortable": true},
+                {"data": "tpl_channel", "bSortable": true},
+                {"data": "location", "bSortable": true},
+            ],
+            "columnDefs": [
+                {
+                    "render": function (data, type, row) {
+                        return '<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
+                                ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">' +
+                                '<li><a href="${base}/platform/cms/channel/edit/' + row.id + '?model_id='+$("#modelId").val()+'&site_id=${siteId}" data-pjax>${msg["globals.button.update"]}</a></li>' +
+                                '<li class="divider"></li>' +
+                                '<li><a href="javascript:;" onclick="del(\'' + row.id + '\')">${msg["globals.button.delete"]}</a></li>' +
+                                '</ul></div>';
+                    },
+                    "targets": 5
+                }
+            ]
+        });
+        datatable.on('click', 'tr', function () {
+            $(this).toggleClass('selected');
+        });
+        $("#searchBtn").on('click', function () {
+            datatable.ajax.reload();
+        });
+    }
+    var unitTreeTable;
+    var selected = [];
+    function initTreeView() {
+        var site=$("#site").val();
+        $("#jsTreeUnit").jstree({
+            plugins: ["wholerow", "json_data"],
+            core: {
+                data: {
+                    dataType: "json",
+                    url: function (node) {
+                        return node.id === "#" ? "${base}/platform/cms/channel/tree?site_id="+site : "${base}/platform/cms/channel/tree/" + node.id
+                    }
+
+                },
+                multiple: false
+            }
+        }).on("select_node.jstree", function (node, selected) {
+            var id = selected.selected;
+            $("#channel_id").val(id);
+            if (datatable) {
+                $(".cd-panel-content").find("input").val("");
+                datatable.ajax.reload();
+            } else {
+                initDatatable();
+            }
+        }).on("loaded.jstree", function (node, jstree) {
+            $(node.target).find("li:first div").addClass("jstree-wholerow-clicked");
+        });
+    }
+    function del(id) {
+        var dialog = $("#dialogDelete");
+        dialog.modal("show");
+        dialog.find("#okDel").unbind("click");
+        dialog.find("#okDel").bind("click", function (event) {
+            var btn = $(this);
+            btn.button("loading");
+            $.post("${base}/platform/cms/channel/delete/" + id, {}, function (data) {
+                if (data.code == 0) {
+                    Toast.success(data.msg);
+                    window.location.reload();
+                } else {
+                    Toast.error(data.msg);
+                }
+                btn.button("reset");
+                dialog.modal("hide");
+            }, "json");
+        });
+    }
+    function initModel(){
+        jQuery.ajax({
+            type: 'POST',
+            url : "${base}/platform/cms/model/list" ,
+            success : function (res) {
+                if(res!=""){
+                    var selector=$("#modelId");
+                    selector.empty();
+                    selector.append("<option value=''>-- 添加子栏目--</option>");
+                    jQuery.each(res, function(index, term) {
+                        selector.append("<option value=\""+term.id+"\">"+term.model_name+"</option>");
+                    });
+
+                }
+                return false;
+            },
+            fail : function(res) {
+                Toast.error("系统错误!");
+            }
+        });
+    }
+    function addChannel(modeid)
+    {
+        if(modeid=="")
+            return;
+        var channel_id=$("#channel_id").val();
+        var site_id=$("#site").val();
+        window.location.href = "${base}/platform/cms/channel/add?model_id="+modeid+"&site_id="+site_id+"&channel_id="+channel_id;
+    }
+    function changeSite(){
+        window.location.href ="${base}/platform/cms/channel?site_id="+$("#site").val();
+    }
+    $(function () {
+        initDatatable();
+        initTreeView();
+        initModel();
+
+        $("#dialogDetail").on("hidden.bs.modal", function () {
+            $(this).removeData("bs.modal");
+        });
+    });
+
+</script>
+<!--#}#-->

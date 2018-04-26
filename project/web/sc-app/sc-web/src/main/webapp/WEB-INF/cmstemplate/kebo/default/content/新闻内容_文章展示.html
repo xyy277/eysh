@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!--#
+    include("/"+site.site_css +"/include/head.html"){}
+    #-->
+</head>
+<body>
+
+    <!--#
+        include("/"+site.site_css +"/include/top.html"){}
+        #-->
+    <div class="i_banner w_1200"><img src="${baseRes!}/images/banner/ibn/news.jpg" alt="综合新闻" class="img_w"></div>
+    <!--end大图片-->
+
+    <div class="w_1200 i_center clearfix2">
+        <#cmsChannelList channelId="${current.parentId}" orderBy="location" var="chan" isDisplay="true">
+        <h4 class="site_th png"><a href="${staticBase}/index.html">首页</a><em class="china">&gt;</em><a href="${staticBase}/${current.path}/index.html">${chan.name!}</a><em class="china">&gt;</em><span class="blue_text">${current.name}</span></h4>
+        </#cmsChannelList>
+        <div class="clearfix2 gray_border box_c">
+
+            <div class="dis_box">
+                <h2 class="green_text" id="title">${content.title!}</h2>
+                <dl class="d clearfix2">
+                    <dt class="fr">字体：<span class="m_a_t"><a href="javascript:doZoom(13)">大</a><a href="javascript:doZoom(10.5)">中</a><a href="javascript:doZoom(9)">小</a></span><a href="#" onclick="printit()" class="arrow_s"></a>
+                    <dd class="r_cell">资讯来源:  ${content.origin}<span class="m_l_b">发布日期：${content.pub_time_date}</span></dd>
+                </dl>
+                <div id="zoom">${content_txt.txt!}</div>
+            </div>
+            <!--end边框-->
+        </div>
+    </div>
+    <!--end中间区域-->
+    <!--#
+include("/"+site.site_css +"/include/footer.html"){}
+    #-->
+<!-- jQuery -->
+    <script type="text/javascript">
+        function doZoom(size){
+            document.getElementById('zoom').style.fontSize=size+'pt';
+            $("#zoom p").css("font-size",size + "pt !important");
+            if($(".TRS_Editor P")) $(".TRS_Editor P").css("font-size",size + "pt !important");
+        }
+        function printit() {
+            var t=$("#title");
+            var c=$("#zoom");
+            var MyDiv=t+c;
+            if (confirm('确定打印吗？')) {
+                var newstr = document.getElementById("title").innerHTML;
+                newstr=document.getElementById("zoom").innerHTML;
+                var oldstr = document.body.innerHTML;
+                document.body.innerHTML = newstr;
+                window.print();
+                document.body.innerHTML = oldstr;
+                return false;
+            }
+        }
+    </script>
+
+</body>
+</html>

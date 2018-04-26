@@ -1,0 +1,99 @@
+<!--#
+layout("/layouts/platform.html"){
+#-->
+<section class="content-wrap bg-white">
+    <header class="header navbar bg-white shadow">
+    </header>
+    <div class=panel-body style="padding-top: 50px;">
+        <div class="table-responsive no-border">
+            <table class="table table-bordered table-striped mg-t datatable">
+                <thead>
+                <tr>
+                    <th>平台名称</th>
+                    <th>运营主体单位性质</th>
+                    <th>运营主体机构名称</th>
+                    <th>联系人</th>
+                    <th>联系电话</th>
+                    <th>是否结项</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</section>
+<script language="JavaScript">
+    var datatable;
+    function initDatatable() {
+        datatable = $('.datatable').DataTable({
+            "dom": '<"toolbar">frtip',
+            "searching":false,
+            "processing": false,
+            "serverSide": true,
+            "select": true,
+            "ordering": true,
+            "language": {
+                "url": "${base}/assets/platform/vendor/datatables/locale/${lang}.json"
+            },
+            "preDrawCallback": function () {
+                sublime.showLoadingbar($(".main-content"));
+            },
+            "drawCallback": function () {
+                sublime.closeLoadingbar($(".main-content"));
+            },
+            "ajax": {
+                "url": "${base}/platform/pro/flat/info/fknot/data",
+                "type": "post",
+                "data": function (d) {
+                }
+            },
+            "order": [[0, "desc"]],
+            "columns": [
+                {"data": "flat_name", "bSortable": true},
+                {"data": "org_property", "bSortable": true},
+                {"data": "org_name", "bSortable": true},
+                {"data": "linkman", "bSortable": true},
+                {"data": "tel", "bSortable": true},
+                {"data": "status", "bSortable": true},
+            ],
+            "columnDefs": [
+                {
+                    "render": function (data, type, row) {
+                        var str='<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
+                            ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">';
+                        if(row.status==0){
+                            str=str+'<li><a href="${base}/platform/pro/flat/info/fknot/knotDo/' + row.id + '" data-pjax>结项</a></li>';
+                        }
+                        if(row.status==1){
+                            str=str+'<li><a href="${base}/platform/pro/flat/info/fknot/fontKnotDetail/' + row.id + '" data-pjax>查看</a></li>';
+                        }
+                        str=str+'</ul></div>';
+                        return str;
+                    },
+                    "targets": 6
+                },
+                {
+                    "render": function (data, type, row) {
+                        if(data==0){
+                            return '未结项';
+                        }else if(data==1){
+                            return '已结项';
+                        }
+                    },
+                    "targets":5
+                }
+            ]
+        });
+        datatable.on('click', 'tr', function () {
+            $(this).toggleClass('selected');
+        });
+        $("#searchBtn").on('click', function () {
+            datatable.ajax.reload();
+        });
+    }
+
+    $(function () {
+        initDatatable();
+    });
+</script>
+<!--#}#-->

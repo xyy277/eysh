@@ -1,0 +1,41 @@
+.m-screen{
+  padding:6px 16px;
+  background-color: #fff;
+  margin-bottom: 12px;
+  box-shadow: 1px 1px 8px #eee;
+  .sd-list{
+    overflow: hidden;
+    padding:10px 0 4px 0;
+    border-bottom: 1px dashed #eee;
+    &:last-child{
+      border:none;
+    }
+    .sd-label{
+      width:78px;
+      float: left;
+      .txt{
+        width:60px;
+        float: left;
+        display: inline-block;
+        text-align:justify;
+        text-align-last:justify;
+      }
+    }
+    .sd-item{
+      width:960px;
+      float: left;
+      a{
+        margin-right: 36px;
+        min-width:40px;
+        display: inline-block;
+        text-align:justify;
+        text-align-last:justify;
+        color:#666;
+        margin-bottom: 6px;
+        &:hover,&.active{
+          color:#c9151e;
+        }
+      }
+    }
+  }
+}

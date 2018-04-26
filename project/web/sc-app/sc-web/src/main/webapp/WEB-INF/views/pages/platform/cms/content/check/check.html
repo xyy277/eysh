@@ -1,0 +1,166 @@
+<div class="modal-body no-p">
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel panel-primary no-b">
+                <header class="panel-heading clearfix brtl brtr">
+                    <div class="overflow-hidden">
+                        <a href="javascript:;" class="h4 show no-m pt5">审核</a>
+                    </div>
+                </header>
+                <div class="row mb10" style="text-align: center;padding-top: 10px;margin-left:10px;">
+                    <form name='form1' id="form1" method='post'>
+                        <input type="hidden" id="flowid" name="flowid" value="${flowid}">
+                        <input type="hidden" id="site_id" name="site_id" value="${site_id}">
+                        <input type="hidden" id="channel_id" name="channel_id" value="${channel_id}">
+                        <input type="hidden" id="content_id" name="content_id" value="${content_id!}">
+                        <input type="hidden" id="type" name="type" value="${info.type!}">
+                        <input type="hidden" id="wksize" name="wksize" value="${wksize!}">
+                        <input type="hidden" id="step" name="step" value="${info.step!}">
+                        <input type="hidden" id="tag" name="tag" value="0">
+                        <input type="hidden" id="msg" name="msg" value="${resMsg!}" />
+                        <input type="hidden" id="ids" name="ids" value="${ids!}" />
+                        <input type="hidden" id="flag" name="flag" value="" />
+                                <!--#if(!isEmpty(resMsg)){#-->
+                                    <!--#if('cms.content.resMsg.msg1'==resMsg){#-->
+                                        <h4>${msg['cms.content.resMsg.msg1']}</h4>
+                                    <!--#}else{#-->
+                                        <h4>${msg['cms.content.resMsg.msg2']}</h4>
+                                    <!--#}#-->
+                                    <script type="text/javascript">$("#tag").attr("value","1");</script>
+                                <!--#}else{#-->
+                                    <!--#if(!isEmpty(content) && content.status==3){#-->
+                                    <h1>$文章已终审，无需审核！</h1>
+                                        <script type="text/javascript">$("#tag").attr("value","1");</script>
+                                    <!--#}else{#-->
+                                        <!--#if(flowid==0){#-->
+
+                                          <table width="90%" style="padding: 10px;">
+                                            <tr><td colspan="4" height="50" class="pn-flabel pn-flabel-h"></td></tr>
+                                            <tr>
+                                                <td width="20%" height="30" align="right" class="pn-flabel pn-flabel-h">操作：</td>
+                                                <td width="70%" colspan="3" align="left" class="pn-flabel pn-flabel-h">
+
+                                                    <input type="radio" name="type" value="type" checked>终审
+                                                    <script type="text/javascript">$("#flag").attr("value","savechecks");</script>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                        <!--#}else{#-->
+                                            <table width="90%" border="0" cellpadding="0" cellspacing="0">
+                                                <tr>
+                                                    <td width="90%" height="30" colspan="4" align="left">&nbsp;工作流名称：${workflow.name}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="90%" height="30" colspan="4" align="left" class="pn-flabel pn-flabel-h">&nbsp;
+
+                                                        <!--#
+                                                        var r=0;
+                                                        for(o in infolist){
+                                                         r=o.step+1;
+                                                        #-->
+                                                        <span id="s${o.step}">节点${r}:<!--#if(o.type==0){#-->普通流转<!--#}else{#-->会签 <!--#} #--></span> ->
+                                                        <!--#} #-->
+                                                        <span >终审</span>
+                                                        <script type="text/javascript">
+                                                            <!--#if(!isEmpty(check)){#-->
+                                                                $("#s${check.check_step}").css("color","red");
+                                                            <!--#}else{#-->
+                                                                $("#s0").css("color","red");
+                                                            <!--#} #-->
+                                                                $("#flag").attr("value","savecheck");
+                                                        </script>
+                                                    </td>
+                                                </tr>
+                                                    <!--#if(wksize<1){#-->
+                                                        <tr>
+                                                            <td width="50%" height="30" colspan="4" align="center" class="pn-flabel pn-flabel-h"><span style="color: #ff0000;">流程步骤未定义！</span></td>
+                                                        </tr>
+                                                        <script type="text/javascript"> $("#flag").attr("value","");$("#tag").val("1");</script>
+                                                    <!--#}else{#-->
+                                                        <!--#if(!isEmpty(info)){#-->
+                                                            <!--#if(info.type=='0' || info.type==0){#--> <!--普通流转-->
+                                                            <tr>
+                                                                <td width="20%" height="30" align="right" class="pn-flabel pn-flabel-h">操作：</td>
+                                                                <td width="70%" colspan="3" align="left" class="pn-flabel pn-flabel-h">
+                                                                    <input type="radio" name="is_checked" value="Y" checked>
+                                                                    <!--#if(wksize-1==step){#--> 终审 <!--#}else{#-->流转到下一节点 <!--#} #-->
+                                                                </td>
+                                                            </tr>
+                                                            <!--#}else{#--> <!--会签-->
+                                                            <tr>
+                                                                <td width="20%" height="30" align="right" class="pn-flabel pn-flabel-h">审核意见：</td>
+                                                                <td width="70%" colspan="3" align="left" class="pn-flabel pn-flabel-h">
+                                                                    <textarea  name="check_opinion" id="check_opinion" cols="35" rows="5" onclick="this.select()">${check.check_opinion!}</textarea>
+
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="20%" height="30" align="right" class="pn-flabel pn-flabel-h">操作：</td>
+                                                                <td width="70%" colspan="3" align="left" class="pn-flabel pn-flabel-h">
+                                                                    <input type="radio" name="is_checked" value="Y" checked><!--#if(wksize-1==step){#--> 终审 <!--#}else{#-->通过 <!--#} #-->
+                                                                    <!--#if(step>0){#--> <input type="radio" name="is_checked" value="N" >不通过<!--#} #-->
+                                                                </td>
+                                                            </tr>
+                                                            <!--#} #-->
+                                                        <!--#}else{
+                                                                var s=0;
+                                                                s=step+1;
+                                                        #-->
+                                                        <tr>
+                                                            <td width="50%" height="30" colspan="4" align="center" class="pn-flabel pn-flabel-h"><span style="color: #ff0000;">节点${s} 当前用户不可处理！</span></td>
+                                                        </tr>
+                                                        <script type="text/javascript"> $("#flag").attr("value","");$("#tag").val("1");</script>
+                                                    <!--#} #-->
+                                                <!--#} #-->
+                                            </table>
+                                        <!--#} #-->
+                                    <!--#} #-->
+                                <!--#}#-->
+
+
+                    </form>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">${msg['cms.channel.model.column.cancel']}</button>
+    <button onclick="doSave()" id="ok" type="button" class="btn btn-primary" data-loading-text="${msg['cms.channel.model.column.soure']}">${msg['cms.channel.model.column.soure']}</button>
+</div>
+<script language="JavaScript">
+    function doSave(){
+       var flag=$("#flag").val();
+        var btn = $("#ok");
+        var dialog = $("#dialogCheck");
+        btn.button("loading");
+        if(flag){
+            jQuery.ajax({
+                type: 'POST',
+                url: "${base}/platform/cms/content/" + flag,
+                data: $('#form1').serialize(),
+                success: function (res) {
+                    if (res.code ==0) {
+                        Toast.success(res.msg);
+                        dialog.modal("hide");
+                        refreshStatistic();
+                        datatable.ajax.reload(null,false);
+                    } else {
+                        Toast.error(res.msg);
+                        btn.button("reset");
+                    }
+                },
+                fail: function (res) {
+                    Toast.error(res.msg);
+                    btn.button("reset");
+                }
+            });
+        }else{
+            dialog.modal("hide");
+        }
+    }
+</script>
+
+

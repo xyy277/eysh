@@ -1,0 +1,66 @@
+/*
+* @Author: jacobwang
+* @Date:   2016-11-15 16:02:54
+* @Email:  wangwenyu@qwang.com.cn
+* @Last Modified by:   jacobwang
+* @Last Modified time: 2016-11-15 16:03:01
+*/
+
+.m-wrap{
+  background: url(../images/indexbg.jpg) center top no-repeat;
+  background-color: #fff;
+}
+
+.m-footer{
+  height: 250px;
+  background: url(../images/indexfoot.png) no-repeat center bottom;
+  color: #fff;
+  font-size: 14px;
+  padding-top: 100px;
+  p{
+    line-height: 2.5;
+  }
+  img{
+    vertical-align: middle;
+  }
+  .left{
+    float: left;
+    width: 30%;
+    border-right: 1px solid #4fa4d3;
+    padding-left: 40px;
+  }
+  .center{
+    float: left;
+    width: 30%;
+    border-right: 1px solid #4fa4d3;
+    padding-left: 110px;
+    background: url(../images/footicon.png) no-repeat 70px;
+  }
+  .right{
+    float: left;
+    width: 30%;
+    padding-left: 80px;
+    text-align: center;
+    margin-top: -10px;
+    img{
+      padding: 0 10px;
+    }
+  }
+}
+
+@include two-fixed(916px,272px);
+.g-mn{
+  background-color: #fff;
+  margin-right: 12px;
+}
+
+@import "top";
+@import "navbar";
+@import "breadnav";
+@import "list";
+@import "sidebar";
+@import "pages";
+@import "navtab";
+@import "comments";
+@import "screen";
+@import "unit";

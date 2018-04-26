@@ -1,0 +1,129 @@
+.bg-white {
+    background-color: #fff;
+    box-shadow: 0px 0px 8px #f8f8f8;
+}
+
+.m-title {
+    margin: 0px 13px 0px 23px;
+    padding-top: 21px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.title-icon {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    vertical-align: -6px;
+    margin-right: 16px;
+    background-image: url(../images/publish-tit.png);
+}
+
+.title-name {
+
+    font-size: 18px;
+    color: #000000;
+}
+
+.m-top-12 {
+    margin-top: 12px;
+}
+
+.label {
+    float: left;
+    width: 417px;
+    text-align: right;
+    line-height: 47px;
+}
+
+.publish-form {
+    margin-top: 30px;
+}
+
+.form-item {
+    color: #333333;
+    font-size: 16px;
+    margin-bottom: 24px;
+    input[type="text"],
+    select {
+        width: 464px;
+        height: 47px;
+        border: 1px solid #dddddd;
+        color: #a0a0a0;
+        font-size: 16px;
+        text-indent: 16px;
+        &.w-274{
+            width: 274px;
+        }
+    }
+
+    textarea {
+        height: 110px;
+        width: 464px;
+        padding-top: 12px;
+        border: 1px solid #dddddd;
+        color: #a0a0a0;
+        font-size: 16px;
+        text-indent: 16px;
+    }
+    .unit {
+        margin-left: 10px;
+    }
+    .star-key {
+        color: #de2d33;
+        margin-right: 5px;
+    }
+    .checkbox-wrap {
+        padding-left: 10px;
+        width: 465px;
+    }
+    .checkbox-item {
+        display: inline-block;
+        height: 29px;
+        line-height: 29px;
+        width: 110px;
+        margin-bottom: 15px;
+    }
+    input[type="checkbox"] {
+        margin-right: 30px;
+        &:after {
+            content: '';
+            display: block;
+            width: 29px;
+            height: 29px;
+            background-image: url(../images/check.png);
+        }
+        &.checked {
+            &:after {
+                background-image: url(../images/checked.png);
+            }
+        }
+    }
+    .img-list {
+        width: 464px;
+        img {
+            margin-left: 20px;
+        }
+    }
+}
+
+.publish-btn {
+    display: inline-block;
+    width: 176px;
+    height: 41px;
+    text-align: center;
+    line-height: 41px;
+    color: #fff;
+    background-color: #de2d33;
+    font-size: 16px;
+    border-radius: 3px;
+    margin-top: 18px;
+    margin-bottom: 62px;
+}
+
+.map {
+    #container {
+        width: 100px;
+        height: 100px;
+    }
+}

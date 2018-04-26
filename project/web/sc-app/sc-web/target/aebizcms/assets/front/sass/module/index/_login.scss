@@ -1,0 +1,191 @@
+
+.w1000{
+    width: 1000px;
+    margin: auto;
+    &:after{
+        content: "";
+        height: 0;
+        display: block;
+        clear: both;
+    }
+}
+.login-hd{
+    height: 96px;
+    padding: 10px 0;
+    .register{
+        margin-top: 40px;
+        color: #999;
+        font-size: 14px;
+        a{
+            font-size: 14px;
+            color: #1278CC;
+        }
+    }
+}
+.login-bd{
+    position: relative;
+    height: 530px;
+    background: url(../images/loginbg.jpg) no-repeat center center;
+}
+
+.login-foot{
+    height: 140px;
+    background: #fff;
+    text-align: center;
+    color: #999;
+    padding: 30px 0;
+    .link{
+        color: #666;
+        line-height: 1;
+        margin-bottom: 20px;
+        a{
+            padding: 0 10px;
+            color: #666;
+        }
+    }
+    p{
+        margin-bottom: 15px;
+    }
+}
+
+.m-login-wrap{
+    margin-left: 140px;
+    width: 360px;
+    position: absolute;
+    left: 50%;
+    top: 30px;
+    .h3{
+        font-size: 18px;
+        color: #fff;
+        line-height: 2.5;
+    }
+    .mlw-login{
+        background: #fff;
+    }
+    .tab{
+        color: #333;
+        text-align: center;
+        background: #e8e8e8;
+        height: 38px;
+        line-height: 38px;
+        font-size: 14px;
+        span{
+            display: inline-block;
+            width: 50%;
+            cursor: pointer;
+        }
+        .active{
+            background: #fff;
+        }
+    }
+    .bd{
+        padding: 30px 40px 30px 40px;
+        ul{
+            display: none;
+            &:first-child{
+                display: block;
+            }
+        }
+        li{
+            margin-bottom: 27px;
+            position: relative;
+        }
+        .input{
+            border: 1px solid #ddd;
+            width: 100%;
+            height: 48px;
+            border-radius: 3px;
+            line-height: 48px;
+            font-size: 14px;
+            color: #999;
+            padding: 0 15px 0 40px;
+            &:focus{
+                border: none;
+                box-shadow: 0 0 3px 1px #1278cc;
+            }
+        }
+        .submit{
+            width: 100%;
+            border-radius: 3px;
+            background: #f10f00;
+            letter-spacing: 5px;
+            color: #fff;
+            height: 48px;
+            border: none;
+            margin-top: 40px;
+            font-size: 18px;
+            &:hover{
+                opacity: 0.8;
+            }
+        }
+        .getCode{
+            padding: 0 10px;
+            color: #1278CC;
+            font-size: 14px;
+            position: absolute;
+            right: 0;
+            top: 10px;
+            line-height: 28px;
+            border-left: 1px solid #ddd;
+        }
+        .forgetCode{
+            color: #aaa;
+            position: absolute;
+            right: 0;
+            bottom: -25px;
+            font-size: 14px;
+            &:hover{
+                color: #1278CC;
+            }
+        }
+        .share{
+            font-size: 14px;
+            color: #333;
+        }
+        .phone{
+            display: inline-block;
+            @include sprite($phone);
+            position: absolute;
+            left: 14px;
+            top: 13px;
+        }
+        .user{
+            display: inline-block;
+            @include sprite($user);
+            position: absolute;
+            left: 14px;
+            top: 13px;
+        }
+        .code{
+            display: inline-block;
+            @include sprite($code);
+            position: absolute;
+            left: 14px;
+            top: 13px;
+        }
+        .qq{
+            @include sprite($qq);
+            margin-left: 15px;
+            vertical-align: -6px;
+            &:hover{
+                filter: grayscale(100%);
+            }
+        }
+        .wechat{
+            @include sprite($wechat);
+            margin-left: 15px;
+            vertical-align: -6px;
+            &:hover{
+                filter: grayscale(100%);
+            }
+        }
+        .weibo{
+            @include sprite($weibo);
+            margin-left: 15px;
+            vertical-align: -6px;
+            &:hover{
+                filter: grayscale(100%);
+            }
+        }
+    }
+}

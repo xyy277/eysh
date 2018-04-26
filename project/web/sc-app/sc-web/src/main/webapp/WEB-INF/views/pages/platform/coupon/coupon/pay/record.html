@@ -1,0 +1,188 @@
+<!--#
+layout("/layouts/platform.html"){
+#-->
+<style>
+    .table th, .table td {
+        border-width: 1px !important;
+        border-left: 1px solid #ddd !important;
+    }
+
+    .panel-body .table {
+        border: 1px solid #e3e6f3 !important;
+    }
+</style>
+<section class="content-wrap">
+    <header class="header navbar bg-white shadow" style="height:120px;">
+        <div class="btn-group tool-button" style="margin-top: 15px;height: 120px;">
+            <form class="form-inline" id="search_form">
+                <!--#for(area in areas){#-->
+                <div class="form-group">
+                    <label class="control-label"></label>
+                    <input type="hidden" id="${area.code}" class="area_span" value="0"/>
+                    <span id="${area.code}_span"  style="width:65px;"  class="form-control area_span" onclick="choose(${area.code})">${area.name}</span>
+                </div>
+                <!--#}#-->
+                <div class="form-group">
+                    <label class="control-label"></label>
+                    <span id="all"  style="width:65px;"  class="form-control" onclick="chooseAll()">全选</span>
+                </div>
+                <br/><br/>
+                <div class="form-group">
+                    <label class="control-label"></label>
+                    <input id="pub_time1" name="pub_time1" style="width:170px;" type="text" class="form-control js-time" placeholder="开始日期"  value="${date}" data-toggle="modal" data-target="#dialogSelectClass" readonly/>
+                    至
+                    <input id="pub_time2" name="pub_time2" style="width:170px;" type="text" class="form-control js-time" placeholder="结束日期"  value="${date}" data-toggle="modal" data-target="#dialogSelectClass" readonly/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label"></label>
+                    <select  id="code" name="code" style="width:180px;" class="form-control" placeholder="" data-toggle="modal" data-target="#dialogSelectClass">
+                        <option value="5">全部</option>
+                        <!--# for(dict in dicts){#-->
+                        <option value="${dict.id}">${dict.name}</option>
+                        <!--#}#-->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label"></label>
+                    <select  id="status" name="status" style="width:180px;" class="form-control" placeholder="" data-toggle="modal" data-target="#dialogSelectClass">
+                        <option value="apply">申领金额</option>
+                        <option value="close">结算金额</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" id="btn_search_ok">查询</button>
+                </div>
+            </form>
+        </div>
+    </header>
+    <div class=panel-body style="padding-top: 135px;">
+        <section class="panel panel-form">
+            <div id="echart" style="width: 100%;height:400px;"></div>
+            <hr/>
+        </section>
+
+    </div>
+</section>
+
+<div id="dialogDetail" class="modal fade bs-modal-sm" tabindex="-3" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/echarts/3.6.2/echarts.min.js"></script>
+<script language="JavaScript">
+    $(function () {
+        chooseAll();
+        $("#btn_search_ok").on("click",function () {
+            var chooseArea=new Array();
+            $("input[value='1']").each(function(){
+                chooseArea.push(this.id);
+            })
+            var pub_time1=$("#pub_time1").val();
+            var pub_time2=$("#pub_time2").val();
+            var code=$("#code").val();
+            var status=$("#status").val();
+            $.ajax({
+                url: "${base!}/platform/coupon/coupon/pay/recordData",
+                dataType: "json",
+                data: {pub_time1: pub_time1,pub_time2:pub_time2,code:code,status:status,chooseArea:chooseArea.toString()},
+                success: function (data) {
+                    draw(data.data);
+                }
+            })
+        });
+
+        setTimeout(function () {
+            $("#btn_search_ok").trigger("click");
+        },500);
+
+        $("#btn_search_reset").on("click",function () {
+            $("#search_form input[type='text'],input[type='hidden']").val("");
+        });
+
+        /*时间选择控件*/
+        $('.js-time').datetimepicker({
+            language:  'zh-CN',  //日期
+            format: 'yyyy-mm',
+            weekStart: 1,
+            autoclose: true,
+            startView: 3,
+            minView: 3,
+            forceParse: false
+        });
+    });
+
+
+    function formatTime(time) {
+        return (time / 1000).toFixed(2);
+    }
+
+    function choose(code){
+        $("#all").css({'border-color':'#E3E6F3'});
+        var isChoose=$("#"+code).val();
+        if(isChoose==0){
+            $("#"+code+"_span").css({'border-color':'red'});
+            $("#"+code).val(1);
+        }else{
+            $("#"+code+"_span").css({'border-color':'#E3E6F3'});
+            $("#"+code).val(0);
+        }
+    }
+
+    function chooseAll(){
+        $("#all").css({'border-color':'red'});
+        $(".area_span").css({'border-color':'red'});
+        $(".area_span").val(1);
+    }
+
+    function draw(data) {
+        var app = echarts.init(document.getElementById('echart'));
+        app.title = '访问来源分布情况 ';
+
+        /*var colors = ['#56a5e9', '#9eba70', '#d75000'];*/
+        var code=$("#code option:selected").text();
+        var option = {
+            title : {
+                text: '计数项：'+code
+            },
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:data.areas
+            },
+            toolbox: {
+                show : true,
+                feature : {
+                    mark : {show: true},
+                    dataView : {show: true, readOnly: false},
+                    magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            calculable : true,
+            xAxis : [
+                {
+                    type : 'category',
+                    data : data.months,
+                    name:'月份'
+                }
+            ],
+            yAxis : [
+                {
+                    name:'金额：万元',
+                    type : 'value'
+                }
+            ],
+            series : []
+        };
+
+        $.each(data.out,function(i,val){
+            option.series[i]={name:val.name,type:'bar',data:val.data};
+        });
+        app.setOption(option,true)
+    }
+</script>
+<!--#}#-->

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!--#
+    include("/"+site.site_css +"/include/head.html"){}
+    #-->
+</head>
+<body>
+
+<!--#
+    include("/"+site.site_css +"/include/top.html"){}
+    #-->
+<div class="i_banner w_1200"><img src="${baseRes!}/images/banner/ibn/khfw.jpg" alt="常用下载" class="img_w"></div>
+    <!--end大图片-->
+
+    <div class="clearfix2 w_1140 box_w_d">
+        <#cmsChannelList channelId="${current.parentId}" orderBy="location" var="chan" isDisplay="true">
+        <h5 class="site_th png"><a href="${base}">首页</a><em class="china">&gt;</em><a href="${base}${current.path}/index.html">${chan.name!}</a><em class="china">&gt;</em><span class="blue_text">${current.name}</span></h5>
+        </#cmsChannelList>
+            <div class="gray_border dis_box clearfix2">
+            <h2 class="blue_text">${content.title!}</h2>
+            <dl class="d clearfix2">
+                <dt class="fr">字体：<span class="m_a_t"><a href="###">大</a><a href="###">中</a><a href="###">小</a></span><a href="###" class="arrow_s"></a><a href="###" class="arrow_s arrow_s2"></a></dt>
+                <dd class="r_cell">资讯来源: ${content.origin}<span class="m_l_b">发布日期：${content.pub_time_date}</span></dd>
+            </dl>
+            ${content_txt.txt!}
+        </div>
+        <!--end边框-->
+
+
+    </div>
+    <!--end中间区域-->
+    <!--#
+include("/"+site.site_css +"/include/footer.html"){}
+    #-->
+<!-- jQuery -->
+
+
+</body>
+</html>

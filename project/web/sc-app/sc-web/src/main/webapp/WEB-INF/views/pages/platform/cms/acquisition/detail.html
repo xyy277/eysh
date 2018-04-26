@@ -1,0 +1,92 @@
+<script src="${base!}/assets/platform/vendor/jquery/jquery.min.js"></script>
+<style type="text/css">
+    span{
+        margin-top:7px;
+    };
+</style>
+<!--<header class="header navbar bg-white shadow">
+    <div class="btn-group tool-button">
+        <a class="btn btn-primary navbar-btn" href="${base}/platform/cms/acquisition" id="goBack" data-pjax><i class="ti-angle-left"></i>${msg['globals.button.back']}</a>
+    </div>
+</header>-->
+<div class="content-wrap">
+    <div class="wrapper" style="min-height:500px;">
+        <section class="panel panel-form">
+            <div class="modal-body no-p">
+                <div class="row" id="rowRes">
+                    <div class="col-xs-12">
+                        <section class="panel panel-primary no-b">
+                            <header class="panel-heading clearfix brtl brtr">
+                                <div class="overflow-hidden">
+                                  <!--  <a href="javascript:;" class="h4 show no-m pt5">采集信息</a>-->
+                                    <small></small>
+                                </div>
+                            </header>
+                            <div class="list-group">
+                                <input type="hidden" id="id" value="${id}">
+                                <input type="hidden" id="size" value="${size}">
+                                <input type="hidden" id="flag" value="${flag!}">
+                                <table class="table table-bordered table-striped mg-t datatable">
+                                    <tbody id="res">
+                                    <!--#
+                                     var i = 0;
+                                     if(size>0){
+                                        for(obj in list){
+                                             i=i+1;
+                                             #-->
+
+                                    <!--# if(i < 20){#-->
+                                    <tr>
+                                        <td colspan="2">${obj} ......</td>
+                                    </tr>
+                                    <!--# }
+                                        }
+                                    }else{#-->
+                                    <tr>
+                                        <td colspan="2">暂无采集信息！</td>
+                                    </tr>
+                                    <!--# } #-->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script type="text/javascript">
+    function quoto(){
+        var id =  $("#id").val();
+        var size =  $("#size").val();
+        jQuery.ajax({
+            type: 'POST',
+            async: false,
+            url : "${base}/platform/cms/acquisition/showCollect/"+id ,
+            success : function (res) {
+                var flag = $("#flag").val();
+                if(flag=="1"){
+                   window.location.reload();
+                }else if(flag=="2"){
+                    timeout=true;
+                    Toast.success("已采集完毕");
+                    window.close();
+                }
+            },
+            fail : function(res) {
+                Toast.error(res.msg);
+            }
+        });
+    }
+    var timeout = false; //启动及关闭按钮
+    $(function(){
+        time();
+    });
+    function time()
+    {
+        if(timeout) return;
+        quoto();
+        setTimeout(time,8000);; //time是指本身,
+    }
+</script>

@@ -1,0 +1,225 @@
+.m-sp-list{
+  .sl-bar{
+    dl{
+      float: left;
+      width:100%;
+      padding:10px 5px;
+      border-bottom: 1px dashed #e5e5e5;
+      &:last-child{
+        border:none;
+      }
+    }
+    dt,dd{
+      float: left;
+      font-size: 14px;
+    }
+    dt{
+      color:#000;
+      font-weight: 600;
+    }
+    dd{
+      &:hover a,&.active a{
+        background-color: #ff6700;
+        color: #fff;
+        text-decoration: none;
+      }
+    }
+    dd,a{
+      color:#050505;
+    }
+    a{
+      padding:0 10px;
+    }
+  }
+  .cl-bar{
+    height: 40px;
+    line-height: 38px;
+    border:1px solid #e5e5e5;
+    margin-top: 10px;
+    position: relative;
+    li{
+      float: left;
+      padding:0 20px;
+      &:hover,&.active{
+        background-color: #eeeeee;
+        a{
+          color:#cc3238;
+          text-decoration: none;
+        }
+      }
+    }
+    .cl-bar-l{
+      width: 50%;
+      float: left;
+    }
+    .cl-bar-r{
+      width:180px;
+      height:22px;
+      position: absolute;
+      top:8px;
+      right:0;
+    }
+    .ct-line{
+      display: inline-block;
+      width:20px;
+      height: 22px;
+      line-height: 22px;
+      float: left;
+      text-align: center;
+    }
+    .ipt{
+      width:55px;
+      height:22px;
+      border: 1px solid #eee;
+      display: inline-block;
+      position: relative;
+      padding:0 3px;
+      font-size: 12px;
+      float: left;
+      input{
+        width: 34px;
+        height:20px;
+        border:none;
+        position: absolute;
+        top: 0;
+        left:2px;
+      }
+      .txt{
+        position: absolute;
+        right:4px;
+        top:4px;
+        line-height: 1;
+      }
+    }
+    .barbtn{
+      float: left;
+      height:22px;
+      a{
+        display: block;
+        background-color: $base-color;
+        padding:0 4px;
+        color:#fff;
+        height:22px;
+        line-height: 22px;
+        font-size: 13px;
+        margin-left: 6px;
+        &:hover{
+          background-color: lighten($base-color,5%);
+          text-decoration: none;
+        }
+      }
+    }
+  }
+  .lists{
+    margin-bottom: 60px;
+    .item{
+      height:240px;
+      padding:32px 0;
+      border-bottom: 1px dashed #e5e5e5;
+      overflow: hidden;
+      &:last-child{
+        border: none;
+      }
+      .icon-sp-el{
+        position: absolute;
+        top:0;
+        left:0;
+      }
+      .pic{
+        width: 200px;
+        height: 170px;
+        float: left;
+        &:hover{
+          .picb{
+            background-color: $base-color;
+            color:#fff;
+            &:before,&:after{
+              background-color: #fff;
+            }
+          }
+        }
+      }
+      .pict{
+        width: 200px;
+        height: 140px;
+        border: 1px solid #eee;
+        text-align: center;
+        display: table-cell;
+        vertical-align:middle;
+        overflow: hidden;
+        position: relative;
+        img{
+          vertical-align:middle;
+          max-width: 200px;
+          max-height: 140px;
+        }
+      }
+      .picb{
+        height:30px;
+        line-height: 30px;
+        text-align: center;
+        background-color: #f3f3f3;
+        color:$base-color;
+        font-size: 14px;
+        position: relative;
+        vertical-align: middle;
+        &:before,&:after{
+          content:'';
+          width: 28px;
+          height: 2px;
+          position: absolute;
+          top:15px;
+          background-color: $base-color;
+        }
+        &:before{
+          left:24px;
+        }
+        &:after{
+          right:24px;
+        }
+      }
+      .info{
+        float: left;
+        padding-left: 20px;
+        width: 394px;
+        li{
+          margin:6px 0 10px 0;
+          font-size: 16px;
+          color:#000;
+        }
+        .lab{
+          width: 80px;
+          font-size: 16px;
+          color:#5e5e5e;
+          display: inline-block;
+          text-align:justify;
+          text-align-last:justify;
+        }
+        .info-intro{
+          width:280px;
+          font-size: 14px;
+          line-height: 26px;
+        }
+        .more{
+          color:$base-color-2;
+        }
+      }
+      .standrd{
+        width: 189px;
+        float: right;
+        text-align: center;
+        .tit{
+          color:#1278cc;
+          font-size: 16px;
+          margin-top:10px;
+        }
+        .cnt{
+          font-size: 14px;
+          color:#000;
+          margin-top: 16px;
+          line-height: 24px;
+        }
+      }
+    }
+  }
+}

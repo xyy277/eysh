@@ -1,0 +1,337 @@
+<!--#
+layout("/layouts/platform.html"){
+#-->
+<section class="content-wrap bg-white">
+    <header class="header navbar bg-white shadow" >
+        <div class="btn-group tool-button" style="margin-top:10px;">
+            <form class="form-inline" id="search_form" >
+                <div class="form-group">
+                    <label class="control-label"></label>
+                    <input id="sendDate" name="sendDate" readonly placeholder="报送日期"  style="width:180px;" type="text" class="form-control js-time"   value="" data-toggle="modal" data-target="#dialogSelectClass"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label"></label>
+                    <input id="send_person" name="send_person" placeholder="报送人"  style="width:180px;" type="text" class="form-control"   value="" data-toggle="modal" data-target="#dialogSelectClass"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label"></label>
+                    <input id="sendTel" name="sendTel" placeholder="报送电话"  style="width:180px;" type="text" class="form-control"   value="" data-toggle="modal" data-target="#dialogSelectClass"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label"></label>
+                    <select id="check_status" name="check_status"  class="form-control">
+                        <option value="">请选择报送状态</option>
+                        <option value="1">已报送</option>
+                        <option value="0">未报送</option>
+                        <option value="2">已撤销</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" id="btn_search_serch">查询</button>
+                    <button type="button" class="btn btn-default" id="btn_search_reset">清空</button>
+                </div>
+            </form>
+        </div>
+    </header>
+    <div class=panel-body style="margin-top:35px;">
+        <div class="table-responsive no-border"  style="min-height: 500px;">
+            <table class="table table-bordered table-striped mg-t datatable">
+                <thead>
+                <tr>
+                    <th>平台名称</th>
+                    <th>报送日期</th>
+                    <th>报送人</th>
+                    <th>报送人电话</th>
+                    <th>报送状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</section>
+<div id="dialogDelete" class="modal fade bs-modal-sm" tabindex="-2" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">撤销</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12" id="msg">
+                        撤销后无法恢复。确定撤销该进度信息吗？
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
+                <button id="okDel" type="button" class="btn btn-primary" data-loading-text="正在提交...">确  定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script language="JavaScript">
+    var datatable;
+    function initDatatable() {
+        datatable = $('.datatable').DataTable({
+            "dom": '<"toolbar">frtip',
+            "searching":false,
+            "processing": false,
+            "serverSide": true,
+            "select": true,
+            "ordering": true,
+            "language": {
+                "url": "${base}/assets/platform/vendor/datatables/locale/${lang}.json"
+            },
+            "preDrawCallback": function () {
+                sublime.showLoadingbar($(".main-content"));
+            },
+            "drawCallback": function () {
+                sublime.closeLoadingbar($(".main-content"));
+            },
+            "ajax": {
+                "url": "${base}/platform/pro/flat/info/progress/data",
+                "type": "post",
+                "data": function (d) {
+                    d.flat_name=$("#flat_name").val();
+                    d.send_date=$("#sendDate").val();
+                    d.send_person=$("#send_person").val();
+                    d.send_tel=$("#sendTel").val();
+                    d.check_status=$("#check_status option:selected").val();
+                }
+            },
+            "order": [[0, "desc"]],
+            "columns": [
+                {"data": "flat_name", "bSortable": true},
+                {"data": "send_date", "bSortable": true},
+                {"data": "send_person", "bSortable": true},
+                {"data": "send_tel", "bSortable": true},
+                {"data": "check_status", "bSortable": true}
+            ],
+            "columnDefs": [
+                {
+                    "render": function (data, type, row) {
+                        var operate='<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
+                        ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">' +
+                        '<li><a href="${base}/platform/pro/flat/info/progress/detail/' + row.id + '" data-pjax>查看</a></li>';
+                        var s=row.check_status;
+
+                        var time=row.send_date;
+                        var aa=addDate(time,5);
+                        var hh=getNowFormatDate();
+                        var kk=duibi(aa,hh);
+                        if(s==0){
+                            if(kk){
+                                operate=operate+'<li><a href="${base}/platform/pro/flat/info/progress/edit/' + row.id + '" data-pjax>补报</a></li>';
+                            }
+                            else operate=operate+'<li><a href="${base}/platform/pro/flat/info/progress/edit/' + row.id + '" data-pjax>上报</a></li>';
+                        }
+                        if(s==1){
+                            operate=operate+'<li><a href="#" onclick="back(\'' + row.id + '\')">撤销</a></li>';
+                        }
+                        if(s==2){
+                            if(kk){
+                                operate=operate+'<li><a href="${base}/platform/pro/flat/info/progress/edit/' + row.id + '" data-pjax>补报</a></li>';
+                            }
+                            else operate=operate+'<li><a href="${base}/platform/pro/flat/info/progress/edit/' + row.id + '" data-pjax>上报</a></li>';
+                        }
+                        operate=operate+'</ul></div>';
+                        return operate;
+                    },
+                    "targets":5
+                },
+                {
+                    "render": function (data, type, row) {
+                        var str=row.check_status;
+                        if(str==0){
+                            return "未报送";
+                        }
+                        if(str==1){
+                            return "已报送";
+                        }
+                        else{
+                            return "已撤销";
+                        }
+                    },
+                    "targets":4
+                }
+            ]
+        });
+        datatable.on('click', 'tr', function () {
+            $(this).toggleClass('selected');
+        });
+    }
+
+    //报送时间+5
+    function addDate(date, days) {
+        if (days == undefined || days == '') {
+            days = 1;
+        }
+        var date = new Date(date);
+        date.setDate(date.getDate() + days);
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        return date.getFullYear() + '-' + getFormatDate(month) + '-' + getFormatDate(day);
+    }
+
+    function getFormatDate(arg) {
+        if (arg == undefined || arg == '') {
+            return '';
+        }
+        var re = arg + '';
+        if (re.length < 2) {
+            re = '0' + re;
+        }
+        return re;
+    }
+
+    //日期比较
+    function duibi(a, b) {
+        var arr = a.split("-");
+        var starttime = new Date(arr[0], arr[1], arr[2]);
+        var starttimes = starttime.getTime();
+
+        var arrs = b.split("-");
+        var lktime = new Date(arrs[0], arrs[1], arrs[2]);
+        var lktimes = lktime.getTime();
+
+        if (starttimes >= lktimes) {
+            return false;
+        }
+        else
+            return true;
+    }
+
+    //获取当前时间，格式YYYY-MM-DD
+    function getNowFormatDate() {
+        var date = new Date();
+        var seperator1 = "-";
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = year + seperator1 + month + seperator1 + strDate;
+        return currentdate;
+    }
+
+    function addData() {
+        $.ajax({
+            type: "post",
+            url:"${base}/platform/pro/flat/info/progress/addData",
+            data:"",
+            success: function (data, statusText, xhr, form) {
+                if (data) {
+                    if (data.code == 0) {
+                        Toast.success(data.msg);
+                        window.location.href="${base}/platform/pro/flat/info/progress";
+                    } else {
+                        Toast.error(data.msg);
+                    }
+                }
+
+            }
+        });
+    }
+
+
+    function back(id){
+        $("#msg").html("确定撤销该进度吗？");
+        var dialog = $("#dialogDelete");
+        dialog.modal("show");
+        dialog.find("#okDel").unbind("click");
+        dialog.find("#okDel").bind("click", function (event) {
+            var btn = $(this);
+            btn.button("loading");
+            $.post("${base}/platform/pro/flat/info/progress/back/" , {id:id}, function (data) {
+                if (data.code == 0) {
+                    Toast.success(data.msg);
+                    window.location.href="${base}/platform/pro/flat/info/progress";
+                } else {
+                    Toast.error(data.msg);
+                }
+                btn.button("reset");
+                dialog.modal("hide");
+            }, "json");
+        });
+    }
+    function del(id) {
+        var dialog = $("#dialogDelete");
+        dialog.modal("show");
+        dialog.find("#okDel").unbind("click");
+        dialog.find("#okDel").bind("click", function (event) {
+            var btn = $(this);
+            btn.button("loading");
+            $.post("${base}/platform/pro/flat/info/progress/delete/" + id, {}, function (data) {
+                if (data.code == 0) {
+                    datatable.ajax.reload(null,false);
+                } else {
+                    Toast.error(data.msg);
+                }
+                btn.button("reset");
+                dialog.modal("hide");
+            }, "json");
+        });
+    }
+    function delCheck() {
+        var chks = datatable.rows('.selected').data();
+        if (chks.length > 0) {
+            var ids = [];
+            $.each(datatable.rows('.selected').data(), function (i, n) {
+                ids.push(n.id);
+            });
+            var dialog = $("#dialogDelete");
+            dialog.modal("show");
+            dialog.find("#okDel").unbind("click");
+            dialog.find("#okDel").bind("click", function (event) {
+                var btn = $(this);
+                btn.button("loading");
+                $.post("${base}/platform/pro/flat/info/progress/delete", {ids: ids.toString()}, function (data) {
+                    if (data.code == 0) {
+                        datatable.ajax.reload(null,false);
+                    } else {
+                        Toast.error(data.msg);
+                    }
+                    btn.button("reset");
+                    dialog.modal("hide");
+                }, "json");
+            });
+        } else {
+            Toast.warning("请先选择要删除的项！");
+        }
+    }
+
+    $(function () {
+        initDatatable();
+        $("#dialogDetail").on("hidden.bs.modal", function () {
+            $(this).removeData("bs.modal");
+        });
+        $("#btn_search_reset").click(function () {
+            $("#search_form input[type='text'],input[type='hidden']").val("");
+            $("#check_status ").val("");
+
+        });
+        $("#btn_search_serch").click(function () {
+            datatable.ajax.reload();
+        });
+        /*时间选择控件*/
+        $('.js-time').datetimepicker({
+            language:  'zh-CN',  //日期
+            format: 'yyyy-mm-dd',
+            minView:"month",
+            weekStart: 1,
+            todayBtn: true,
+            autoclose: true,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1
+        });
+    });
+</script>
+<!--#}#-->

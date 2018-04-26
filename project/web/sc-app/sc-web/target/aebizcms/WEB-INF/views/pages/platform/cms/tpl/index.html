@@ -1,0 +1,334 @@
+<!--#
+layout("/layouts/platform.html"){
+#-->
+<aside class="sidebar-250 canvas-right bg-default ">
+    <input type="hidden" name="path" id="path" value="${sitePath}">
+    <div class="row mb10 mt10">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="margin-top:8px;margin-left:8px;margin-right:-2px;">${msg['cms.channel.column.site']}</label>
+                <div class="col-sm-8">
+                    <select id="site" name="site" onchange="changeSite()" class="form-control">
+                    <!--# for(o in list){
+                    #-->
+                    <option value="${o.id}" <!--#if(o.id==siteId){#-->selected<!--#}#-->>${o.site_sname}</option>
+                    <!--#
+                    } #-->
+                </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    </header>
+    <div class="content-wrap no-p">
+        <div class="wrapper2">
+            <div class="m5">
+                <div id="jsTreeUnit"></div>
+            </div>
+        </div>
+    </div>
+</aside>
+<section class="content-wrap bg-white">
+    <header class="header navbar bg-white shadow">
+        <div class="btn-group tool-button">
+            <a class="btn btn-primary navbar-btn" id='add'  href="${base}/platform/cms/tpl/tplAdddir?path=${sitePath}" data-toggle="modal" data-target="#dialogDetail"><i class="ti-plus"></i> ${msg['globals.button.addDir']}</a>
+           <!-- <button class="btn btn-danger navbar-btn" onclick="delCheck()"><i class="ti-close"></i> ${msg['globals.button.delete.more']}</button>-->
+        </div>
+        <div class="pull-right offscreen-right">
+           <div class="col-sm-8" style="margin-right: 100px;margin-top:8px;">
+                <div>
+                    <input id="file_upload" name="file_upload" type="file" multiple="false">
+                </div>
+               <!-- <div id="img" style="padding: 5px;">
+                    <img src='${obj.picUrl!}' style='width:150px;height:95px;'>
+                </div>-->
+                <input type="hidden" id="picUrl" name="picUrl" value="${obj.picUrl!}" >
+            </div>
+        </div>
+    </header>
+    <div class=panel-body style="padding-top: 50px;">
+        <div style="margin-top: 10px;margin-bottom: 10px;">${msg['cms.tpl.dir.current.directory']}<span id="currentdirectory">${sitePath}</span></div>
+        <div style="margin-top: 10px;margin-bottom: 10px;" id="queue"></div>
+        <div class="table-responsive no-border" style="min-height: 600px;">
+            <input id="unitid" type="hidden">
+            <table class="table table-bordered table-striped mg-t datatable">
+                <thead>
+                <tr>
+                    <th>${msg['cms.tpl.column.filename']} </th>
+                    <th>${msg['cms.tpl.column.size']}</th>
+                    <th>${msg['cms.tpl.column.lastUpdate']}</th>
+                    <th>${msg['globals.table.column.operation']}</th>
+                </tr>
+                </thead>
+                <tbody id="tabledata">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</section>
+<!--  重命名 -->
+<div id="tplRename" class="modal fade bs-modal" tabindex="-3" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="min-width: 850px;">
+        <div class="modal-content" style="min-width: 850px;">
+        </div>
+    </div>
+</div>
+<!--  重命名 -->
+<!--  修改 -->
+<div id="tplEdit" class="modal fade bs-modal" tabindex="-3" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="min-width: 850px;">
+        <div class="modal-content" style="min-width: 850px;">
+        </div>
+    </div>
+</div>
+<!--  修改 -->
+
+<!--  新增栏目 -->
+<div id="dialogDetail" class="modal fade bs-modal" tabindex="-3" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="min-width: 850px;">
+        <div class="modal-content" style="min-width: 850px;">
+        </div>
+    </div>
+</div>
+<!--  新增栏目 -->
+<!--  删除栏目 -->
+<div id="dialogDelete" class="modal fade bs-modal-sm" tabindex="-2" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">${msg['globals.button.delete']}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        ${msg['globals.button.delete.notice']}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">${msg['globals.button.cancel']}</button>
+                <button id="okDel" type="button" class="btn btn-primary" data-loading-text="${msg['globals.button.delete.tip']}">${msg['globals.button.confirm']}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 删除栏目 -->
+
+<script language="JavaScript">
+    var datatable;
+    function initDatatable() {
+        var path=$('#path').val();
+        var site = $("#site").val();
+        if(!path){
+            path ='${sitePath}';
+        }
+        jQuery.ajax({
+            type: 'POST',
+            url: "${base}/platform/cms/tpl/data?site_id=" + site + "&path=" + path,
+            success : function (res) {
+                if(res!=""){
+                    res=eval(res);
+                    var selector=$("#tabledata");
+                    var content="";
+                    var result="";
+                    selector.empty();
+                    jQuery.each(res, function(index, term) {
+                        result=result+"<tr role='row'";
+                        if(index%2==0){
+                            result=result+"class='odd'>";
+                        }else{
+                            result=result+"class='even'>";
+                        }
+                        jQuery.each(term, function(index2, term2) {
+                           /* content=content+"<td>"+term2+"</td>";*/
+                            if(index2=="size"){
+                                size="";
+                                size=size+"<td>"+term2+"</td>";
+                            }
+                            if(index2=="time"){
+                                time="";
+                                time=time+"<td>"+term2+"</td>";
+                            }
+                            if(index2=="name"){
+                                name="";
+                                content="";
+                                name=name+"<td>"+term2+"</td>";
+                                content=content+'<td><div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
+                                        ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">' +
+                                        '<li><a data-toggle="modal" data-target="#tplRename" href="${base}/platform/cms/tpl/torename?name=' + term2 + '&path='+$("#path").val()+'" data-pjax>${msg["globals.button.rename"]}</a></li>' +
+                                        '<li class="divider"></li>';
+                                if(term2.indexOf(".")!=-1){
+                                    content=content+ '<li><a data-toggle="modal" data-target="#tplEdit" href="${base}/platform/cms/tpl/tplEdit?name='+term2 + '&path='+$("#path").val()+'&site_id='+$("#site").val()+'" data-pjax>${msg["globals.button.update"]}</a></li>' +
+                                            '<li class="divider"></li>' ;
+                                }
+                                content=content+ '<li><a href="javascript:;" onclick="del(\'' + term2 + '\')">${msg["globals.button.delete"]}</a></li>' +
+                                        '</ul></div></td>';
+                            }
+                        });
+
+                        result=result+name+size+time+content+"</tr>";
+
+                      /*  $("tr").on('click',function () {
+                         $(this).toggleClass('selected');
+                         });*/
+                    });
+                    selector.append(result);
+                }
+                return false;
+            },
+            fail : function(res) {
+                Toast.error("系统错误!");
+            }
+        });
+    }
+    var unitTreeTable;
+    var selected = [];
+    function initTreeView() {
+        var site=$("#site").val();
+        $("#jsTreeUnit").jstree({
+            plugins: ["wholerow", "json_data"],
+            core: {
+                data: {
+                    dataType: "json",
+                    url: function (node) {
+                        return node.id === "#" ? "${base}/platform/cms/tpl/tree?site_id="+site : "${base}/platform/cms/tpl/tree?pid=" + node.id+"&site_id="+site
+                    }
+
+                },
+                multiple: false
+            }
+        }).on("select_node.jstree", function (node, selected) {
+            var id = selected.selected;
+            $("#currentdirectory").text(id);
+            $("#add").attr("href","${base}/platform/cms/tpl/tplAdddir?path="+id);
+            $('#file_upload').data('uploadifive').settings.formData = { 'path': id};
+            $("#path").val(id);
+            initDatatable();
+        }).on("loaded.jstree", function (node, jstree) {
+            $(node.target).find("li:first div").addClass("jstree-wholerow-clicked");
+        });
+    }
+    function del(id) {
+        var path= $("#path").val();
+        var dialog = $("#dialogDelete");
+        dialog.modal("show");
+        dialog.find("#okDel").unbind("click");
+        dialog.find("#okDel").bind("click", function (event) {
+            var btn = $(this);
+            btn.button("loading");
+            $.post("${base}/platform/cms/tpl/delname?name="+id+"&path="+path, {}, function (data) {
+                if (data.code == 0) {
+                    window.location.reload();
+                    //datatable.ajax.reload(null,false);
+                } else {
+                    Toast.error(data.msg);
+                }
+                btn.button("reset");
+                dialog.modal("hide");
+            }, "json");
+        });
+    }
+    function delCheck() {
+        var path= $("#path").val();
+        var chks = datatable.rows('.selected').data();
+        if (chks.length > 0) {
+            var ids = [];
+            $.each(datatable.rows('.selected').data(), function (i, n) {
+                ids.push(n.id);
+            });
+            var dialog = $("#dialogDelete");
+            dialog.modal("show");
+            dialog.find("#okDel").unbind("click");
+            dialog.find("#okDel").bind("click", function (event) {
+                var btn = $(this);
+                btn.button("loading");
+                $.post("${base}/platform/cms/tpl/delnames", {ids: ids.toString(),path:path}, function (data) {
+                    if (data.code == 0) {
+                        initDatatable();
+                    } else {
+                        Toast.error(data.msg);
+                    }
+                    btn.button("reset");
+                    dialog.modal("hide");
+                }, "json");
+            });
+        } else {
+            Toast.warning("${msg['globals.button.delete.select']}");
+        }
+    }
+    function addChannel(modeid)
+    {
+        if(modeid=="")
+            return;
+        var channel_id=$("#channel_id").val();
+        var site_id=$("#site").val();
+        window.location.href = "${base}/platform/cms/tpl/add?model_id="+modeid+"&site_id="+site_id+"&channel_id="+channel_id;
+    }
+    function changeSite(){
+        window.location.href ="${base}/platform/cms/tpl?site_id="+$("#site").val();
+    }
+    $(function () {
+        initDatatable();
+        initTreeView();
+
+        $("#dialogDetail").on("hidden.bs.modal", function () {
+            $(this).removeData("bs.modal");
+        });
+        $("#tplRename").on("hidden.bs.modal", function () {
+            $(this).removeData("bs.modal");
+        });
+        $("#tplEdit").on("hidden.bs.modal", function () {
+            $(this).removeData("bs.modal");
+        });
+
+
+
+        $('#file_upload').uploadifive({
+                'auto': true,
+                'multi': true,
+                'width': '100%',
+                'height': '35',
+                'buttonText': '${msg['globals.button.upload']}',
+                    'fileType': 'html/html',
+                    'fileSizeLimit': 204800,
+                    'queueSizeLimit': 5,
+                'removeCompleted':true,
+                'removeTimeout':0,
+                    'formData': {},
+            'queueID': 'queue',
+                    'uploadScript': '${base}/platform/cms/tpl/uploadOneSave',
+                    'onUploadComplete': function (file, data) {
+                data = JSON.parse(data);
+                if (data.code == 0) {
+                    Toast.success(data.msg);
+                    //window.location.reload();
+                   /* $("#img").html("<img src='" + data.data + "' style='width:150px;height:95px;'>");*/
+                    $("#picUrl").val('http://${base}'+data.data);//在base前面有个$-{-AppDomain-}-不知道干嘛的
+                } else {
+                    clearFile();
+                    Toast.error(data.msg);
+                }
+            },
+            'onDrop': function (file, fileDropCount) {
+                clearFile();
+            },
+            'onClearQueue': function (queue) {
+                clearFile();
+            },
+            'onCancel': function () {
+                clearFile();
+            }
+        });
+        $('#file_upload').data('uploadifive').settings.formData = { 'path': $("#path").val()};
+
+    });
+    function clearFile() {
+        /*$("#img").html("");*/
+        $("#queue").html("");
+        $("#picUrl").val("");
+    }
+</script>
+<!--#}#-->

@@ -1,0 +1,74 @@
+<div class="min_1200 header">
+    <div class="w_1200">
+        <h1 class="logo fl png_img">
+            <a href="http://www.cas.cn/" target="_blank">
+                <img src="${baseRes!}/images/logo.png" alt="中国科学院" class="img_m">
+            </a>
+            <img src="${baseRes!}/images/logo_y.png" class="img_m img_mr">
+            <a href="${staticBase}/index.html">
+                <img src="${baseRes!}/images/logo-2.png" alt="安徽科博产品检测研究院有限公司" class="img_m">
+            </a>
+        </h1>
+        <div class="h_search fr"><input type="button" class="h_search_btn" value=""  onclick="search();"><input type="text"  id="keyWords" class="h_search_text"></div>
+        <!--end搜索-->
+    </div>
+</div>
+
+<!--end头文件-->
+
+
+<ul class="nav round_s w_1200">
+    <li class="li_o on"><a href="${staticBase!}/index.html" class="box">网站首页</a></li>
+    <li class="li_o"><a href="${staticBase!}/jcyw/index.html" class="box">检测业务</a>
+        <div class="sec_nav clearfix2">
+            <dl class="clearfix2">
+                <dt class="fr green_link">
+                    <a href="${staticBase!}/jcyw/index.html" class="pic"><img src="${baseRes!}/images/icon/nav_pic.jpg" alt="" class="img_w"></a>
+                <h4 class="green_text"><a href="${staticBase!}/jcyw/index.html">科博检测业务</a></h4>
+                <p>致力于为客户提供“一站式”实验室产业服务</p>
+                </dt>
+                <dd class="r_cell">
+                    <ul class="list_3">
+                        <#serviceItemClassList  var="list">
+                        <!--#
+                            if(isNotEmpty(list)){
+                            for(c in list){
+                        #-->
+                        <li><a href="${staticBase!}/jcyw/index.html?classId=${c.id}">${c.name}</a></li>
+                            <!--#
+                                    }}
+                            #-->
+                        </#serviceItemClassList>
+                    </ul>
+                </dd>
+            </dl>
+        </div></li>
+    <#cmsChannelList siteId="${site.id!}" isDisplay="true" orderBy="location" var="ch">
+        <li class="li_o">
+            <a href="${ch.linkurl}"  class="box" data-id="${ch.id!}">${ch.name!}</a>
+        </li>
+    </#cmsChannelList>
+</ul>
+
+<script type="text/javascript">
+    layui.use('layer', function() { //独立版的layer无需执行这一句
+    });
+    $(function(){
+        document.onkeydown = function(e){
+            var ev = document.all ? window.event : e;
+            if(ev.keyCode==13) {
+                search();
+            }
+        }
+    });
+    function search(){
+        var keyWords = $("#keyWords").val();
+        if(keyWords){
+            window.location.href="/front/search?keyWords="+keyWords;
+        }else{
+            layer.msg("请输入搜索关键字");
+            $("#keyWords").focus();
+            return;
+        }
+    }
+</script>

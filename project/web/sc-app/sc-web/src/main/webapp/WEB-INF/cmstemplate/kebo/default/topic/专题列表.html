@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>专题列表-${topic.name!}</title>
+
+    <!-- Bootstrap -->
+    <link href="${baseRes!}/css/qwui_base.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link href="${baseRes!}/css/qwui_ui.css" rel="stylesheet">
+    <link href="${baseRes!}/js/vendor/layui/css/layui.css" rel="stylesheet">
+
+    <!--swiper-->
+    <link href="${baseRes!}/js/vendor/swiper/css/swiper.min.css" rel="stylesheet">
+    <style>
+        .p-active a{
+            background: #de2d33 !important;
+            color: #ffffff !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="m-wrap">
+    <!--#
+        include("/"+site.site_css +"/include/top.html"){}
+        #-->
+    <div class="g-center" style="margin-top: 5px;">
+        <div class="g-bd f-cb">
+            <div class="g-mn ">
+                <div class="m-page-list m-zx-list">
+                    <nav>
+
+                    </nav>
+                    <div class="j-tabPage" id="j-tabPage-div">
+                        <div class="c-list set_dis" >
+                                <#cmsContentList count="10" page="${pageNum!}" topicId="${topic.id}" orderBy="pub_time,desc"  var ="list">
+
+                                    <ul>
+                                    <!--#
+                                                    for (con in list){
+                                                    #-->
+                                        <li>
+                                            <div class="notice-box f-cb">
+                                            <a href="${base!}${con.channel.path!}/${con.id}.html" class="f-fl">
+                                                <img src="${con.has_title_img}" alt="" style="width: 211px;height:135px">
+                                            </a>
+                                                <div class="n-detail f-fl">
+                                                    <dl>
+                                                        <dt><a href="${base!}${con.channel.path!}/${con.id}.html">${con.title!}</a></dt>
+                                                        <dd>${con.description}
+                                                        </dd>
+                                                        <dd><span>时间：</span>${con.pub_time}</dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </li>
+                                            <!--#
+                                                    } elsefor{
+                                                    #-->
+                                            没有内容
+                                            <!--#
+                                            }
+                                            #-->
+                                    </ul>
+                                </#cmsContentList>
+                        </div>
+
+                        <!-- 如果需要分页器 -->
+                        <div class="swiper-pagination" style=" position: relative !important;">
+                            <ul class="pagination f-cb" style="margin-left: 355px;" >
+                                <input type="hidden" value="${totalPage}" id="totalPage">
+                                <!--#
+                                if(totalPage>1){
+                                #-->
+
+                                <!--#
+                                if(pageNum!=1){
+                                #-->
+                                <li class="${pageNum==1?'disabled':''} f-fl" style="font-size: 12px;">
+                                    <a href="${pageNum==2?(topic.id)+'.html':(topic.id)+'_'+(pageNum-1)+'.html'}"
+                                       aria-label="Previous" style="height:32px;line-height: 32px;background-color: #f5f5f5;margin-right: 8px;font-size: 14px;">
+                                        <span aria-hidden="true">上一页</span>
+                                    </a>
+                                </li>
+                                <!--#
+                                    }
+                                #-->
+                                <!--#
+                                if(pageNum!=1){}
+                                #-->
+
+                                <!--#
+                                    for(var i = 1;i<totalPage+1;i++){
+                                #-->
+                                <li class="${pageNum==i?'p-active':''} f-fl" style="font-size:18px;"><a
+                                        href="${pageNum==i?'javascript:;':i==1?(topic.id)+'.html':(topic.id)+'_'+i+'.html'}" style="left: -1px;top: -1px;padding: 1px;height: 32px;line-height: 32px;background-color: #f5f5f5;margin-right: 8px; width: 40px;">${i}</a></li>
+                                <!--#
+                                    }
+                                #-->
+                                <!--#
+                                    if(totalPage!=pageNum){
+                                #-->
+                                <li class="${totalPage==pageNum?'disabled':''} f-fl" style="font-size: 12px;">
+                                    <a href="${totalPage==pageNum?'javascript:;':(topic.id)+'_'+(pageNum+1)+'.html'}"
+                                       aria-label="Next" style="height: 32px;line-height: 32px;background-color: #f5f5f5;margin-right: 8px;font-size: 14px;width: 60px;">
+                                        <span aria-hidden="true">下一页</span>
+                                    </a>
+                                </li>
+                                <!--#
+                                   }
+                               #-->
+
+                                <!--#
+                                if(totalPage==pageNum){}
+                                #-->
+
+                                <!--#
+                                } else{
+                                #-->
+                                <li class="active"><a href="javascript:;" style="margin-right: 300px">共<span style="font-size: 18px;">1</span>页</a></li>
+                                <!--#
+                                }
+                                #-->
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="g-sd">
+                <div class="m-page-sidebar">
+                    <div class="side-slider">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                <#cmsAdList var ="links">
+                                    <!--#
+                                            for (link in links){
+                                            #-->
+                                    <div class="swiper-slide">
+                                        <img src="${link.picurl!}" alt="">
+                                    </div>
+                                    <!--#
+                                            } elsefor{
+                                            #-->
+                                    <img src="${base!}/assets/accuser/images/no-pic.jpg" alt="">
+                                    <!--#
+                                    }
+                                    #-->
+                                </#cmsAdList>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="side-pub side-cyzt">
+                        <#cmsTopicList count="10"  excludeId="${topic.id}"  var ="list">
+
+                            <div class="bd c-info-list">
+                                <div class="f-cb c-ad-box">
+                                    <!--#
+                                            for (con in list){
+                                            #-->
+                                    <a href="${base!}topic/${con.id}.html">
+                                        <img class="f-fl" src="${con.title_img}" alt="" style="width:88px;height:44px;">
+                                        <div class="f-fl c-detail" >${con.name}</div>
+                                    </a>
+                                    <!--#
+                                            } elsefor{
+                                            #-->
+                                    暂无关联的专题
+                                    <!--#
+                                    }
+                                    #-->
+                                </div>
+                            </div>
+                        </#cmsTopicList>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--#
+include("/"+site.site_css +"/include/footer.html"){}
+    #-->
+</div>
+
+<!-- jQuery -->
+<script src="${baseRes!}/js/vendor/jquery/jquery.min.js"></script>
+<!-- layui -->
+<script src="${baseRes!}/js/vendor/layui/layui.js"></script>
+<script src="${baseRes!}/js/vendor/swiper/js/swiper.jquery.js"></script>
+<script src="${baseRes!}/js/pages/news.js"></script>
+<script type="text/javascript">
+</script>
+</body>
+</html>

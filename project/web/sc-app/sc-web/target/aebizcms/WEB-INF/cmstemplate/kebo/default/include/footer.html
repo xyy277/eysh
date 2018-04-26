@@ -1,0 +1,93 @@
+<div class="min_1200 h_link clearfix2">
+    <dl class="w_1200 h_link_dl clearfix2">
+        <dt class="fr"><img src="${baseRes!}/images/icon/wechat_120.png" alt="" class="img_w"><h5>安徽科博微信平台</h5></dt>
+        <dd class="r_cell">
+            <a href="${staticBase}/gywm/gsjj/index.html">关于我们</a><em class="china">|</em><a href="${staticBase}/gywm/lxwm/index.html">联系我们</a><em class="china">|</em><a href="${staticBase}/gywm/FAQ/index.html">FAQ</a><em class="china">|</em><a href="${staticBase}/gywm/flsm/index.html">法律声明</a>
+            <div class="d">
+                <select class="select_box to_url">
+                    <option value="-1">国家部委网站</option>
+                    <#cmsLink categoryName="国家部委网站" var="list">
+                    <!--#
+                        if(isNotEmpty(list)){
+                        for(c in list){
+                    #-->
+                    <option value="${c.url}">${c.name}</option>
+                    <!--#
+                            }}
+                    #-->
+                    </#cmsLink>
+                </select>
+
+                <select class="select_box to_url">
+                    <option value="-1">中科院网站</option>
+                    <#cmsLink categoryName="中科院网站" var="list">
+                        <!--#
+                            if(isNotEmpty(list)){
+                            for(c in list){
+                        #-->
+                        <option value="${c.url}">${c.name}</option>
+                        <!--#
+                                }}
+                        #-->
+                    </#cmsLink>
+                </select>
+
+                <select class="select_box to_url">
+                    <option value="-1">高校网站</option>
+                    <#cmsLink categoryName="高校网站" var="list">
+                    <!--#
+                        if(isNotEmpty(list)){
+                        for(c in list){
+                    #-->
+                    <option value="${c.url}">${c.name}</option>
+                    <!--#
+                            }}
+                    #-->
+                </#cmsLink>
+                </select>
+
+                <select class="select_box to_url">
+                    <option value="-1">安徽厅局网站</option>
+                    <#cmsLink categoryName="安徽厅局网站" var="list">
+                        <!--#
+                            if(isNotEmpty(list)){
+                            for(c in list){
+                        #-->
+                        <option value="${c.url}">${c.name}</option>
+                        <!--#
+                                }}
+                        #-->
+                    </#cmsLink>
+                </select>
+            </div>
+        </dd>
+    </dl>
+</div>
+<!--end友情链接-->
+<div class="min_1200 footer">
+    <div class="w_1200">
+        <p>Copyright &copy; 安徽科博检测研究院 All rights reserved  皖ICP备16017290号 </p>
+        <p>地址：合肥市高新区石莲路中科院合肥技术创新工程院三楼<span class="m_t">电话：0551-63365686</span>邮箱：<a href="mailto:kebotech@163.com">kebotech@163.com</a></p>
+        <script type="text/javascript">
+            var _conf = _conf || [];
+            _conf.push(['_siteAccount', '${site.id!}']);
+            (function() {
+                var ma = document.createElement('script'); ma.type = 'text/javascript'; ma.async = true;
+                ma.src = ('https:' == document.location.protocol ? 'https://kebo-tech.cn' : 'http://127.0.0.1:8080') + '/assets/common/analytics/_c.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ma, s);
+            })();
+        </script>
+    </div>
+</div>
+<!--end文件底-->
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".to_url").change(function(){
+            var url = $(this).val();
+            if(url!="-1"){
+                window.open(url);
+            }
+
+        });
+    });
+</script>

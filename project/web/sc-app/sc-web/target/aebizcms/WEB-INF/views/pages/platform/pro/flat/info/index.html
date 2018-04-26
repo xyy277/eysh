@@ -1,0 +1,165 @@
+<!--#
+layout("/layouts/platform.html"){
+#-->
+<section class="content-wrap bg-white">
+    <header class="header navbar bg-white shadow">
+        <div class="btn-group tool-button" >
+            <a id="add" class="btn btn-primary navbar-btn" href="${base}/platform/pro/flat/info/add" data-pjax><i class="ti-plus"></i> 新增</a>
+        </div>
+    </header>
+    <div class=panel-body style="padding-top: 50px;">
+        <div class="table-responsive no-border" style="min-height: 500px;">
+            <table class="table table-bordered table-striped mg-t datatable">
+                <thead>
+                <tr>
+                    <th>平台名称</th>
+                    <th>平台类型</th>
+                    <th>运营主体单位性质</th>
+                    <th>运营主体机构名称</th>
+                    <th>联系人</th>
+                    <th>联系电话</th>
+                    <th>平台状态</th>
+                    <th>审核状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</section>
+<div id="dialogBack" class="modal fade bs-modal-sm" tabindex="-2" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">撤回</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        该平台备案正在审核中。确定撤回吗？
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
+                <button id="okDel" type="button" class="btn btn-primary" data-loading-text="正在撤回...">确  定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script language="JavaScript">
+    var datatable;
+    function initDatatable() {
+        datatable = $('.datatable').DataTable({
+            "dom": '<"toolbar">frtip',
+            "searching":false,
+            "processing": false,
+            "serverSide": true,
+            "select": true,
+            "ordering": true,
+            "language": {
+                "url": "${base}/assets/platform/vendor/datatables/locale/${lang}.json"
+            },
+            "preDrawCallback": function () {
+                sublime.showLoadingbar($(".main-content"));
+            },
+            "drawCallback": function () {
+                sublime.closeLoadingbar($(".main-content"));
+            },
+            "ajax": {
+                "url": "${base}/platform/pro/flat/info/data",
+                "type": "post",
+                "data": function (d) {
+                }
+            },
+            "order": [[0, "desc"]],
+            "columns": [
+                {"data": "flat_name", "bSortable": true},
+                {"data": "flat_type", "bSortable": true},
+                {"data": "org_property", "bSortable": true},
+                {"data": "org_name", "bSortable": true},
+                {"data": "linkman", "bSortable": true},
+                {"data": "tel", "bSortable": true},
+                {"data": "status", "bSortable": true},
+                {"data": "check_status", "bSortable": true},
+            ],
+            "columnDefs": [
+                {
+                    "render": function (data, type, row) {
+                        var str = '<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
+                            ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">' +
+                            '<li><a href="${base}/platform/pro/flat/info/detail/' + row.id + '/index" data-pjax>查看</a></li>';
+                        if (row.check_status == 0) {
+                            str = str + '<li><a href="javascript:;" onclick="back(\'' + row.id + '\')">撤回</a></li>';
+                        } else if (row.check_status == 3) {
+                            str = str + '<li><a href="${base}/platform/pro/flat/info/alter/' + row.id + '" data-pjax>变更</a></li>';
+                        } else if (row.check_status == 1 || row.check_status == 2) {
+                            str = str + '<li><a href="${base}/platform/pro/flat/info/edit/' + row.id + '" data-pjax>编辑</a></li>';
+                        }
+                        
+                        str = str + '</ul></div>';
+                        return str;
+                    },
+                    "targets": 8
+                },
+                {
+                    "render": function (data, type, row) {
+                        if (data == 0) {
+                            return '待审核';
+                        } else if (data == 1) {
+                            return '已撤回';
+                        } else if (data == 2) {
+                            return '已驳回';
+                        } else if (data == 3) {
+                            return '已审核';
+                        } else if (data == 4) {
+                            return '变更中';
+                        } else {
+                            return "未知";
+                        }
+                    },
+                    "targets": 7
+                },
+                {
+                    "render": function (data, type, row) {
+                        if (data == 0) {
+                            return '未结项';
+                        } else if (data == 1) {
+                            return '已结项';
+                        }
+                    },
+                    "targets": 6
+                }
+            ]
+        });
+        datatable.on('click', 'tr', function () {
+            $(this).toggleClass('selected');
+        });
+        $("#searchBtn").on('click', function () {
+            datatable.ajax.reload();
+        });
+    }
+    function back(id) {
+        var dialog = $("#dialogBack");
+        dialog.modal("show");
+        dialog.find("#okDel").unbind("click");
+        dialog.find("#okDel").bind("click", function (event) {
+            var btn = $(this);
+            btn.button("loading");
+            $.post("${base}/platform/pro/flat/info/back/" + id, {}, function (data) {
+                if (data.code == 0) {
+                    datatable.ajax.reload(null,false);
+                } else {
+                    Toast.error(data.msg);
+                }
+                btn.button("reset");
+                dialog.modal("hide");
+            }, "json");
+        });
+    }
+    $(function () {
+        initDatatable();
+    });
+</script>
+<!--#}#-->

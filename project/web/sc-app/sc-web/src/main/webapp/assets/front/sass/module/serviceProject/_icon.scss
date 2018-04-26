@@ -1,0 +1,51 @@
+.icon-normal{
+  display: inline-block;
+  vertical-align: middle;
+}
+.icon-sp-rt{
+  display: inline-block;
+  vertical-align: bottom;
+  @include sprite($icon_sp_1);
+}
+
+.icon-sp-el{
+  display: inline-block;
+  @include sprite($icon_sp_2);
+}
+
+.icon-down{
+  @extend .icon-normal;
+  @include sprite($down);
+  &.act{
+    @include sprite($down_act);
+  }
+}
+
+
+.icon-up{
+  @extend .icon-normal;
+  @include sprite($up);
+  &.act{
+    @include sprite($up_act);
+  }
+}
+
+.icon-sp-edit{
+  @extend .icon-normal;
+  @include sprite($icon_sp_edit);
+}
+
+.icon-sp-close{
+  @extend .icon-normal;
+  @include sprite($icon_sp_close);
+}
+
+.icon-sp-server{
+  @extend .icon-normal;
+  @include sprite($icon_sp_server);
+}
+
+.icon-sp-success{
+  @extend .icon-normal;
+  @include sprite($icon_sp_suc);
+}

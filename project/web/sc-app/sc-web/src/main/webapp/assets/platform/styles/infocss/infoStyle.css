@@ -1,0 +1,60 @@
+.liclass {
+    list-style-type: none;
+}
+
+#uploadifive-file {
+    text-align: left !important;
+    color: black;
+    border: 0px;
+    font-family: Microsoft YaHei;
+    font-size: 13px;
+}
+
+.control-label .red {
+    color: #FF0000;
+}
+
+/**--------详情页----------**/
+.table .td-label {
+    width: 25%;
+    min-width: 200px;
+}
+
+.table .td-content {
+    width: 75%;
+}
+
+#leftInputDiv {
+    width: 94%;
+    float: left;
+}
+
+#rightBtnDiv {
+    width: 6%;
+    float: right
+}
+
+#toolBtn {
+    margin-top:8px;
+}
+@media screen and (max-width: 1440px) {
+    .header{
+        height: auto!important;
+    }
+    .panel-body{
+        margin-top: 50px!important;
+    }
+}
+@media screen and (max-width: 1280px) {
+    .header{
+        height: auto!important;
+    }
+    .panel-body{
+        margin-top: 120px!important;
+    }
+}
+.datatable .dropdown-menu {
+    right: 0!important;
+    left: auto!important;
+    min-width: 90px!important;
+}

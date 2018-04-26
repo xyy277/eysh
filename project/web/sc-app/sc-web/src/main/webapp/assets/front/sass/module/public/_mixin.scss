@@ -1,0 +1,35 @@
+//两端固定布局
+@mixin two-fixed($left,$right) {
+  .g-bd{
+    width: 100%;
+    float: left;
+  }
+  .g-sd {
+    float: right;
+    width: $right;
+  }
+  .g-mn {
+    float: left;
+    width: $left;
+  }
+}
+
+//nav 导航
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin text-line($num) {
+  display: -webkit-box;
+  -webkit-line-clamp: $num;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-all;
+}

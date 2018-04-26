@@ -1,0 +1,132 @@
+.place-detail{
+    padding-top: 20px;
+}
+.place-service-name{
+    font-size: 18px;
+    color: #333333;
+}
+.place-swiper-wrap{
+    width: 510px;
+}
+.place-service-wrap{
+    width: 330px;
+    margin-left: 20px;
+}
+.place-swiper{
+    width: 510px;
+    margin-top: 13px;
+    margin-bottom: 55px;
+    .swiper-button-next{
+        width: 14px;
+        height: 70px;
+        top: 0px;
+        background-size: 100% 100%;
+        margin-top: 0px;
+        right: 0px;
+        background-image: url(../images/place-service/place-right.png);
+    }
+    .swiper-button-prev{
+        width: 14px;
+        height: 70px;
+        top: 0px;
+        background-size: 100% 100%;
+        margin-top: 0px;
+        left: 0px;
+        background-image: url(../images/place-service/place-left.png);
+    }
+    .swiper-slide.active{
+        a{
+            border:2px solid #de2d33;
+        }
+        
+
+    }
+
+}
+
+.hot-place {
+    border-top: 2px solid #de2d33;
+    background-color: #fff;
+    box-shadow: 1px 1px 8px #eee;
+}
+
+.hot-place-hd {
+    height: 56px;
+    line-height: 56px;
+    padding: 0px 45px;
+    font-size: 18px;
+    color: #333;
+    position: relative;
+    &:before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 30px;
+        width: 4px;
+        height: 17px;
+        background-color: #de2d33;
+    }
+}
+.hot-place-bd{
+    padding-top: 15px;
+    border-top: 1px dashed #e3e3e3;
+    margin:0px 16px;
+}
+.place-name,.place-hire{
+    color: #000000;
+    font-size: 14px;
+}
+.place-name{
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+.hire-condition{
+    font-size: 14px;
+    color: #ff0000;
+}
+.hire-master{
+    font-size: 14px;
+    color: #000000;
+    padding-top: 8px;
+    padding-bottom: 28px;
+    span{
+        padding-left: 15px;
+    }
+}
+.service-place-detail .m-page-list{
+    padding-left: 24px;
+}
+.hire-item{
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px dashed #cccccc;
+    font-size: 14px;
+    color: #2b2b2b;
+    opacity: 0.8;
+    &:last-child{
+        border-bottom: none;
+    }
+    label{
+        color: #000;
+        opacity: 1;
+
+    }
+}
+.service-mobile{
+    margin-top: 10px;
+    padding-left: 25px;
+}
+.service-place{
+    .m-sp-details .layui-tab .layui-tab-title{
+        background-color: #fff;
+    }
+}
+.service-place-detail{
+    .layui-this{
+        background-color: #fafafa;
+    }
+}
+.text-indent{
+    text-indent: 2em;
+    line-height: 24px;
+}

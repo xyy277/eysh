@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<title>行者在这里登陆</title>
+<link rel="shortcut icon"type="image/x-icon" href="${base!}/assets/front/images/icon/eysh.ico"media="screen" />
+<link rel="stylesheet" type="text/css" href="${base!}/assets/front/css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="${base!}/assets/front/css/demo.css" />
+<link rel="stylesheet" type="text/css" href="${base!}/assets/platform/vendor/toastr/toastr.css">
+<!--必要样式-->
+<link rel="stylesheet" type="text/css" href="${base!}/assets/front/css/component.css" />
+<!--[if IE]>
+<script src="${base!}/assets/front/js/html5.js"></script>
+<script src="${base!}/assets/platform/scripts/respond.min.js"></script>
+<script src="${base!}/assets/platform/scripts/json.js"></script>
+<![endif]-->
+</head>
+<body>
+<div class="container demo-1">
+	<div class="content">
+		<div id="large-header" class="large-header">
+			<canvas id="demo-canvas"></canvas>
+			<div class="logo_box">
+				<h3>在这里寻找最初的梦想</h3>
+				<form action="#" name="f" method="post">
+					<div class="input_outer">
+						<span class="u_user"></span>
+						<input id="username" name="username" class="text" style="color: #FFFFFF !important" type="text" placeholder="请输入账户">
+					</div>
+					<div class="input_outer">
+						<span class="us_uer"></span>
+						<input id="password" name="password" class="text" style="color: #FFFFFF !important; position:absolute; z-index:100;"value="" type="password" placeholder="请输入密码">
+					</div>
+					<div class="mb2"><a id="logbtn" class="act-but submit" href="javascript:;" style="color: #FFFFFF">登录</a></div>
+				</form>
+			</div>
+		</div>
+	</div>
+		</div><!-- /container -->
+		<script src="${base!}/assets/front/js/TweenLite.min.js"></script>
+		<script src="${base!}/assets/front/js/EasePack.min.js"></script>
+		<script src="${base!}/assets/front/js/rAF.js"></script>
+		<script src="${base!}/assets/front/js/demo-1.js"></script>
+		<script src="${base!}/assets/platform/vendor/modernizr.js"></script>
+		<script src="${base!}/assets/front/js/jquery-1.11.1.min.js"></script>
+		<script src="${base!}/assets/common/vendor/sso/RSA.js"></script>
+		<script src="${base!}/assets/common/vendor/sso/BigInt.js"></script>
+		<script src="${base!}/assets/common/vendor/sso/Barrett.js"></script>
+		<script src="${base!}/assets/front/vendor/flexible.js"></script>
+		<script src="${base!}/assets/platform/vendor/toastr/toastr.js"></script>
+<script type="application/javascript">
+    $(function () {
+        function bodyRSA()
+        {
+            setMaxDigits(200);
+            return new RSAKeyPair("${memberPublicKeyExponent!'10001'}","","${memberPublicKeyModulus!'a5aeb8c636ef1fda5a7a17a2819e51e1ea6e0cceb24b95574ae026536243524f322807df2531a42139389674545f4c596db162f6e6bbb26498baab074c036777'}");
+        }
+        var key =  bodyRSA();
+        $("#logbtn").click(function () {
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "${base!}/front/login/loginDo?returnUrl=${returnUrl!}",
+                data: {username: $("#username").val(), password: encryptedString(key,$("#password").val().split("").reverse().join(""))},
+                success: function (data) {
+                    if (data.code == 0) {
+                        window.location.href = "${base!}/welcome?returnUrl="+data.msg;
+                    }
+                    else
+                    {
+                        toastr.error(data.msg);
+                    }
+                }
+            })
+        })
+    });
+    $(document).keyup(function(event) {
+        if (event.keyCode == 13) {
+            $("#logbtn").trigger("click");
+        }
+    });
+</script>
+	</body>
+</html>

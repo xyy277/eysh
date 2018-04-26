@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!--#
+        include("/"+site.site_css +"/include/head.html"){}
+        #-->
+</head>
+<body>
+
+<div class="m-wrap">
+    <!--#
+        include("/"+site.site_css +"/include/top.html"){}
+        #-->
+    <#cmsChannelList channelId="${current.parentId}" orderBy="location" var="chan" isDisplay="true">
+        <div class="i_banner w_1200"><img src="${baseRes!}/images/banner/ibn/${chan.path}.jpg" alt="${chan.name}" class="img_w"></div>
+        <!--end大图片-->
+
+        <div class="w_1200 i_center clearfix2">
+            <div class="fl w_280">
+                <h4 class="l_blue_th round_bj round_t">${chan.name}</h4>
+                <div class="gray_border l_nav">
+                    <#cmsChannelList parentId="${current.parentId}" orderBy="location" var="ch" isDisplay="true">
+                        <dl class="l_nav_dl <!--#if(current.id == ch.id){#-->dl_click<!--#}#-->">
+                            <dt><a href="<!--#if(isEmpty(ch.linkurl)){#--> ${staticBase}/${ch.path}/index.html<!--#}else{#-->${ch.linkurl}<!--#}#-->" class="png hide1">${ch.name}</a></dt>
+                        </dl>
+                    </#cmsChannelList>
+                </div>
+                <!--end边框-->
+            </div>
+            <!--end左边-->
+            <div class="fr w_890">
+                <h4 class="site_th png">当前位置：<a href="${staticBase}/index.html">首页</a><em class="china">&gt;</em><a href="">${chan.name!}</a><em class="china">&gt;</em><a href="">${current.name}</a></h4>
+                <#cmsContentList count="10" page="${pageNum!}"  channelId="${current.id}" orderBy="pub_time,desc"  var ="list">
+                <ul style="padding: 15px">
+                    <!--#
+                        for (content in list){
+                    #-->
+                    <li style="margin:14px 0;
+                    padding-left: 20px;
+                    background-image: url(../../res/default/images/icon/l_d.png);
+                    background-repeat: no-repeat;
+                    background-position: 4px center;
+                    height: 1.6em;">&nbsp;<span class="fr">${content.pub_time_date}</span><a href="${content.filePath}"  target="_blank" class="hide1">${content.title}</a></li>
+                    <!--#} elsefor{#-->
+                    <li>没有内容</li>
+                    <!--#}#-->
+                </ul>
+                </#cmsContentList>
+                <div class="page">
+                    <input type="hidden" value="${totalPage}" id="totalPage">
+                    <!--#
+                        if(totalPage>1){
+                    #-->
+                    <!--#
+                        if(pageNum!=1){
+                    #-->
+                    <a href="${pageNum==2?'index.html':'index_'+(pageNum-1)+'.html'}">
+                        上页
+                    </a>
+                    <!--#
+                                    }
+                                #-->
+                    <!--#
+                    if(pageNum!=1){}
+                    #-->
+
+                    <!--#
+                        for(var i = 1;i<totalPage+1;i++){
+                    #-->
+                    <a href="${pageNum==i?'javascript:;':i==1?'index.html':'index_'+i+'.html'}">${i}</a>
+                    <!--#
+                                    }
+                                #-->
+                    <!--#
+                        if(totalPage!=pageNum){
+                    #-->
+                    <a href="${totalPage==pageNum?'javascript:;':'index_'+(pageNum+1)+'.html'}">下页</a>
+                    <!--#
+                                   }
+                               #-->
+
+                    <!--#
+                    if(totalPage==pageNum){}
+                    #-->
+
+                    <!--#
+                    } else{
+                    #-->
+                    <a href="">1</a>
+                    <!--#
+                    }
+                    #-->
+                </div>
+            </div>
+                <!--end右边-->
+        </div>
+    </#cmsChannelList>
+    <!--end中间区域-->
+    <!--#
+include("/"+site.site_css +"/include/footer.html"){}
+    #-->
+</div>
+
+</body>
+</html>

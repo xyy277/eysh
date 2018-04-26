@@ -1,0 +1,149 @@
+<!--#
+layout("/layouts/platform.html"){
+#-->
+<header class="header navbar bg-white shadow">
+    <div class="btn-group tool-button">
+        <a class="btn btn-primary navbar-btn" href="${base}/platform/coupon/coupon/apply" id="goBack" data-pjax><i class="ti-angle-left"></i>返回</a>
+    </div>
+    <div class="btn-group tool-button" style="float: right">
+        <a class="btn btn-primary navbar-btn" href="#" onclick="submitForm('${obj.id}','1')" id="goBack1" data-pjax><i class=""></i>通过</a>
+        <a class="btn btn-primary navbar-btn" style="background-color: red;" href="#" onclick="submitForm('${obj.id}','2')" id="goBack2" data-pjax><i class=""></i>驳回</a>
+    </div>
+</header>
+
+<div class="content-wrap">
+    <div class="wrapper" style="min-height:500px;">
+        <section class="panel panel-form">
+            <form id="editForm" role="form" class="form-horizontal parsley-form" data-parsley-validate
+                  action="${base}/platform/coupon/coupon/apply/editDo" method="post">
+                <input name="id" type="hidden" value="${obj.id}">
+                <div class="row mb10">
+                    <div class="col-lg-12">
+                        <table class="table table-bordered table-striped mg-t datatable">
+                            <tbody>
+                            <tr>
+                                <th>申请领券单号</th>
+                                <td>${obj.id}</td>
+                                <th>申请时间</th>
+                                <td>${@date.getDate(obj.apply_date)}</td>
+                            </tr>
+                            <tr>
+                                <th>服务订单号</th>
+                                <td>${obj.server_code}</td>
+                                <th>服务类型</th>
+                                <td>${server_name}</td>
+                            </tr>
+                            <tr>
+                                <th>服务订单金额</th>
+                                <td>${@money.fenToYuan(obj.order_money)}</td>
+                                <th>服务产品名称</th>
+                                <td>${obj.product_name}</td>
+                            </tr>
+                            <tr>
+                                <th>企业名称</th>
+                                <td>${account_info.org_name}</td>
+                                <th>服务机构名称</th>
+                                <td>${server_info.org_name}</td>
+                            </tr>
+                            <tr>
+                                <th>企业联系人</th>
+                                <td>${account_info.linkman}</td>
+                                <th>服务机构联系人</th>
+                                <td>${server_info.linkman}</td>
+                            </tr>
+                            <tr>
+                                <th>企业联系人电话</th>
+                                <td>${account_info.tel}</td>
+                                <th>服务机构联系人电话</th>
+                                <td>${server_info.tel}</td>
+                            </tr>
+                            <tr>
+                                <th>合同支付金额</th>
+                                <td>${@money.fenToYuan(pay_money)}</td>
+                                <th>合同付款完成比例</th>
+                                <td>80%</td>
+                            </tr>
+
+                            <tr>
+                                <th>企合同附件</th>
+                                <!--# for(f in contractPictures){#-->
+                                <td colspan="3"><img src="${f.img!}"  style='width:100px;height: 80px;margin-bottom: 1px;'></td>
+                                <!--#}#-->
+                            </tr>
+                            <tr>
+                                <th>企合同附件</th>
+                                <!--#
+                                           for(f in payPictures){
+                                         #-->
+                                <td colspan="3"><img src="${f.img}"  style='width:100px;height: 80px;margin-bottom: 1px;'></td>
+                                <!--#}#-->
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <div class="form-group text-center">
+                        <label></label>
+
+                    </div>
+                </div>
+            </form>
+        </section>
+        <div id="dialogDelete" class="modal fade bs-modal-sm" tabindex="-2" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">审核</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12" id="msg">
+                                审核后无法恢复。<br/>
+                                <br/>确定审核吗？
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
+                        <button id="okDel" type="button" class="btn btn-primary" data-loading-text="正在提交...">确  定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script language="JavaScript">
+    function submitForm(id,type) {
+        if (type == 1) {
+            $("#msg").html("确定通过该申请吗？");
+        } else {
+            $("#msg").html("驳回请填写驳回理由：<br/><textarea id='reason' cols='75' rows='4'></textarea>")
+        }
+
+        var dialog = $("#dialogDelete");
+        dialog.modal("show");
+        dialog.find("#okDel").unbind("click");
+        dialog.find("#okDel").bind("click", function (event) {
+            var btn = $(this);
+            var reason = "";
+            if (type == 2) {
+                reason = $("#reason").val();
+            }
+            btn.button("loading");
+            $.post("${base}/platform/coupon/coupon/apply/checkDo", {id: id, type: type, reason: reason}, function (data) {
+                if (data) {
+                    Toast.success(data.msg);
+                    window.location.href = "${base}/platform/coupon/coupon/apply/";
+                } else {
+                    Toast.error(data.msg);
+                }
+                btn.button("reset");
+                dialog.modal("hide");
+            }, "json");
+        });
+    }
+</script>
+<!--#}#-->

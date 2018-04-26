@@ -1,0 +1,371 @@
+//找回密码
+.find01{
+    margin: auto;
+    @include sprite($forgetpw1)
+}
+.find02{
+    margin: auto;
+    @include sprite($forgetpw2)
+}
+.find03{
+    margin: auto;
+    @include sprite($forgetpw3)
+}
+.find04{
+    margin: auto;
+    @include sprite($forgetpw4)
+}
+
+.hd-tit{
+    font-size: 24px;
+    color: #333;
+    padding: 30px;
+}
+
+.register-bd{
+    .bd{
+        padding-top: 60px;
+        padding-bottom: 100px;
+    }
+    .labelkey{
+        display: inline-block;
+        width: 400px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 14px;
+        color: #999;
+        text-align: right;
+        vertical-align: top;
+    }
+    .mark{
+        i{
+            display: inline-block;
+            margin-right: 5px;
+            vertical-align: -3px;
+            @include sprite($mark);
+        }
+    }
+    .item{
+        margin-bottom: 20px;
+    }
+    .input{
+        width: 200px;
+        height: 35px;
+        line-height: 35px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+        border-radius: 3px;
+        color: #999;
+        padding: 0 15px;
+        margin: 0 10px;
+        &:focus{
+            border: none;
+            box-shadow: 0 0 3px 1px #f64300;
+        }
+    }
+    .code{
+        width: 80px;
+    }
+    .resetcode{
+        a{
+            color: #1278CC;
+        }
+    }
+    .getcode{
+        border: 1px solid #ddd;
+        background: #f5f5f5;
+        height: 35px;
+        border-radius: 3px;
+        line-height: 35px;
+        padding: 0 19px;
+    }
+    .next{
+        width: 200px;
+        height: 35px;
+        line-height: 35px;
+        text-align: center;
+        color: #fff;
+        background: #f64300;
+        font-size: 14px;
+        border-radius: 3px;
+        margin: 0 10px;
+        margin-top: 20px;
+        &:hover{
+            text-decoration: none;
+            opacity: 0.8;
+        }
+    }
+    .success{
+        font-size: 24px;
+        color: #666;
+        margin-bottom: 50px;
+        i{
+            vertical-align: middle;
+            margin-right: 20px;
+            display: inline-block;
+            @include sprite($success);
+        }
+    }
+    .status-info{
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 20px;
+        a{
+            color: #1278CC;
+            padding: 0 10px;
+        }
+    }
+}
+
+.qy-register{
+    margin-bottom: 30px;
+    .tit{
+        font-size: 16px;
+        color: #333;
+        margin: 30px 0;
+    }
+    .h3{
+        font-size: 24px;
+        color: #333;
+        margin: 30px 0;
+    }
+    li{
+        margin-bottom: 20px;
+        height: 46px;
+        line-height: 46px;
+        position: relative;
+        .input{
+            width: 400px;
+            height: 46px;
+            line-height: 46px;
+            border: 1px solid #ddd;
+            float: left;
+            font-size: 14px;
+            padding-left: 100px;
+        }
+        label{
+            display: inline-block;
+            height: 46px;
+            width: 100px;
+            text-align: center;
+            float: left;
+            position: absolute;
+            left: 0;
+            font-size: 14px;
+        }
+        .mark{
+            margin-left: 10px;
+            font-size: 14px;
+            color: #ccc;
+            i{
+                display: inline-block;
+                vertical-align: -3px;
+                margin-right: 10px;
+                @include sprite($mark);
+            }
+        }
+        .register{
+            padding: 0;
+        }
+        .agreement{
+            float: left;
+            font-size: 14px;
+            margin: 0 10px;
+            color: #333;
+            input{
+                margin-right: 5px;
+            }
+            a{
+                color: #1278CC;
+            }
+        }
+    }
+    .getcode{
+        position: absolute;
+        left: 297px;
+        top: 4px;
+        height: 38px;
+        line-height: 38px;
+        border: none;
+        font-size: 14px;
+        color: #999;
+        background: #f5f5f5;
+        &:hover{
+            text-decoration: none;
+            background: #f9f9f9;
+        }
+    }
+}
+
+.m-register-wrap{
+    margin: -20px;
+    .item{
+        width: 480px;
+        float: left;
+        margin: 20px;
+        text-align: center;
+        padding: 20px 0;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        color: #999;
+        p{
+            line-height: 2;
+            color: #999;
+        }
+        &:hover{
+            box-shadow: 0 0 3px 1px #ddd;
+            a{
+                text-decoration: none;
+            }
+        }
+    }
+    .hd{
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    .icon1{
+        vertical-align: middle;
+        margin-right: 15px;
+        display: inline-block;
+        @include sprite($register1);
+    }
+    .icon2{
+        vertical-align: middle;
+        margin-right: 15px;
+        display: inline-block;
+        @include sprite($register2);
+    }
+    .icon3{
+        vertical-align: middle;
+        margin-right: 15px;
+        display: inline-block;
+        @include sprite($register3);
+    }
+    .icon4{
+        vertical-align: middle;
+        margin-right: 15px;
+        display: inline-block;
+        @include sprite($register4);
+    }
+}
+
+.registerstep1{
+    margin: auto;
+    @include sprite($registerstep1);
+}
+.registerstep2{
+    margin: auto;
+    @include sprite($registerstep2);
+}
+.registerstep3{
+    margin: auto;
+    @include sprite($registerstep3);
+}
+
+.service-register{
+    border-bottom: 1px solid #f0f0f0;
+    .labelkey{
+        width: 320px;
+    }
+    .tip{
+        font-size: 14px;
+        color: #f60000;
+        margin-left: 250px;
+        margin-bottom: 30px;
+        position: relative;
+        span{
+            position: absolute;
+            left: -25px;
+        }
+    }
+    .upload{
+        ul{
+            float: left;
+        }
+        img{
+            border: 1px solid #ddd;
+            margin: 0 7px;
+        }
+        .file{
+            float: left;
+            position: relative;
+            width: 95px;
+            height: 25px;
+            line-height: 25px;
+            background: #f64300;
+            border-radius: 3px;
+            color: #fff;
+            top: 100px;
+            text-align: center;
+            overflow: hidden;
+            input{
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                opacity: 0;
+            }
+        }
+    }
+    .agreement{
+        display: inline-block;
+        margin-left: 12px;
+        a{
+            color: #1278CC;
+        }
+    }
+}
+
+.sr-link{
+    li{
+//      width: 280px;
+        width: 305px;
+        height: 226px;
+        float: left;
+        border: 1px solid #ddd;
+        margin:  12px;
+        padding: 20px 35px;
+    }
+    .hd{
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 15px;
+    }
+    .txt{
+        text-align: left;
+        font-size: 14px;
+        line-height: 1.8;
+        color: #a9a9a9;
+        height: 100px;
+    }
+    .button{
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        border-radius: 3px;
+        color: #fff;
+        padding: 0 10px;
+        background: #ee5703;
+        margin-top: 10px;
+    }
+    .icon1{
+        display: inline-block;
+        @include sprite($rg1);
+        vertical-align: -7px;
+        margin-right: 15px;
+    }
+    .icon2{
+        display: inline-block;
+        @include sprite($rg2);
+        vertical-align: -7px;
+        margin-right: 15px;
+    }
+    .icon3{
+        display: inline-block;
+        @include sprite($rg3);
+        vertical-align: -7px;
+        margin-right: 15px;
+    }
+}

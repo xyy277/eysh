@@ -1,0 +1,321 @@
+// SCSS variables are information about icon's compiled state, stored under its original file name
+//
+// .icon-home {
+//   width: $icon-home-width;
+// }
+//
+// The large array-like variables contain all information about a single icon
+// $icon-home: x y offset_x offset_y width height total_width total_height image_path;
+//
+// At the bottom of this section, we provide information about the spritesheet itself
+// $spritesheet: width height image $spritesheet-sprites;
+$ask-name: 'ask';
+$ask-x: 155px;
+$ask-y: 117px;
+$ask-offset-x: -155px;
+$ask-offset-y: -117px;
+$ask-width: 11px;
+$ask-height: 12px;
+$ask-total-width: 170px;
+$ask-total-height: 159px;
+$ask-image: '../images/sprite/details.png';
+$ask: (155px, 117px, -155px, -117px, 11px, 12px, 170px, 159px, '../images/sprite/details.png', 'ask', );
+$bot-name: 'bot';
+$bot-x: 95px;
+$bot-y: 70px;
+$bot-offset-x: -95px;
+$bot-offset-y: -70px;
+$bot-width: 19px;
+$bot-height: 21px;
+$bot-total-width: 170px;
+$bot-total-height: 159px;
+$bot-image: '../images/sprite/details.png';
+$bot: (95px, 70px, -95px, -70px, 19px, 21px, 170px, 159px, '../images/sprite/details.png', 'bot', );
+$consult11-name: 'consult11';
+$consult11-x: 123px;
+$consult11-y: 0px;
+$consult11-offset-x: -123px;
+$consult11-offset-y: 0px;
+$consult11-width: 24px;
+$consult11-height: 20px;
+$consult11-total-width: 170px;
+$consult11-total-height: 159px;
+$consult11-image: '../images/sprite/details.png';
+$consult11: (123px, 0px, -123px, 0px, 24px, 20px, 170px, 159px, '../images/sprite/details.png', 'consult11', );
+$consult15-name: 'consult15';
+$consult15-x: 32px;
+$consult15-y: 70px;
+$consult15-offset-x: -32px;
+$consult15-offset-y: -70px;
+$consult15-width: 23px;
+$consult15-height: 25px;
+$consult15-total-width: 170px;
+$consult15-total-height: 159px;
+$consult15-image: '../images/sprite/details.png';
+$consult15: (32px, 70px, -32px, -70px, 23px, 25px, 170px, 159px, '../images/sprite/details.png', 'consult15', );
+$consult18-name: 'consult18';
+$consult18-x: 123px;
+$consult18-y: 56px;
+$consult18-offset-x: -123px;
+$consult18-offset-y: -56px;
+$consult18-width: 19px;
+$consult18-height: 24px;
+$consult18-total-width: 170px;
+$consult18-total-height: 159px;
+$consult18-image: '../images/sprite/details.png';
+$consult18: (123px, 56px, -123px, -56px, 19px, 24px, 170px, 159px, '../images/sprite/details.png', 'consult18', );
+$file-name: 'file';
+$file-x: 0px;
+$file-y: 138px;
+$file-offset-x: 0px;
+$file-offset-y: -138px;
+$file-width: 17px;
+$file-height: 21px;
+$file-total-width: 170px;
+$file-total-height: 159px;
+$file-image: '../images/sprite/details.png';
+$file: (0px, 138px, 0px, -138px, 17px, 21px, 170px, 159px, '../images/sprite/details.png', 'file', );
+$hand-name: 'hand';
+$hand-x: 0px;
+$hand-y: 70px;
+$hand-offset-x: 0px;
+$hand-offset-y: -70px;
+$hand-width: 24px;
+$hand-height: 32px;
+$hand-total-width: 170px;
+$hand-total-height: 159px;
+$hand-image: '../images/sprite/details.png';
+$hand: (0px, 70px, 0px, -70px, 24px, 32px, 170px, 159px, '../images/sprite/details.png', 'hand', );
+$house-name: 'house';
+$house-x: 85px;
+$house-y: 0px;
+$house-offset-x: -85px;
+$house-offset-y: 0px;
+$house-width: 30px;
+$house-height: 28px;
+$house-total-width: 170px;
+$house-total-height: 159px;
+$house-image: '../images/sprite/details.png';
+$house: (85px, 0px, -85px, 0px, 30px, 28px, 170px, 159px, '../images/sprite/details.png', 'house', );
+$icon-sp-10-name: 'icon-sp-10';
+$icon-sp-10-x: 0px;
+$icon-sp-10-y: 0px;
+$icon-sp-10-offset-x: 0px;
+$icon-sp-10-offset-y: 0px;
+$icon-sp-10-width: 77px;
+$icon-sp-10-height: 62px;
+$icon-sp-10-total-width: 170px;
+$icon-sp-10-total-height: 159px;
+$icon-sp-10-image: '../images/sprite/details.png';
+$icon-sp-10: (0px, 0px, 0px, 0px, 77px, 62px, 170px, 159px, '../images/sprite/details.png', 'icon-sp-10', );
+$left-name: 'left';
+$left-x: 155px;
+$left-y: 0px;
+$left-offset-x: -155px;
+$left-offset-y: 0px;
+$left-width: 15px;
+$left-height: 24px;
+$left-total-width: 170px;
+$left-total-height: 159px;
+$left-image: '../images/sprite/details.png';
+$left: (155px, 0px, -155px, 0px, 15px, 24px, 170px, 159px, '../images/sprite/details.png', 'left', );
+$leftarrow-name: 'leftarrow';
+$leftarrow-x: 81px;
+$leftarrow-y: 110px;
+$leftarrow-offset-x: -81px;
+$leftarrow-offset-y: -110px;
+$leftarrow-width: 9px;
+$leftarrow-height: 14px;
+$leftarrow-total-width: 170px;
+$leftarrow-total-height: 159px;
+$leftarrow-image: '../images/sprite/details.png';
+$leftarrow: (81px, 110px, -81px, -110px, 9px, 14px, 170px, 159px, '../images/sprite/details.png', 'leftarrow', );
+$news-name: 'news';
+$news-x: 123px;
+$news-y: 88px;
+$news-offset-x: -123px;
+$news-offset-y: -88px;
+$news-width: 11px;
+$news-height: 12px;
+$news-total-width: 170px;
+$news-total-height: 159px;
+$news-image: '../images/sprite/details.png';
+$news: (123px, 88px, -123px, -88px, 11px, 12px, 170px, 159px, '../images/sprite/details.png', 'news', );
+$pic-name: 'pic';
+$pic-x: 63px;
+$pic-y: 70px;
+$pic-offset-x: -63px;
+$pic-offset-y: -70px;
+$pic-width: 24px;
+$pic-height: 21px;
+$pic-total-width: 170px;
+$pic-total-height: 159px;
+$pic-image: '../images/sprite/details.png';
+$pic: (63px, 70px, -63px, -70px, 24px, 21px, 170px, 159px, '../images/sprite/details.png', 'pic', );
+$question-name: 'question';
+$question-x: 0px;
+$question-y: 110px;
+$question-offset-x: 0px;
+$question-offset-y: -110px;
+$question-width: 21px;
+$question-height: 20px;
+$question-total-width: 170px;
+$question-total-height: 159px;
+$question-image: '../images/sprite/details.png';
+$question: (0px, 110px, 0px, -110px, 21px, 20px, 170px, 159px, '../images/sprite/details.png', 'question', );
+$recommend-name: 'recommend';
+$recommend-x: 85px;
+$recommend-y: 36px;
+$recommend-offset-x: -85px;
+$recommend-offset-y: -36px;
+$recommend-width: 27px;
+$recommend-height: 24px;
+$recommend-total-width: 170px;
+$recommend-total-height: 159px;
+$recommend-image: '../images/sprite/details.png';
+$recommend: (85px, 36px, -85px, -36px, 27px, 24px, 170px, 159px, '../images/sprite/details.png', 'recommend', );
+$return-name: 'return';
+$return-x: 98px;
+$return-y: 110px;
+$return-offset-x: -98px;
+$return-offset-y: -110px;
+$return-width: 11px;
+$return-height: 11px;
+$return-total-width: 170px;
+$return-total-height: 159px;
+$return-image: '../images/sprite/details.png';
+$return: (98px, 110px, -98px, -110px, 11px, 11px, 170px, 159px, '../images/sprite/details.png', 'return', );
+$right-name: 'right';
+$right-x: 155px;
+$right-y: 32px;
+$right-offset-x: -155px;
+$right-offset-y: -32px;
+$right-width: 15px;
+$right-height: 24px;
+$right-total-width: 170px;
+$right-total-height: 159px;
+$right-image: '../images/sprite/details.png';
+$right: (155px, 32px, -155px, -32px, 15px, 24px, 170px, 159px, '../images/sprite/details.png', 'right', );
+$t1-name: 't1';
+$t1-x: 55px;
+$t1-y: 110px;
+$t1-offset-x: -55px;
+$t1-offset-y: -110px;
+$t1-width: 18px;
+$t1-height: 18px;
+$t1-total-width: 170px;
+$t1-total-height: 159px;
+$t1-image: '../images/sprite/details.png';
+$t1: (55px, 110px, -55px, -110px, 18px, 18px, 170px, 159px, '../images/sprite/details.png', 't1', );
+$t2-name: 't2';
+$t2-x: 155px;
+$t2-y: 91px;
+$t2-offset-x: -155px;
+$t2-offset-y: -91px;
+$t2-width: 12px;
+$t2-height: 18px;
+$t2-total-width: 170px;
+$t2-total-height: 159px;
+$t2-image: '../images/sprite/details.png';
+$t2: (155px, 91px, -155px, -91px, 12px, 18px, 170px, 159px, '../images/sprite/details.png', 't2', );
+$t3-name: 't3';
+$t3-x: 29px;
+$t3-y: 110px;
+$t3-offset-x: -29px;
+$t3-offset-y: -110px;
+$t3-width: 18px;
+$t3-height: 18px;
+$t3-total-width: 170px;
+$t3-total-height: 159px;
+$t3-image: '../images/sprite/details.png';
+$t3: (29px, 110px, -29px, -110px, 18px, 18px, 170px, 159px, '../images/sprite/details.png', 't3', );
+$t4-name: 't4';
+$t4-x: 123px;
+$t4-y: 28px;
+$t4-offset-x: -123px;
+$t4-offset-y: -28px;
+$t4-width: 24px;
+$t4-height: 20px;
+$t4-total-width: 170px;
+$t4-total-height: 159px;
+$t4-image: '../images/sprite/details.png';
+$t4: (123px, 28px, -123px, -28px, 24px, 20px, 170px, 159px, '../images/sprite/details.png', 't4', );
+$tel-name: 'tel';
+$tel-x: 155px;
+$tel-y: 64px;
+$tel-offset-x: -155px;
+$tel-offset-y: -64px;
+$tel-width: 13px;
+$tel-height: 19px;
+$tel-total-width: 170px;
+$tel-total-height: 159px;
+$tel-image: '../images/sprite/details.png';
+$tel: (155px, 64px, -155px, -64px, 13px, 19px, 170px, 159px, '../images/sprite/details.png', 'tel', );
+$spritesheet-width: 170px;
+$spritesheet-height: 159px;
+$spritesheet-image: '../images/sprite/details.png';
+$spritesheet-sprites: ($ask, $bot, $consult11, $consult15, $consult18, $file, $hand, $house, $icon-sp-10, $left, $leftarrow, $news, $pic, $question, $recommend, $return, $right, $t1, $t2, $t3, $t4, $tel, );
+$spritesheet: (170px, 159px, '../images/sprite/details.png', $spritesheet-sprites, );
+
+// The provided mixins are intended to be used with the array-like variables
+//
+// .icon-home {
+//   @include sprite-width($icon-home);
+// }
+//
+// .icon-email {
+//   @include sprite($icon-email);
+// }
+//
+// Example usage in HTML:
+//
+// `display: block` sprite:
+// <div class="icon-home"></div>
+//
+// To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+//
+// // CSS
+// .icon {
+//   display: inline-block;
+// }
+//
+// // HTML
+// <i class="icon icon-home"></i>
+@mixin sprite-width($sprite) {
+  width: nth($sprite, 5);
+}
+
+@mixin sprite-height($sprite) {
+  height: nth($sprite, 6);
+}
+
+@mixin sprite-position($sprite) {
+  $sprite-offset-x: nth($sprite, 3);
+  $sprite-offset-y: nth($sprite, 4);
+  background-position: $sprite-offset-x  $sprite-offset-y;
+}
+
+@mixin sprite-image($sprite) {
+  $sprite-image: nth($sprite, 9);
+  background-image: url(#{$sprite-image});
+}
+
+@mixin sprite($sprite) {
+  @include sprite-image($sprite);
+  @include sprite-position($sprite);
+  @include sprite-width($sprite);
+  @include sprite-height($sprite);
+}
+
+// The `sprites` mixin generates identical output to the CSS template
+//   but can be overridden inside of SCSS
+//
+// @include sprites($spritesheet-sprites);
+@mixin sprites($sprites) {
+  @each $sprite in $sprites {
+    $sprite-name: nth($sprite, 10);
+    .#{$sprite-name} {
+      @include sprite($sprite);
+    }
+  }
+}

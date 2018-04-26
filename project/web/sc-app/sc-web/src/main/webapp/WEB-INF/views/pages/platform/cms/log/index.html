@@ -1,0 +1,103 @@
+<div class="modal-body no-p">
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel panel-primary no-b">
+                <header class="panel-heading clearfix brtl brtr">
+                    <div class="overflow-hidden">
+                        <a href="javascript:;" class="h4 show no-m pt5">操作历史</a>
+                    </div>
+                </header>
+                <div class="list-group">
+                    <table width="90%" class="table table-bordered table-striped mg-t datatable">
+                        <thead>
+                        <tr>
+                            <th width="10%">操作类型</th>
+                            <th width="30%">操作内容</th>
+                            <th width="15%">IP地址</th>
+                            <th width="15%">操作人</th>
+                            <th width="20%">操作时间</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tabledata">
+                        </tbody>
+                    </table>
+
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">${msg['cms.channel.model.column.cancel']}</button>
+<!--
+    <button onclick="doSave()" id="ok" type="button" class="btn btn-primary" data-loading-text="${msg['cms.channel.model.column.soure']}">${msg['cms.channel.model.column.soure']}</button>
+-->
+</div>
+<script language="JavaScript">
+    function doSave(){
+        var flag=$("#flag").val();
+        var btn = $("#ok");
+        var dialog = $("#dialogLog");
+        btn.button("loading");
+        dialog.modal("hide");
+    }
+    $(function () {
+        initDatatable();
+    })
+    function initDatatable() {
+        jQuery.ajax({
+            type: 'POST',
+            url : "${base}/platform/cms/content/loglist?content_id=${content_id}" ,
+            success : function (res) {
+                if(res!=""){
+                    res=eval(res);
+                    var selector=$("#tabledata");
+                    var content="";
+                    var result="";
+                    var title="";
+                    var username="";
+                    var ip="";
+                    var log_time="";
+                    selector.empty();
+                    jQuery.each(res, function(index, term) {
+                        result=result+"<tr role='row'";
+                        if(index%2==0){
+                            result=result+"class='odd'>";
+                        }else{
+                            result=result+"class='even'>";
+                        }
+                        jQuery.each(term, function(index2, term2) {
+                            if(index2=="title"){
+                                title="";
+                                title=title+"<td width='10%'>"+term2+"</td>";
+                            }
+                            if(index2=="content"){
+                                content="";
+                                content=content+"<td width='30%'>"+term2+"</td>";
+                            }
+                            if(index2=="ip"){
+                                ip="";
+                                ip=ip+"<td width='15%'>"+term2+"</td>";
+                            }
+                            if(index2=="username"){
+                                username="";
+                                username=username+"<td width='15%'>"+term2+"</td>";
+                            }
+                            if(index2=="log_time"){
+                                log_time="";
+                                log_time=log_time+"<td width='20%'>"+term2+"</td>";
+                            }
+                        });
+                        result=result+title+content+ip+username+log_time+"</tr>";
+                    });
+                    selector.append(result);
+                }
+                return false;
+            },
+            fail : function(res) {
+                Toast.error("系统错误!");
+            }
+        });
+    }
+</script>
