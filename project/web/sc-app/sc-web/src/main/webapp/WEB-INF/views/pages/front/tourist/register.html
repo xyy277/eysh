@@ -144,9 +144,19 @@ canvas {
                 </div>
                 <div class="part3" style="display:none">
                     <div class="item col-xs-12">
+                        <span class="intelligent-label f-fl"><b class="ftx04">*</b>昵称：</span>
+                        <div class="f-fl item-ifo">
+                            <input type="text" class="txt03 f-r3 required" data-valid="isNonEmpty" data-error="昵称不能为空" tabindex="1"  id="nickname" />
+                            <span class="ie8 icon-close close hide"></span>
+                            <label class="icon-sucessfill blank hide"></label>
+                            <label class="focus">请输入您要想的昵称</label>
+                            <label class="focus valid"></label>
+                        </div>
+                    </div>
+                    <div class="item col-xs-12">
                         <span class="intelligent-label f-fl"><b class="ftx04">*</b>真实姓名：</span>    
                         <div class="f-fl item-ifo">
-                            <input type="text" maxlength="10" class="txt03 f-r3 required" tabindex="1" data-valid="isNonEmpty||between:2-10||isZh" data-error="真实姓名不能为空||真实姓名长度2-10位||只能输入中文" id="realname" />
+                            <input type="text" maxlength="10" class="txt03 f-r3 required" tabindex="2" data-valid="isNonEmpty||between:2-10||isZh" data-error="真实姓名不能为空||真实姓名长度2-10位||只能输入中文" id="realname" />
                             <span class="ie8 icon-close close hide"></span>                         
                             <label class="icon-sucessfill blank hide"></label>
                             <label class="focus">2-10位，中文真实姓名</label>
@@ -156,7 +166,7 @@ canvas {
                     <div class="item col-xs-12">
                         <span class="intelligent-label f-fl"><b class="ftx04">*</b>qq号：</span>
                         <div class="f-fl item-ifo">
-                            <input type="text" class="txt03 f-r3 required" tabindex="2" data-valid="isNonEmpty" data-error="qq号不能为空" maxlength="11" id="qqnum" />
+                            <input type="text" class="txt03 f-r3 required" tabindex="3" data-valid="isNonEmpty" data-error="qq号不能为空" maxlength="11" id="qqnum" />
                             <span class="ie8 icon-close close hide"></span>                        
                             <label class="icon-sucessfill blank hide"></label>
                             <label class="focus">请填写有效的qq号码</label>
@@ -202,6 +212,7 @@ canvas {
                     success:function (data) {
                         if(data.code==0){
                             toastr.success(data.msg);
+                            alert(data.msg);
                             captcha=data.msg.split("：")[1];
                         }else{
 
@@ -354,6 +365,7 @@ function register() {
        data:{
            "loginname":$("#username").val(),
            "phone":$("#phonenum").val(),
+           "nickname": $("#nickname").val(),
            "password":$("#password").val(),
            "name":$("#realname").val(),
            "qq":$("#qqnum").val(),

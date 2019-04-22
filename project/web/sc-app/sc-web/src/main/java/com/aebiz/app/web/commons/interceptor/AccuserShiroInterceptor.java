@@ -27,6 +27,8 @@ public class AccuserShiroInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler)
             throws Exception {
+        response.setCharacterEncoding("UTF-8");
+        response.setHeader("Content-Type", "text/html;charset=UTF-8");//这句话是解决乱码的
         Subject subject = SecurityUtils.getSubject();
         if (!subject.isAuthenticated()) {
             return whenUnauthenticated(request, response);

@@ -6,7 +6,7 @@
 
     <bean class="org.apache.activemq.ActiveMQConnectionFactory" id="amqConnectionFactory">
         <property name="brokerURL">
-            <value>failover:(tcp://218.22.2.28:61619)</value>
+            <value></value>
         </property>
         <property name="userName" value="admin"/>
         <property name="password" value="admin"/>

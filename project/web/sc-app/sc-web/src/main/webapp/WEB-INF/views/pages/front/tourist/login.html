@@ -66,7 +66,11 @@
                 data: {username: $("#username").val(), password: encryptedString(key,$("#password").val().split("").reverse().join(""))},
                 success: function (data) {
                     if (data.code == 0) {
-                        window.location.href = "${base!}/welcome?returnUrl="+data.msg;
+                        if(Math.random() >= 0.5) {
+                            window.location.href = "${base!}/welcome?returnUrl="+data.msg;
+						} else {
+                            window.location.href = "${base!}/fly?returnUrl="+data.msg;
+                        }
                     }
                     else
                     {

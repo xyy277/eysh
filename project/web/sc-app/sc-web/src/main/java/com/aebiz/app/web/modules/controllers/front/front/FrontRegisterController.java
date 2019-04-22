@@ -184,6 +184,7 @@ public class FrontRegisterController {
     @SJson
     public Result registerDo(HttpServletRequest request) {
         String loginname=request.getParameter("loginname");
+        String nickname = request.getParameter("nickname");
         String phone=request.getParameter("phone");
         String password=request.getParameter("password");
         String name=request.getParameter("name");
@@ -208,7 +209,7 @@ public class FrontRegisterController {
             String salt = rng.nextBytes().toBase64();
             String hashedPasswordBase64 = new Sha256Hash(password, salt, 1024).toBase64();
             user.setLoginname(loginname);
-            user.setNickname("小"+name.toCharArray()[0]);
+            user.setNickname(Strings.isBlank(nickname) ? "小"+name.toCharArray()[0] : nickname);
             user.setPassword(hashedPasswordBase64);
             user.setMobile(phone);
             user.setName(name);

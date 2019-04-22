@@ -14,6 +14,7 @@ import org.nutz.log.Logs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -38,11 +39,11 @@ public class FrontController {
     @Autowired
     private TourJourneyCommentService tourJourneyCommentService;
 
-    @RequestMapping("/saveJourney")
+    @RequestMapping(value = "/saveJourney", method = RequestMethod.POST)
     @SJson
     public Object saveJourney(HttpServletRequest request){
-        Tour_user tour_user = (Tour_user) SecurityUtils.getSubject().getPrincipal();
-        if(tour_user==null){
+        Object object = SecurityUtils.getSubject().getPrincipal();
+        if(object==null){
             return Result.error("你还没登录哦");
         }
         String title = request.getParameter("title");

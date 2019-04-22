@@ -28,7 +28,7 @@ public class Tour_journey extends BaseModel implements Serializable {
     @Column
     @Comment("审核状态 -1：回收站 0:待审 1：审核通过 2:审核未通过")
     @ColDefine(type = ColType.INT)
-    private Integer status;
+    private Integer status = 0;
 
     @Column
     @Comment("发布者")
@@ -38,17 +38,17 @@ public class Tour_journey extends BaseModel implements Serializable {
     @Column
     @Comment("点击量")
     @ColDefine(type = ColType.INT)
-    private Integer readnum;
+    private Integer readnum = 0;
 
     @Column
     @Comment("点赞数")
     @ColDefine(type = ColType.INT)
-    private Integer up_number;
+    private Integer up_number = 0;
 
     @Column
     @Comment("评论数")
     @ColDefine(type = ColType.INT)
-    private Integer comment_no;
+    private Integer comment_no = 0;
 
     public String getId() {
         return id;
