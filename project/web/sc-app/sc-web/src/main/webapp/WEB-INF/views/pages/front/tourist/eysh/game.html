@@ -211,6 +211,7 @@ html, body {
 	<div id="game"></div>
 	<div id="score">0</div>
 	<div id="instructions" style="z-index: 100">
+		<span>温馨小贴士</span>
 		<h3 id="title">手指点击屏幕或敲击空格都可以哦</h3>
 	</div>
 	<div class="game-over">
@@ -247,7 +248,8 @@ var nickname_ = '${nickname!}';
 var center= 0;
 window.onload=function(){
  $('#game').css('cursor','pointer'); 
-}
+};
+var intervalId;
 $(function () {
     if (isMobile == 0) {
         $('#collect').css("margin-left", "40%");
@@ -259,7 +261,6 @@ $(function () {
         $('#showRank').html("点此查看榜单！");
         $('#collect').css("margin-left", "0%");
 	}
-    var index = 0;
     hideCollect();
     $('#rankList').click(function (e) {
         e.preventDefault();
@@ -273,15 +274,23 @@ $(function () {
         e.preventDefault();
         e.stopPropagation();
     });
-    setInterval(function () {
-        if (index == 0) {
+    var index = 0;
+    intervalId = setInterval(function () {
+        if (index %6 == 0) {
             $("#title").html("点击屏幕或敲空格就可以搭建你的金字塔");
-            index ++;
-        } else {
-            $("#title").html('如果想要加入排行榜，就快来<a href="${base!}/register?returnUrl=game">注册</a>吧！');
-            index = 0;
+        } else if(index % 6 == 1) {
+            $("#title").html('想成为会员吗，快来<a href="${base!}/register?returnUrl=game">注册</a>吧！');
+        } else if (index % 6 == 2) {
+            $("#title").html('如果没有找准时机，不妨静心等待，飞行是循环往复的');
+		} else if (index % 6 == 3) {
+            getAll();
+        } else if (index % 6 == 4) {
+            $("#title").html('你真棒！继续努力鸭！');
+        } else if (index % 6 == 5) {
+            getCount();
         }
         $("#title").show();
+        index ++;
     },5000);
     if (isMobile == 0) {
         getList($('#list'));
@@ -298,6 +307,32 @@ $(function () {
         }
     });
 });
+	function getAll() {
+		$.ajax({
+			url: "${base!}/get/all",
+			type: 'get',
+			dataType: 'json',
+			success: function (data) {
+                $("#title").html('历史挑战总人数：'+ data + '！！');
+			},
+			error: function () {
+                $("#title").html('┗|｀O′|┛ 嗷~~，服务器现在特别拥挤！');
+            }
+		})
+	};
+    function getCount() {
+        $.ajax({
+            url: "${base!}/get/count",
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                $("#title").html('这是你的第：'+ data + '次挑战，ヾ(◍°∇°◍)ﾉﾞ');
+            },
+            error: function () {
+                $("#title").html('┗|｀O′|┛ 嗷~~，服务器现在特别拥挤！');
+            }
+        })
+    };
 function showRank(e) {
     e.stopPropagation();
     getList($('#rank'));
@@ -678,8 +713,21 @@ var Game = /** @class */ (function () {
         if (this.blocks.length > 1 ) {
             $("#start").html("");
 		}
-        if (this.blocks.length >= 10)
-            this.instructions.classList.add('hide');
+        if (this.blocks.length >= 100) {
+            clearInterval(intervalId);
+            var index_ = 0;
+            intervalId = setInterval(function () {
+                if (index_ % 3 == 0) {
+                    $("#title").html("Oh, my god !!!");
+                } else if (index_ % 3 == 1) {
+                    $("#title").html('冲鸭！！！');
+                } else if (index_ % 3 == 2) {
+                    $("#title").html('地球人已经无法阻止你了好像！！！');
+                }
+                $("#title").show();
+                index ++;
+            },5000);
+		}
     };
     Game.prototype.endGame = function () {
         this.instructions.classList.remove('hide');

@@ -29,6 +29,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -168,11 +170,11 @@ public class EyshHomeController {
                 request.setAttribute("isGuest", 0);
                 request.setAttribute("nickname", user.getNickname());
             } else {
-               String ip = request.getRemoteAddr();
+                request.setAttribute("isGuest", 1);
+                String ip = getIp(request);
                Tour_guest guest = tourGuestService.fetch(Cnd.where("ip", "=", ip));
                if (guest != null) {
                    request.setAttribute("uid", guest.getId());
-                   request.setAttribute("isGuest", 1);
                    request.setAttribute("nickname", guest.getNickname());
                }
             }
@@ -208,14 +210,18 @@ public class EyshHomeController {
     public Result saveScore(String id, Integer score) {
         Tour_user user = tourUserService.fetch(id);
         int success = 0;
+        if (user == null) {
+            return Result.error("game.error");
+        }
         if (user.getScore() == null) {
-            success = tourUserService.updateIgnoreNull(user);
-        } else {
-            if (user.getScore() < score) {
+            user.setRank(user.getRank() == null ? 0 : user.getRank() + 1);
+            user.setScore(0);
+            if (user.getScore() > score) {
+                success = tourUserService.updateIgnoreNull(user);
+                return Result.success("game.fight", success);
+            } else {
                 user.setScore(score);
                 success = tourUserService.updateIgnoreNull(user);
-            } else {
-                return Result.success("game.fight");
             }
         }
         if (success < 1) {
@@ -235,15 +241,40 @@ public class EyshHomeController {
         }
     }
 
+    @RequestMapping(value = "/get/all", method = RequestMethod.GET)
+    @ResponseBody
+    public Integer getAll() {
+        int countUser = tourUserService.count(Cnd.where("score", ">=", 0));
+        int countGuest = tourGuestService.count();
+        return countGuest + countUser;
+    }
+
+    @RequestMapping(value = "/get/count", method = RequestMethod.GET)
+    @ResponseBody
+    public Integer getCount(HttpServletRequest request) {
+        Subject subject = SecurityUtils.getSubject();
+        Tour_user user = (Tour_user) subject.getPrincipal();
+        if (user != null) {
+            return user.getRank() == null ? 1: user.getRank();
+        } else {
+            Tour_guest guest = tourGuestService.fetch(Cnd.where("ip", "=", getIp(request)));
+            if (guest != null) {
+                return guest.getCount();
+            } else
+                return 1;
+        }
+    }
+
     @RequestMapping(value = "/save/guest", method = RequestMethod.POST)
     @ResponseBody
     public Result saveGuest(String nickname, Integer score, HttpServletRequest request) {
-        Tour_guest guest = tourGuestService.fetch(Cnd.where("ip", "=", request.getRemoteAddr()));
+        Tour_guest guest = tourGuestService.fetch(Cnd.where("ip", "=", getIp(request)));
         int success = 0;
         // 第一次保存
         if (guest == null) {
             guest = new Tour_guest();
             guest.setNickname(nickname);
+            guest.setIp(getIp(request));
             guest.setScore(score);
             guest.setCount(1);
             guest = tourGuestService.insert(guest);
@@ -253,6 +284,7 @@ public class EyshHomeController {
             request.setAttribute("uid", guest.getId());
             // 第二次保存
             guest.setNickname(nickname);
+            guest.setIp(getIp(request));
             guest.setCount(guest.getCount() == null ? 0 : guest.getCount() + 1);
             // 分高于历史记录高
             if (guest.getScore() < score) {
@@ -270,7 +302,27 @@ public class EyshHomeController {
         }
     }
 
-
+    private String getIp(HttpServletRequest request) {
+        String ipAddress = request.getRemoteAddr();
+        if(ipAddress.equals("127.0.0.1") || ipAddress.equals("0:0:0:0:0:0:0:1")){
+            //根据网卡获取本机配置的IP地址
+            InetAddress inetAddress = null;
+            try {
+                inetAddress = InetAddress.getLocalHost();
+            }
+            catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+            ipAddress = inetAddress.getHostAddress();
+        }
+        //对于通过多个代理的情况，第一个IP为客户端真实的IP地址，多个IP按照','分割
+        if(null != ipAddress && ipAddress.length() > 15){
+            if(ipAddress.indexOf(",") > 0){
+                ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));
+            }
+        }
+        return ipAddress;
+    }
 
     @RequestMapping("/front/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {

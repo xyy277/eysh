@@ -116,7 +116,7 @@ public class Tour_user extends BaseModel implements Serializable{
 
     @Column
     @ColDefine(type = ColType.INT)
-    @Comment("游戏排名")
+    @Comment("游戏次数")
     private Integer rank;
 
     public Integer getRank() {
