@@ -158,20 +158,21 @@ public class EyshHomeController {
         Tour_user tour_user = (Tour_user) request.getSession().getAttribute("user");
         if (tour_user != null) {
             request.setAttribute("uid", tour_user.getId());
+            request.setAttribute("isGuest", 0);
             request.setAttribute("nickname", tour_user.getNickname());
         } else {
             Subject subject = SecurityUtils.getSubject();
             Tour_user user = (Tour_user) subject.getPrincipal();
             if (user != null) {
                 request.setAttribute("uid", user.getId());
+                request.setAttribute("isGuest", 0);
                 request.setAttribute("nickname", user.getNickname());
             } else {
                String ip = request.getRemoteAddr();
                Tour_guest guest = tourGuestService.fetch(Cnd.where("ip", "=", ip));
                if (guest != null) {
-                   guest.setCount(guest.getCount() == null ? 0 : guest.getCount() + 1);
-                   tourGuestService.update(guest);
                    request.setAttribute("uid", guest.getId());
+                   request.setAttribute("isGuest", 1);
                    request.setAttribute("nickname", guest.getNickname());
                }
             }
@@ -246,8 +247,10 @@ public class EyshHomeController {
             guest.setScore(score);
             guest.setCount(1);
             guest = tourGuestService.insert(guest);
+            request.setAttribute("uid", guest.getId());
             return Result.success("game.congratulation", guest);
         } else {
+            request.setAttribute("uid", guest.getId());
             // 第二次保存
             guest.setNickname(nickname);
             guest.setCount(guest.getCount() == null ? 0 : guest.getCount() + 1);

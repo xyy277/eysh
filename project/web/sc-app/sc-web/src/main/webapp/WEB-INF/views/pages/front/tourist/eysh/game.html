@@ -240,6 +240,7 @@ html, body {
 <script>
 console.clear();
 var uid =  '${uid!}';
+var isGuest = parseInt('${isGuest!}');
 var isMobile = parseInt('${isMobile!}');
 var nickname_ = '${nickname!}';
 // init list
@@ -682,7 +683,7 @@ var Game = /** @class */ (function () {
     };
     Game.prototype.endGame = function () {
         this.instructions.classList.remove('hide');
-        if (uid != null && uid != '') {
+        if (isGuest == 0) {
             saveUser();
 		} else {
             $(function(){
