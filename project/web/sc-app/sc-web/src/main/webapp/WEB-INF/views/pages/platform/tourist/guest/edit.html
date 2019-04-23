@@ -3,7 +3,7 @@ layout("/layouts/platform.html"){
 #-->
 <header class="header navbar bg-white shadow">
     <div class="btn-group tool-button">
-        <a class="btn btn-primary navbar-btn" href="${base}/platform/tourist/guest" id="goBack" data-pjax><i class="ti-angle-left"></i>${msg['globals.button.back']}</a>
+        <a class="btn btn-primary navbar-btn" href="${base}/platform/tourist/guest" id="goBack" data-pjax><i class="ti-angle-left"></i>返回</a>
     </div>
 </header>
 
@@ -13,41 +13,41 @@ layout("/layouts/platform.html"){
             <form id="editForm" role="form" class="form-horizontal parsley-form" data-parsley-validate
                   action="${base}/platform/tourist/guest/editDo" method="post">
                 <input name="id" type="hidden" value="${obj.id}">
-                <div class="row mb10 mt10">
+                <div class="row mb10">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label for="ip" class="col-sm-2 control-label">${msg['tour.guest.column.ip']}</label>
+                            <label for="ip" class="col-sm-2 control-label">ip</label>
                             <div class="col-sm-8">
                                 <input type="text" id="ip" class="form-control" name="ip" data-parsley-required="true"
-                                       placeholder="${msg['tour.guest.column.ip']}" value="${obj.ip}" >
+                                       placeholder="ip" value="${obj.ip}" >
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="nickname" class="col-sm-2 control-label">${msg['tour.guest.column.nickname']}</label>
+                            <label for="nickname" class="col-sm-2 control-label">昵称</label>
                             <div class="col-sm-8">
                                 <input type="text" id="nickname" class="form-control" name="nickname" data-parsley-required="true"
-                                       placeholder="${msg['tour.guest.column.nickname']}" value="${obj.nickname}" >
+                                       placeholder="昵称" value="${obj.nickname}" >
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="score" class="col-sm-2 control-label">${msg['tour.guest.column.score']}</label>
+                            <label for="score" class="col-sm-2 control-label">游戏得分</label>
                             <div class="col-sm-8">
                                 <input type="text" id="score" class="form-control" name="score" data-parsley-required="true"
-                                       placeholder="${msg['tour.guest.column.score']}" value="${obj.score}" >
+                                       placeholder="游戏得分" value="${obj.score}" >
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="rank" class="col-sm-2 control-label">${msg['tour.guest.column.rank']}</label>
+                            <label for="rank" class="col-sm-2 control-label">游戏排名</label>
                             <div class="col-sm-8">
                                 <input type="text" id="rank" class="form-control" name="rank" data-parsley-required="true"
-                                       placeholder="${msg['tour.guest.column.rank']}" value="${obj.rank}" >
+                                       placeholder="游戏排名" value="${obj.rank}" >
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="count" class="col-sm-2 control-label">${msg['tour.guest.column.count']}</label>
+                            <label for="count" class="col-sm-2 control-label">游戏次数</label>
                             <div class="col-sm-8">
                                 <input type="text" id="count" class="form-control" name="count" data-parsley-required="true"
-                                       placeholder="${msg['tour.guest.column.count']}" value="${obj.count}" >
+                                       placeholder="游戏次数" value="${obj.count}" >
                             </div>
                         </div>
                     </div>
@@ -58,7 +58,7 @@ layout("/layouts/platform.html"){
                         <label></label>
 
                         <div>
-                            <button class="btn btn-primary btn-block btn-lg btn-parsley" data-loading-text="${msg['globals.button.submit.tip']}">${msg['globals.button.submit']}</button>
+                            <button class="btn btn-primary btn-block btn-lg btn-parsley" data-loading-text="正在提交...">提 交</button>
                         </div>
                     </div>
                 </div>

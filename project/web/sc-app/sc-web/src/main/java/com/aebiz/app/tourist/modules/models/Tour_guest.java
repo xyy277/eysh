@@ -48,7 +48,7 @@ public class Tour_guest extends BaseModel implements Serializable {
 
     @Column
     @ColDefine(type = ColType.INT)
-    @Comment("访问次数")
+    @Comment("游戏次数")
     private Integer count;
 
 

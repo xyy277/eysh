@@ -12,36 +12,36 @@ layout("/layouts/platform.html"){
         <section class="panel panel-form">
             <form id="addForm" role="form" class="form-horizontal parsley-form" data-parsley-validate
                   action="${base}/platform/tourist/guest/addDo" method="post">
-                <div class="row mb10 mt10">
+                <div class="row mb10">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label for="ip" class="col-sm-2 control-label">${msg['tour.guest.column.ip']}</label>
+                            <label for="ip" class="col-sm-2 control-label">ip</label>
                             <div class="col-sm-8">
-                            <input type="text" id="ip" class="form-control" name="ip" data-parsley-required="true" placeholder="${msg['tour.guest.column.ip']}">
+                            <input type="text" id="ip" class="form-control" name="ip" data-parsley-required="true" placeholder="ip">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="nickname" class="col-sm-2 control-label">${msg['tour.guest.column.nickname']}</label>
+                            <label for="nickname" class="col-sm-2 control-label">昵称</label>
                             <div class="col-sm-8">
-                            <input type="text" id="nickname" class="form-control" name="nickname" data-parsley-required="true" placeholder="${msg['tour.guest.column.nickname']}">
+                            <input type="text" id="nickname" class="form-control" name="nickname" data-parsley-required="true" placeholder="昵称">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="score" class="col-sm-2 control-label">${msg['tour.guest.column.score']}</label>
+                            <label for="score" class="col-sm-2 control-label">游戏得分</label>
                             <div class="col-sm-8">
-                            <input type="text" id="score" class="form-control" name="score" data-parsley-required="true" placeholder="${msg['tour.guest.column.score']}">
+                            <input type="text" id="score" class="form-control" name="score" data-parsley-required="true" placeholder="游戏得分">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="rank" class="col-sm-2 control-label">${msg['tour.guest.column.rank']}</label>
+                            <label for="rank" class="col-sm-2 control-label">游戏排名</label>
                             <div class="col-sm-8">
-                            <input type="text" id="rank" class="form-control" name="rank" data-parsley-required="true" placeholder="${msg['tour.guest.column.rank']}">
+                            <input type="text" id="rank" class="form-control" name="rank" data-parsley-required="true" placeholder="游戏排名">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="count" class="col-sm-2 control-label">${msg['tour.guest.column.count']}</label>
+                            <label for="count" class="col-sm-2 control-label">游戏次数</label>
                             <div class="col-sm-8">
-                            <input type="text" id="count" class="form-control" name="count" data-parsley-required="true" placeholder="${msg['tour.guest.column.count']}">
+                            <input type="text" id="count" class="form-control" name="count" data-parsley-required="true" placeholder="游戏次数">
                             </div>
                         </div>
                     </div>
@@ -52,7 +52,7 @@ layout("/layouts/platform.html"){
                         <label></label>
 
                         <div>
-                            <button class="btn btn-primary btn-block btn-lg btn-parsley" data-loading-text="${msg['globals.button.submit.tip']}">${msg['globals.button.submit']}</button>
+                            <button class="btn btn-primary btn-block btn-lg btn-parsley" data-loading-text="正在提交...">提 交</button>
                         </div>
                     </div>
                 </div>

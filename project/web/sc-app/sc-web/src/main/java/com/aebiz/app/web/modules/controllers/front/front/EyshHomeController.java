@@ -169,8 +169,9 @@ public class EyshHomeController {
                String ip = request.getRemoteAddr();
                Tour_guest guest = tourGuestService.fetch(Cnd.where("ip", "=", ip));
                if (guest != null) {
-                   guest.setCount(guest.getCount() + 1);
+                   guest.setCount(guest.getCount() == null ? 0 : guest.getCount() + 1);
                    tourGuestService.update(guest);
+                   request.setAttribute("uid", guest.getId());
                    request.setAttribute("nickname", guest.getNickname());
                }
             }
@@ -185,7 +186,7 @@ public class EyshHomeController {
     public Result getScoreList() {
         Cnd cnd = Cnd.NEW();
         List<Tour_user> users = tourUserService.query("id|nickname|score|rank", cnd.where("score", ">=", 0).limit(1,10).desc("score"));
-        List<Tour_guest> guests = tourGuestService.query("id|nickname|score|rank", Cnd.where("score", ">=", 0).limit(1,10).desc("score"));
+        List<Tour_guest> guests = tourGuestService.query("id|nickname|score|rank", Cnd.where("score", ">=", 0).and("nickname", "!=", "").limit(1,10).desc("score"));
         users.forEach(user -> {
             Tour_guest guest = new Tour_guest();
             guest.setId(user.getId());
@@ -236,31 +237,34 @@ public class EyshHomeController {
     @RequestMapping(value = "/save/guest", method = RequestMethod.POST)
     @ResponseBody
     public Result saveGuest(String nickname, Integer score, HttpServletRequest request) {
-        Tour_guest guest = tourGuestService.fetch(Cnd.where("nickname", "=", nickname));
+        Tour_guest guest = tourGuestService.fetch(Cnd.where("ip", "=", request.getRemoteAddr()));
         int success = 0;
+        // 第一次保存
         if (guest == null) {
             guest = new Tour_guest();
             guest.setNickname(nickname);
             guest.setScore(score);
-            guest.setIp(request.getRemoteAddr());
             guest.setCount(1);
             guest = tourGuestService.insert(guest);
             return Result.success("game.congratulation", guest);
-        }
-        if (guest.getScore() == null) {
-            success = tourGuestService.updateIgnoreNull(guest);
         } else {
+            // 第二次保存
+            guest.setNickname(nickname);
+            guest.setCount(guest.getCount() == null ? 0 : guest.getCount() + 1);
+            // 分高于历史记录高
             if (guest.getScore() < score) {
                 guest.setScore(score);
                 success = tourGuestService.updateIgnoreNull(guest);
             } else {
-                return Result.success("game.fight");
+                success = tourGuestService.updateIgnoreNull(guest);
+                return Result.success("game.fight", success);
+            }
+            if (success < 1) {
+                return Result.error("game.error");
+            } else {
+                return Result.success("game.congratulation", success);
             }
         }
-        if (success < 1) {
-            return Result.error("game.error");
-        }
-        return Result.success("game.congratulation", success);
     }
 
 

@@ -177,6 +177,12 @@ html, body {
 		-o-text-overflow: ellipsis;
 		white-space:nowrap;
 	}
+	.uli{
+		color: red;
+	}
+	.uui {
+		background: rgba(0,0,0,0.3);
+	}
 </style>
 </head>
 <body>
@@ -184,14 +190,14 @@ html, body {
   <div id="shade" style="position: absolute;width: 100%; height: 1080px; background: rgba(0,0,0,0.5); z-index: 110;">
 
   </div>
-<div id="collect" style="position:absolute;width: 400px;z-index: 120;margin-top: 400px; text-align: center;">
+<div id="collect" style="position:absolute;width: 400px;z-index: 120;margin-top: 400px; text-align: center;display:none;">
 	<h3 style="color: #dfdfdf">这位兄台，可否留下芳名O(∩_∩)O！</h3>
 	<input style="width: 150px;height: 25px; font-size: 18px; border-radius: 5px;" value="" id="nickname" />
 	<button class="btn btn-normal" style="width: 50px; height: 24px;background-color: #0a5eea;color: white;border:none;border-radius: 5px; " onclick="checkNickName($('#nickname').val())"> OK </button>
 	<button class="btn btn-normal" style="width: 50px; height: 24px;background-color: #dfdfdf;color: #0a0a0a;border:none;border-radius: 5px; " onclick="nextTime();"> 下次 </button>
 	<br/><span id="msg" style="color: #90111A"></span>
 </div>
-<div id="container">
+<div id="container" style=" cursor: pointer;" >
 	<div id="rankList">
 		<div id="rank">
 
@@ -213,7 +219,6 @@ html, body {
 		<div id="game-over">
 			<p>${nickname!}&nbsp;小兄dei, 你已经做到你的极致了，放弃吧！</p>
 			<p>如果还有胆来比试就 按空格或者点击鼠标吧！</p>
-			<a href="${base!}/" style="z-index: 100; margin-left: 20%;">按逃跑Esc！或点击此处</a>
 		</div>
 	</div>
 	<div class="game-ready">
@@ -239,6 +244,9 @@ var isMobile = parseInt('${isMobile!}');
 var nickname_ = '${nickname!}';
 // init list
 var center= 0;
+window.onload=function(){
+ $('#game').css('cursor','pointer'); 
+}
 $(function () {
     if (isMobile == 0) {
         $('#collect').css("margin-left", "40%");
@@ -266,7 +274,7 @@ $(function () {
     });
     setInterval(function () {
         if (index == 0) {
-            $("#title").html("点击屏幕或敲空格就可以搭建属于你的金字塔");
+            $("#title").html("点击屏幕或敲空格就可以搭建你的金字塔");
             index ++;
         } else {
             $("#title").html('如果想要加入排行榜，就快来<a href="${base!}/register?returnUrl=game">注册</a>吧！');
@@ -306,7 +314,7 @@ function showCollect() {
     $('#msg').html("");
     $('#game-over').hide();
     $('#start-button').hide();
-    $('#collect').show();
+    $('#collect').show('slow');
     $('#shade').show();
 }
 function hideCollect() {
@@ -317,9 +325,7 @@ function hideCollect() {
 }
 function nextTime() {
     hideCollect();
-    if (isMobile == 0) {
-        getList($('#list'));
-    }
+    saveGuest("");
 }
 function getList(dom) {
     hideCollect();
@@ -334,22 +340,27 @@ function getList(dom) {
                 var htmls = [];
                 data = data.data;
                 for(var i=0;i<data.length;i++) {
+                    var id = data[i].id;
                     var h = '';
-                    h+='<ul>';
-                    h+='<li>';
+                    if (id == uid) {
+                        h+='<ul style="background: rgba(0,0,0,0.3)">'
+                        h+='<li style="color: #90111A">';
+                    } else {
+                        h+='<ul>'
+                        h+='<li onclick="clickLi(this);">';
+                    }
                     if(i<3){
                         h+='<span><img src="${base!}/assets/front/images/px'+(i+1)+'.png">:</span>';
                     }else{
                         h+='<span style="color: #90111A;font-size: 15px; margin-left: 5px;">第'+(i+1)+':</span>';
                     }
-                    var id = data[i].id;
+					h+='<span class="order_name" style="display:-moz-inline-box;display:inline-block;  width: 100px; margin-left: 5px;"><span style="width: 88px;" title="'+data[i].nickname+'">'+data[i].nickname+'</span></span>';
+                    h+='<span class="order_no" style=" margin-left: 10px;">最高得分：'+data[i].score+'</span>';
                     if (id == uid) {
-                        h+='<span class="order_name" style="display:inline-block; width: 100px; margin-left: 5px; color: red"><span style="display:inline-block;width: 88px; color: red" title="'+data[i].nickname+'">'+data[i].nickname+'</span></span>';
-                    } else {
-                        h+='<span class="order_name" style="display:inline-block; width: 100px; margin-left: 5px;"><span style="display:inline-block;width: 88px;" title="'+data[i].nickname+'">'+data[i].nickname+'</span></span>';
+                    	h+='<span style="color: #95750f">☆</span>'
                     }
-                    h+='<span class="order_no" style="display:inline-block; margin-left: 10px;">最高得分：'+data[i].score+'</span>';
-                    h+='</li>';
+
+					h+='</li>';
                     h+='</ul>';
                     htmls.push(h);
                 }
@@ -358,9 +369,12 @@ function getList(dom) {
                 dom.append('<h3>'+ data.msg +'</h3>')
             }
             dom.slideDown("slow");
-//            dom.show();
         }
     });
+}
+function clickLi(dom) {
+	$(dom).addClass('uli').parent().siblings().children().removeClass('uli');
+	$(dom).parent().addClass('uui').siblings().removeClass('uui');
 }
 var Stage = /** @class */ (function () {
     function Stage() {
@@ -564,7 +578,9 @@ var Game = /** @class */ (function () {
         });
         document.addEventListener('touchstart', function (e) {
             e.stopPropagation();
-            this.onAction();
+            if (isMobile == 0) {
+                _this.onAction();
+            }
             // ?? this triggers after click on android so you
             // insta-lose, will figure it out later.
         });
@@ -705,6 +721,7 @@ var game = new Game();
                 if (data.code == 0) {
                     nickname_ = nickname;
                     saveGuest(nickname);
+                    hideCollect();
                     return true;
                 } else {
                     $('#msg').html('您输入的昵称已存在');
