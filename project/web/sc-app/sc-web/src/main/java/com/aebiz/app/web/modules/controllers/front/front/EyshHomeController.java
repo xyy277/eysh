@@ -169,6 +169,8 @@ public class EyshHomeController {
                String ip = request.getRemoteAddr();
                Tour_guest guest = tourGuestService.fetch(Cnd.where("ip", "=", ip));
                if (guest != null) {
+                   guest.setCount(guest.getCount() + 1);
+                   tourGuestService.update(guest);
                    request.setAttribute("nickname", guest.getNickname());
                }
             }
@@ -182,8 +184,8 @@ public class EyshHomeController {
     @ResponseBody
     public Result getScoreList() {
         Cnd cnd = Cnd.NEW();
-        List<Tour_user> users = tourUserService.query("id|nickname|score|rank", cnd.where("score", ">", 0).limit(1,10).desc("score"));
-        List<Tour_guest> guests = tourGuestService.query("id|nickname|score|rank", Cnd.where("score", ">", 0).limit(1,10).desc("score"));
+        List<Tour_user> users = tourUserService.query("id|nickname|score|rank", cnd.where("score", ">=", 0).limit(1,10).desc("score"));
+        List<Tour_guest> guests = tourGuestService.query("id|nickname|score|rank", Cnd.where("score", ">=", 0).limit(1,10).desc("score"));
         users.forEach(user -> {
             Tour_guest guest = new Tour_guest();
             guest.setId(user.getId());
@@ -241,6 +243,7 @@ public class EyshHomeController {
             guest.setNickname(nickname);
             guest.setScore(score);
             guest.setIp(request.getRemoteAddr());
+            guest.setCount(1);
             guest = tourGuestService.insert(guest);
             return Result.success("game.congratulation", guest);
         }

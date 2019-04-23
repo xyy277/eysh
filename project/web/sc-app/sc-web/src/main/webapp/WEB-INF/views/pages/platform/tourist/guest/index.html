@@ -17,6 +17,7 @@ layout("/layouts/platform.html"){
                             <th>${msg['tour.guest.column.nickname']}</th>
                             <th>${msg['tour.guest.column.score']}</th>
                             <th>${msg['tour.guest.column.rank']}</th>
+                            <th>${msg['tour.guest.column.count']}</th>
                             <th>${msg['globals.table.column.operation']}</th>
                     </tr>
                 </thead>
@@ -83,6 +84,7 @@ layout("/layouts/platform.html"){
                     {"data": "nickname", "bSortable": true},
                     {"data": "score", "bSortable": true},
                     {"data": "rank", "bSortable": true},
+                    {"data": "count", "bSortable": true},
             ],
             "columnDefs": [
                 {
@@ -95,7 +97,7 @@ layout("/layouts/platform.html"){
                                 '<li><a href="javascript:;" onclick="del(\'' + row.id + '\')">${msg["globals.button.delete"]}</a></li>' +
                                 '</ul></div>';
                     },
-                    "targets": 4
+                    "targets": 5
                 }
             ]
         });

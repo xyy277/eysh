@@ -46,6 +46,11 @@ public class Tour_guest extends BaseModel implements Serializable {
     @Comment("游戏排名")
     private Integer rank;
 
+    @Column
+    @ColDefine(type = ColType.INT)
+    @Comment("访问次数")
+    private Integer count;
+
 
     public String getId() {
         return id;
@@ -85,5 +90,13 @@ public class Tour_guest extends BaseModel implements Serializable {
 
     public void setRank(Integer rank) {
         this.rank = rank;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }

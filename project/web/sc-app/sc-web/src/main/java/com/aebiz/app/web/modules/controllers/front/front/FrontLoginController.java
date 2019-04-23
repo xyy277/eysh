@@ -96,6 +96,7 @@ public class FrontLoginController {
             Tour_user tour_user= (Tour_user) subject.getPrincipal();
             tour_user.setLast_time(DateUtil.getDateTime());
             tour_user.setLast_ip(request.getRemoteAddr());
+            tour_user.setLogin_num(tour_user.getLogin_num() + 1);
             tourUserService.updateIgnoreNull(tour_user);
             session.setAttribute("uid",tour_user.getId());
             session.setAttribute("nickname",tour_user.getNickname());

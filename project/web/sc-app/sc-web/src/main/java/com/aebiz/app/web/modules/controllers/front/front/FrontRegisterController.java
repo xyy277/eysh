@@ -215,6 +215,7 @@ public class FrontRegisterController {
             user.setName(name);
             user.setQq(qq);
             user.setSalt(salt);
+            user.setLogin_num(1);
             tourUserService.insert(user);
             // 注册成功设置到session中去
             user.setPassword("");

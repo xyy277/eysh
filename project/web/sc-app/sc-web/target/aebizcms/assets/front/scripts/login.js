@@ -1,1 +1,0 @@
-"use strict";var index={init:function(){console.log(2),this.loginTab()},loginTab:function(){$(document).on("click",".m-login-wrap .tab span",function(){var i=$(this).index();$(this).addClass("active").siblings().removeClass("active"),$(".m-login-wrap .bd ul").hide().eq(i).show()})}};index.init();

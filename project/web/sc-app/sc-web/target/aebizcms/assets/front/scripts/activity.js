@@ -1,1 +1,0 @@
-var activity={init:function(){this.tabChange(),this.loadPage()},tabChange:function(){$(".j-hd-lists li").on("click",function(){$(this).addClass("active").siblings().removeClass("active")})},loadPage:function(){layui.use("laypage",function(){var i=layui.laypage;i.render({elem:"m-page",count:50})})}};activity.init();
