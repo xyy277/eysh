@@ -292,24 +292,6 @@ html, body {
         e.stopPropagation();
     });
     getFirst();
-    var index = 0;
-    intervalId = setInterval(function () {
-        if (index %6 == 0) {
-            $("#title").html("点击屏幕或敲空格就可以搭建你的金字塔");
-        } else if(index % 6 == 1) {
-            $("#title").html('想成为会员吗，快来<a href="${base!}/register?returnUrl=game">注册</a>吧！');
-        } else if (index % 6 == 2) {
-            $("#title").html('如果没有找准时机，不妨静心等待，飞行是循环往复的');
-		} else if (index % 6 == 3) {
-            getAll();
-        } else if (index % 6 == 4) {
-            $("#title").html('你真棒！继续努力鸭！');
-        } else if (index % 6 == 5) {
-            getCount();
-        }
-        $("#title").show();
-        index ++;
-    },5000);
     if (isMobile == 0) {
         getList($('#list'));
 	}
@@ -664,6 +646,24 @@ html, body {
 			}
 		};
 		Game.prototype.startGame = function () {
+            var index_ = 0;
+            intervalId = setInterval(function () {
+                if (index_ %6 == 0) {
+                    $("#title").html("点击屏幕或敲空格就可以搭建你的金字塔");
+                } else if(index_ % 6 == 1) {
+                    $("#title").html('想成为会员吗，快来<a href="${base!}/register?returnUrl=game">注册</a>吧！');
+                } else if (index_ % 6 == 2) {
+                    $("#title").html('如果没有找准时机，不妨静心等待，飞行是循环往复的');
+                } else if (index_ % 6 == 3) {
+                    getAll();
+                } else if (index_ % 6 == 4) {
+                    $("#title").html('你真棒！继续努力鸭！');
+                } else if (index_ % 6 == 5) {
+                    getCount();
+                }
+                $("#title").show();
+                index_ ++;
+            },5000);
 			$('#banner').slideUp('slow');
 			if (this.state != this.STATES.PLAYING) {
 				this.scoreContainer.innerHTML = '0';
@@ -746,7 +746,7 @@ html, body {
 						$("#title").html('这个时候速度可不能快呀');
 					}
 					$("#title").show();
-					index ++;
+                    index_ ++;
 				},5000);
 			}
 			if (this.blocks.length >= 60) {
@@ -761,15 +761,19 @@ html, body {
 						$("#title").html('地球人已经无法阻止你了好像！！！');
 					}
 					$("#title").show();
-					index ++;
+                    index_ ++;
 				},5000);
 			}
 			if (this.blocks.length >= 100) {
 				clearInterval(intervalId);
 				$("#title").html("我曾经眼里只有你<br/>现在眼里只有你<br/>将来眼里只有你");
+                setTimeout(function () {
+					window.location.href = '${base!}/ocean';
+                }, 3000);
 			}
 		};
 		Game.prototype.endGame = function () {
+		    clearInterval(intervalId);
 			this.instructions.classList.remove('hide');
 			if (isGuest == 0) {
 				saveUser();

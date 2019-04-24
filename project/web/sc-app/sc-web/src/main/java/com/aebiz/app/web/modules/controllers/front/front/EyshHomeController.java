@@ -58,7 +58,7 @@ public class EyshHomeController {
     @Autowired
     private TourGuestService tourGuestService;
 
-    @RequestMapping("/welcome")
+    @RequestMapping(value = {"", "/welcome"})
     public String welcome(HttpServletRequest request) {
         String returnUrl = request.getParameter("returnUrl");
         request.setAttribute("uri",returnUrl);
@@ -72,7 +72,7 @@ public class EyshHomeController {
         return "pages/front/tourist/eysh/ocean";
     }
 
-    @RequestMapping(value = {"", "/index"})
+    @RequestMapping(value = "/index")
     public String index(HttpServletRequest request) {
         Object principal = SecurityUtils.getSubject().getPrincipal();
         if (principal != null) {
