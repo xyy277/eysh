@@ -261,8 +261,23 @@ public class EyshHomeController {
             if (guest != null) {
                 return guest.getCount();
             } else
-                return 1;
+                return 0;
         }
+    }
+
+    @RequestMapping(value = "/get/first", method = RequestMethod.GET)
+    @ResponseBody
+    public Tour_guest getFirst(HttpServletRequest request) {
+        Tour_guest guest = tourGuestService.fetch(Cnd.where("score", ">", 0).limit(0, 1).orderBy("score", "desc"));
+        Tour_user user = tourUserService.fetch(Cnd.where("score", ">", 0).limit(0, 1).orderBy("score", "desc"));
+        if (guest.getScore() < user.getScore()) {
+            guest.setNickname(user.getNickname());
+            guest.setScore(user.getScore());
+            guest.setId(user.getId());
+        }
+        guest.setIp("");
+        guest.setCount(-1);
+        return guest;
     }
 
     @RequestMapping(value = "/save/guest", method = RequestMethod.POST)
@@ -285,7 +300,7 @@ public class EyshHomeController {
             // 第二次保存
             guest.setNickname(nickname);
             guest.setIp(getIp(request));
-            guest.setCount(guest.getCount() == null ? 0 : guest.getCount() + 1);
+            guest.setCount(guest.getCount() == null ? 1 : guest.getCount() + 1);
             // 分高于历史记录高
             if (guest.getScore() < score) {
                 guest.setScore(score);
