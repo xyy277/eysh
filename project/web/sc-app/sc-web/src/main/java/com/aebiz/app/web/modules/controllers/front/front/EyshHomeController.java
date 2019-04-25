@@ -265,6 +265,22 @@ public class EyshHomeController {
         }
     }
 
+    @RequestMapping(value = "/get/best", method = RequestMethod.GET)
+    @ResponseBody
+    public Integer getBest(HttpServletRequest request) {
+        Subject subject = SecurityUtils.getSubject();
+        Tour_user user = (Tour_user) subject.getPrincipal();
+        if (user != null) {
+            return user.getScore();
+        } else {
+            Tour_guest guest = tourGuestService.fetch(Cnd.where("ip", "=", getIp(request)));
+            if (guest != null) {
+                return guest.getScore();
+            } else
+                return 0;
+        }
+    }
+
     @RequestMapping(value = "/get/first", method = RequestMethod.GET)
     @ResponseBody
     public Tour_guest getFirst(HttpServletRequest request) {

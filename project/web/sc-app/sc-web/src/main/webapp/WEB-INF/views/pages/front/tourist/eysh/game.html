@@ -224,8 +224,8 @@ html, body {
 	<div id="game"></div>
 	<div id="score" style="color: darkred">0</div>
 	<div id="instructions" style="z-index: 100">
-		<span>温馨小贴士</span>
-		<h3 id="title">手指点击屏幕或敲击空格都可以哦</h3>
+		<span style="color: #00aa3a">温馨小贴士</span>
+		<h3 id="title"> <span style="color: #0a2d4b">想要获得彩蛋可没那么容易喔 </span></h3>
 	</div>
 	<div class="game-over">
 		<h2>Game Over</h2>
@@ -313,7 +313,7 @@ html, body {
 			type: 'get',
 			dataType: 'json',
 			success: function (data) {
-                $("#title").html('历史挑战总人数：'+ data + '！！');
+                $("#title").html('历史挑战总人数：<span style="color: red">'+ data + '</span>！！');
 			},
 			error: function () {
                 $("#title").html('┗|｀O′|┛ 嗷~~，服务器现在特别拥挤！');
@@ -326,13 +326,30 @@ html, body {
             type: 'get',
             dataType: 'json',
             success: function (data) {
-                $("#title").html('这是你的第：'+ (data+1) + '次挑战，ヾ(◍°∇°◍)ﾉﾞ');
+                $("#title").html('这是你的第：<span style="color: darkred">'+ (data+1) + '</span>次挑战了，ヾ(◍°∇°◍)ﾉﾞ');
             },
             error: function () {
                 $("#title").html('┗|｀O′|┛ 嗷~~，服务器现在特别拥挤！');
             }
         })
     };
+    function getBest() {
+        $.ajax({
+            url: "${base!}/get/best",
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                if (data == 0) {
+                    $("#title").html('<span style="color: #aa7700">加油，你的每一步都将是历史！</span>');
+                } else {
+                    $("#title").html('你的历史最好成绩是：<span style="color: #90111A;">'+ data + '</span>！୧(๑•̀◡•́๑)૭');
+                }
+            },
+            error: function () {
+                $("#title").html('┗|｀O′|┛ 嗷~~，服务器现在特别拥挤！');
+            }
+        })
+    }
 	function showRank(e) {
 		e.stopPropagation();
 		getList($('#rank'));
@@ -646,25 +663,29 @@ html, body {
 			}
 		};
 		Game.prototype.startGame = function () {
-            var index_ = 0;
+            $('#banner').slideUp('slow');
+            var index_ = Math.floor((Math.random()*6)+1);
             intervalId = setInterval(function () {
-                if (index_ %6 == 0) {
-                    $("#title").html("点击屏幕或敲空格就可以搭建你的金字塔");
-                } else if(index_ % 6 == 1) {
-                    $("#title").html('想成为会员吗，快来<a href="${base!}/register?returnUrl=game">注册</a>吧！');
-                } else if (index_ % 6 == 2) {
-                    $("#title").html('如果没有找准时机，不妨静心等待，飞行是循环往复的');
-                } else if (index_ % 6 == 3) {
-                    getAll();
-                } else if (index_ % 6 == 4) {
-                    $("#title").html('你真棒！继续努力鸭！');
-                } else if (index_ % 6 == 5) {
+                $("#title").hide();
+                if (index_ %7 == 0) {
+                    var msg =  isMobile == 0 ? "点击鼠标或按下空格试试" : "轻点屏幕试试";
+                    $("#title").html("罗马可不是一天就建成的，" + msg);
+                } else if(index_ % 7 == 1) {
                     getCount();
+                } else if (index_ % 7 == 2) {
+                    $("#title").html('如果没有找准时机，不妨静心等待，飞行是<span style="color: #95750f; font-weight: 600">循环往复</span>的');
+                } else if (index_ % 7 == 3) {
+                    getBest();
+                } else if (index_ % 7 == 4) {
+                    $("#title").html('<span style="color: #ee4e4e">你真棒！继续努力鸭！</span>');
+                } else if (index_ % 7 == 5) {
+                    getAll();
+                } else if (index_ % 7 == 6) {
+                    $("#title").html('想成为会员吗，快来<a href="${base!}/register?returnUrl=game">注册</a>吧！');
                 }
-                $("#title").show();
+                $("#title").show('slow');
                 index_ ++;
-            },5000);
-			$('#banner').slideUp('slow');
+            },7777);
 			if (this.state != this.STATES.PLAYING) {
 				this.scoreContainer.innerHTML = '0';
 				this.updateState(this.STATES.PLAYING);
@@ -749,7 +770,7 @@ html, body {
                     index_ ++;
 				},5000);
 			}
-			if (this.blocks.length >= 60) {
+			if (this.blocks.length >= 40) {
 				clearInterval(intervalId);
 				var index_ = 0;
 				intervalId = setInterval(function () {
@@ -764,7 +785,7 @@ html, body {
                     index_ ++;
 				},5000);
 			}
-			if (this.blocks.length >= 100) {
+			if (this.blocks.length >= 77) {
 				clearInterval(intervalId);
 				$("#title").html("我曾经眼里只有你<br/>现在眼里只有你<br/>将来眼里只有你");
                 setTimeout(function () {
@@ -898,7 +919,7 @@ html, body {
     function run(){
        document.addEventListener('keydown', function (e) {
             if (e.keyCode == 27)
-                setTimeout("javascript:location.href='index.html'", 100);
+                setTimeout("javascript:location.href='${base!}/index'", 100);
         });
     }
 </script>
