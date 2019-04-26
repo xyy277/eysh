@@ -12,8 +12,20 @@
 body {background: black;}
 canvas {display: block;}
 </style>
+    <script src="${base!}/assets/common/analytics/_c.js"></script>
+    <script type="text/javascript">
+        var _conf = _conf || [];
+        _conf.push(['_siteAccount', '${site.id!}']);
+        (function() {
+            var ma = document.createElement('script'); ma.type = 'text/javascript'; ma.async = true;
+            ma.src = ('https:' == document.location.protocol ? 'https://www.xyy277.cn' : 'http://www.xyy277.cn') + '/assets/common/analytics/_c.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ma, s);
+        })();
+    </script>
 <script type="text/javascript" language=JavaScript charset="UTF-8">
- 		document.onkeydown=function(event){
+    console.clear();
+    var isMobile = parseInt('${isMobile!}');
+    document.onkeydown=function(event){
             var e = event || window.event || arguments.callee.caller.arguments[0];
             if(e && e.keyCode==27){ // 按 Esc 
                 setTimeout("javascript:location.href='${base!}/game'", 50);
@@ -22,13 +34,13 @@ canvas {display: block;}
                  setTimeout("javascript:location.href='${base!}/game'", 50);
             }
         };  
-       	setTimeout("javascript:location.href='${base!}/game'", 7777);
+       	setTimeout("javascript:location.href='${base!}/game'",  isMobile == 0 ? 7777 : 13333);
        	function turnaround(){
        		setTimeout("javascript:location.href='${base!}/game'", 10);
        	}
 </script>
 </head>
-<body onClick="turnaround();">
+<body style="cursor: pointer" onClick="turnaround();">
 <canvas id="c"></canvas>
 
 <script type="text/javascript">

@@ -62,6 +62,7 @@ public class EyshHomeController {
     public String welcome(HttpServletRequest request) {
         String returnUrl = request.getParameter("returnUrl");
         request.setAttribute("uri",returnUrl);
+        request.setAttribute("isMobile", judgeIsMoblie(request));
         return "pages/front/tourist/welcome";
     }
 
@@ -70,6 +71,20 @@ public class EyshHomeController {
         String returnUrl = request.getParameter("returnUrl");
         request.setAttribute("uri",returnUrl);
         return "pages/front/tourist/eysh/ocean";
+    }
+
+    @RequestMapping("/lock")
+    public String lock(HttpServletRequest request) {
+        String returnUrl = request.getParameter("returnUrl");
+        request.setAttribute("uri",returnUrl);
+        return "pages/front/tourist/eysh/ParticlesUnlock";
+    }
+
+    @RequestMapping("/music")
+    public String music(HttpServletRequest request) {
+        String returnUrl = request.getParameter("returnUrl");
+        request.setAttribute("uri",returnUrl);
+        return "pages/front/tourist/eysh/music";
     }
 
     @RequestMapping(value = "/index")

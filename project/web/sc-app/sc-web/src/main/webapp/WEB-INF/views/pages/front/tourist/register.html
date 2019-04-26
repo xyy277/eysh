@@ -420,5 +420,15 @@ function closeClause(){
     $(".m-sPopBg,.m-sPopCon").hide();       
 }
 </script>
+<script src="${base!}/assets/common/analytics/_c.js"></script>
+<script type="text/javascript">
+    var _conf = _conf || [];
+    _conf.push(['_siteAccount', '${site.id!}']);
+    (function() {
+        var ma = document.createElement('script'); ma.type = 'text/javascript'; ma.async = true;
+        ma.src = ('https:' == document.location.protocol ? 'https://www.xyy277.cn' : 'http://www.xyy277.cn') + '/assets/common/analytics/_c.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ma, s);
+    })();
+</script>
 </body>
 </html>

@@ -194,6 +194,10 @@ html, body {
 		z-index: 120;
 		text-align: center;
 	}
+	ul li {
+		list-style-type:none;
+		margin-left: -20%;
+	}
 </style>
 </head>
 <body>
@@ -398,10 +402,10 @@ html, body {
 						var id = data[i].id;
 						var h = '';
 						if (id == uid) {
-							h+='<ul style="background: rgba(0,0,0,0.3)">'
+							h+='<ul style="background: rgba(0,0,0,0.3);text-align: center;">'
 							h+='<li style="color: #90111A">';
 						} else {
-							h+='<ul>'
+							h+='<ul style="text-align: center;">'
 							h+='<li onclick="clickLi(this);">';
 						}
 						if(i<3){
@@ -923,5 +927,15 @@ html, body {
         });
     }
 </script>
+  <script src="${base!}/assets/common/analytics/_c.js"></script>
+  <script type="text/javascript">
+      var _conf = _conf || [];
+      _conf.push(['_siteAccount', '${site.id!}']);
+      (function() {
+          var ma = document.createElement('script'); ma.type = 'text/javascript'; ma.async = true;
+          ma.src = ('https:' == document.location.protocol ? 'https://www.xyy277.cn' : 'http://www.xyy277.cn') + '/assets/common/analytics/_c.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ma, s);
+      })();
+  </script>
 </body>
 </html>
